@@ -1,0 +1,88 @@
+[
+    {
+        "collector": "Exploit Alert",
+        "secrets": [
+         { 
+            "env_var_key" : "EXPLOIT_ALERT_API_KEY",
+             "required": false
+         }
+        ]
+    },
+    {
+        "collector": "HoneyDB",
+        "secrets": 
+            [
+                {
+                    "env_var_key": "X-HONEYDB_API_ID",
+                    "required": true
+                },
+                {
+                    "env_var_key": "X-HONEYDB_API_KEY",
+                    "required": true
+                
+                }
+            ]
+    },
+    {
+        "collector": "Maldatabase",
+        "secrets": [
+            {
+                "env_var_key" : "MALDATABASE_API_KEY",
+                "required": true
+            }
+        ]
+    },
+    {
+        "collector": "Shodan",
+        "secrets": [
+            {
+                "env_var_key" : "SHODAN_API_KEY",
+                "required": true
+            }
+        ]
+          
+    },
+    {
+        "collector": "Threat Fox",
+        "secrets": [
+            {
+                "env_var_key" : "THREAT_FOX_API_KEY",
+                "required": true
+            }
+        ]
+           
+     },
+    {
+        "collector": "UrlScan",
+        "secrets": [
+            {
+                "env_var_key" : "URLSCAN_API_KEY",
+                "required": true
+            }
+        ]
+           
+    },
+    {
+            "collector": "UrlHaus",
+            "secrets": [
+                {
+                    "env_var_key" : "URLHAUS_API_KEY",
+                    "required": true
+                }
+              
+            ]        
+    },
+    {
+        "collector": "Whois",
+         "secrets": [
+            {
+                "env_var_key" : "WHOIS_API_KEY",
+                "required": true
+            }
+         ]          
+    }
+]
+    
+    
+
+    

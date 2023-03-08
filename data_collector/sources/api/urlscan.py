@@ -12,7 +12,7 @@ class UrlScan():
 
     def _make_request(self,url):
         try:
-            response = self.urlscan.get(query_URL)
+            response = self.urlscan.get(url)
             response.raise_for_status()
         except ErrorRequestException as ex:
             pass
@@ -26,7 +26,7 @@ class UrlScan():
         return self._make_request(query_URL)
       
     
-     def query_recent_payloads(self,limit: int =None):
+    def query_recent_payloads(self,limit: int =None):
         basic_url = "/payloads/recent"
         query_URL = self.base_url.join(basic_url)
         if limit is not None:

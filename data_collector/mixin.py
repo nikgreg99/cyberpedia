@@ -1,6 +1,7 @@
 from exceptions import InvalidIPAddress
 from ipaddress import ip_address, IPv4Address,IPv6Address
-
+from classes import HashType
+import hashlib
 
 def validate_ip_address(ip: str):
     ip_checker = ip_address(ip)
@@ -8,6 +9,16 @@ def validate_ip_address(ip: str):
         return True
     else:
         raise InvalidIPAddress("IP is not in a valid format")
+    
+
+def compute_file_hash(plaintext, hash_type: HashType):
+    if hash_type == HashType.MD5:
+        return hashlib.md5(plaintext).digest()
+    elif hash_type == HashType.SHA256:
+        return hashlib.sha256(plaintext).digest()
+    else:
+        return None
+   
 
 
 
