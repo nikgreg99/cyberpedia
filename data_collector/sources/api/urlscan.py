@@ -1,34 +1,49 @@
+import json
 import requests
-from data_collector.exceptions import ErrorRequestException
+import logging
+from requests import HTTPError
+from data_collector.classes import Collector
 
 
-class UrlScan():
+logger = logging.getLogger(__name__)
+
+class Urlscan(Collector):
+
     base_url : str = "https://urlscan.io/api/v1"
-    api_key = None
     urlscan = requests.Session()
+    api_key = None
 
-    def set_parameters():
-        pass
+    def __init__(self) -> None:
+        self.headers: dict = {
+            "Content-Type": "application/json",
+            "API-KEY": self.api_key
+        }
 
-    def _make_request(self,url):
+    def submit_url(self,url):
+        data : dict = {
+            "visibility": "public",
+            "url": url
+        }
+        final_url = self.base_url + "/scan"
         try:
-            response = self.urlscan.get(url)
+            response = self.urlscan.post(final_url,headers=self.headers,data=json.dumps(data))
             response.raise_for_status()
-        except ErrorRequestException as ex:
-            pass
+        except HTTPError as ex:
+            logger.exception("Failing submission URL")
         return response.json()
-
-    def query_recent_URL(self,limit: int =None):
-        basic_url = "/urls/recent"
-        query_URL = self.base_url.join(basic_url)
-        if limit is not None:
-            query_URL.join("/limit/{}".format(str(limit)))
-        return self._make_request(query_URL)
-      
-    
-    def query_recent_payloads(self,limit: int =None):
-        basic_url = "/payloads/recent"
-        query_URL = self.base_url.join(basic_url)
-        if limit is not None:
-            query_URL.join("/limit/{}".format(str(limit)))
-        return self._make_request(query_URL)
+        
+    def get_url_report(self,url,submission_response):
+        if 'uuid' in submission_response:
+            uuid = submission_response["uuid"]
+            final_url = self.base_url + "/result/{}".format(uuid)
+            data : dict = {
+                "visibility": "public",
+                "uuid": uuid
+            }
+            try:
+                response = self.urlscan.get(final_url,headers=self.headers,data=json=.dumps(data))
+                response.raise_for_status()
+            except HTTPError as ex:
+                logger.exception("Failed executing request")
+        else:
+            logger.error("Non field uuid present in submission_URL responsnse")

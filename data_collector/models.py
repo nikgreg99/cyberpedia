@@ -1,38 +1,36 @@
 from django.db import models
 from django.utils import timezone
 
-
-class DataFeedFormat(models.TextChoices):
-    YARA = "Yara"
-    STIX = "STIX"
-    SIGMA = "SIGMA"
-    SURICATA = "Suricata"
-    OPEN_IOC = "Open_IOC"
-    MISP = "MISP"
-    OTHER = "Other"
-
-
-
-class DataCollectorSecret(models.Model):
-    name = models.TextField()
-    value = models.TextField()
+class Config(models.Model):
+    collector_name = models.TextField(max_length=128)
+    type = models.TextField(max_length=128)
+    value = models.TextField(max_length=128)
     required = models.BooleanField()
+    creation_date = models.DateTimeField(default = timezone.now)
+    update_date = models.DateTimeField(blank=True, null=True)
 
-class DataCollector(models.Model):
+    
+    def update_key(self,value):
+        self.value = value
+        self.update_date = timezone.now()
+        self.save(update_fields=["update_date"])
 
-    #Constants
-    DataFeedFormat = DataFeedFormat
-    name = models.TextField()
-    data_feed_type = models.TextField(choices=DataFeedFormat.choices,primary_key=True)
-    secrets = models.ManyToManyField(DataCollectorSecret)
+
+
+
+
+
+
+    
+
+
 
 
 class DataFeed(models.Model):
 
     name = models.TextField(max_length=100)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True,blank=True)
     feed_data_creation = models.DateTimeField(default=timezone.now())
-    collector = models.ForeignKey(DataCollector,on_delete= models.CASCADE)
 
 class DataFeedItem(models.Model):
     uuid = models.UUIDField(primary_key=True)

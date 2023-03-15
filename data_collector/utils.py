@@ -1,7 +1,7 @@
 from exceptions import InvalidIPAddress
 from ipaddress import ip_address, IPv4Address,IPv6Address
-from classes import HashType
 import hashlib
+import pyssdeep
 
 def validate_ip_address(ip: str):
     ip_checker = ip_address(ip)
@@ -11,13 +11,18 @@ def validate_ip_address(ip: str):
         raise InvalidIPAddress("IP is not in a valid format")
     
 
-def compute_file_hash(plaintext, hash_type: HashType):
-    if hash_type == HashType.MD5:
-        return hashlib.md5(plaintext).digest()
-    elif hash_type == HashType.SHA256:
-        return hashlib.sha256(plaintext).digest()
-    else:
-        return None
+def compute_md5(plaintext):
+    return hashlib.md5(plaintext).digest()
+
+def computer_sha1(plaintext):
+    return hashlib.sha1(plaintext).digest
+
+def compute_sha256(plaintext):
+    return hashlib.sha256(plaintext).digest
+
+def compute_ssdeep(plaintext)
+    return pyssdeep.get_hash_buffer(plaintext)
+  
    
 
 

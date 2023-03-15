@@ -1,9 +1,14 @@
+import requests
+from requests import HTTPError
+import logging
 import shodan
-from data_collector.exceptions import ErrorRequestException
+from data_collector.classes import Collector
 
-class Shodan():
+logger = logging.getLogger(__name__)
 
-    shodan = None
+class Shodan(Collector):
+
+    shodan = requests.Session()
     api_key = None
 
     def set_paramaters(self):
@@ -14,7 +19,7 @@ class Shodan():
     def _host_details(self,ip):
         try:
             host = self.shodan.host(ip)
-        except ErrorRequestException as ex:
+        except HTTPError as ex:
             pass
         return host
 
@@ -22,7 +27,7 @@ class Shodan():
     def _list_datasets(self):
         try:
             dataset_list = self.shodan.data.list_datasets()
-        except ErrorRequestException as ex:
+        except HTTPError as ex:
             pass
         return dataset_list
     
@@ -40,7 +45,7 @@ class Shodan():
     def _dns_domain(self,domain):
         try:
             domain = self.shodan.dns.domain_info(domain=domain, history=True, type=None)
-        except  as ex:
+        except ErrorRequestException as ex:
             pass
         return domain
     

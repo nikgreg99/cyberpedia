@@ -1,19 +1,21 @@
+import logging
 import requests
+from requests import HTTPError
 import enum
-from data_collector.exceptions import ErrorRequestException
+from data_collector.classes import Collector
+
+logger = logging.getLogger(__name__)
 
 class WhoisOutputFormatType(enum):
     XML = "XML"
     JSON = "JSON"
 
-
-
-class Whois():
+class Whois(Collector):
 
     base_url : str = "https://www.whoisxmlapi.com/whoisserver/WhoisService"
     session = requests.Session()
     
-    def set_parameters(self):
+    def _init_(self):
         self.api_key = ""
         self.params = {
             "apiKey": self.api_key,
@@ -28,7 +30,7 @@ class Whois():
         try:
             response =  self.session.get(self.base_url,params=self.params)
             response.raise_for_status()
-        except ErrorRequestException as ex:
-            pass
+        except HTTPError as ex:
+            logger.error("Error executing request")
 
     

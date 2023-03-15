@@ -1,16 +1,20 @@
 import os
 import json
-
-
 from rest_framework import serializers as rfs
 from django.conf import settings
+from .models import Collector
+
 
 
 class _SecretSerializer(rfs.Serializer):
     env_var_key = rfs.CharField(required=True)
     required = rfs.BooleanField(required=True)
 
-class CollectorSerializer(rfs.Serializer):
+class CollectorSerializer(rfs.ModelSerializer):
+    
+    class Meta:
+         model = Collector
+         fields = "__all__"
 
     CONFIG_FILE_NAME = "api_configuration.json"
 
@@ -24,10 +28,11 @@ class CollectorSerializer(rfs.Serializer):
            return os.path.join(
                 settings.PROJECT_DIR,"configuration",cls.CONFIG_FILE_NAME)
     
-  
+    @classmethod
     def read_json_file(self)-> dict:
          config_path = self._get_config_path()
          with open(config_path) as f:
               config_dict = json.load(f)
          return config_dict
-        
+     
+     

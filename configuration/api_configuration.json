@@ -1,76 +1,81 @@
 [
     {
-        "collector": "Exploit Alert",
-        "secrets": [
-         { 
-            "env_var_key" : "EXPLOIT_ALERT_API_KEY",
-             "required": false
-         }
-        ]
+        "name": "Exploit Alert",
+        "secrets": {}
     },
     {
         "collector": "HoneyDB",
-        "secrets": 
-            [
-                {
-                    "env_var_key": "X-HONEYDB_API_ID",
-                    "required": true
-                },
+        "secrets": {
+            "api_key":
                 {
                     "env_var_key": "X-HONEYDB_API_KEY",
                     "required": true
                 
+                },
+            "api_id":
+                {
+                    "env_var_key": "X-HONEYDB_API_ID",
+                    "required": true
                 }
-            ]
+               
+            }
     },
     {
         "collector": "Maldatabase",
-        "secrets": [
-            {
-                "env_var_key" : "MALDATABASE_API_KEY",
-                "required": true
-            }
-        ]
-    },
-    {
-        "collector": "Shodan",
-        "secrets": [
-            {
-                "env_var_key" : "SHODAN_API_KEY",
-                "required": true
-            }
-        ]
-          
-    },
-    {
-        "collector": "Threat Fox",
-        "secrets": [
-            {
-                "env_var_key" : "THREAT_FOX_API_KEY",
-                "required": true
-            }
-        ]
-           
-     },
-    {
-        "collector": "UrlScan",
-        "secrets": [
-            {
-                "env_var_key" : "URLSCAN_API_KEY",
-                "required": true
-            }
-        ]
-           
-    },
-    {
-            "collector": "UrlHaus",
-            "secrets": [
-                {
-                    "env_var_key" : "URLHAUS_API_KEY",
+        "secrets": {
+                "api_key": {
+                     "env_var_key" : "MALDATABASE_API_KEY",
                     "required": true
                 }
-              
-            ]        
+            }
+    },
+    {
+        "collector": "Malpedia",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "MALPEDIA_API_KEY",
+                "required": true
+            }
+        }
+    }
+    ,
+    {
+        "collector": "Shodan",
+        "secrets": {
+                "api_key": {
+                    "env_var_key" : "SHODAN_API_KEY",
+                    "required": true
+                }
+                
+            }
+    },   
+    {
+        "collector": "Threat Fox",
+        "secrets":  {
+            "api_key" : {
+                "env_var_key" : "THREATFOX_API_KEY",
+                "required": true
+             }
+               
+        }
+    },
+    {
+        "collector": "UrlScan",
+        "secrets": {
+                "api_key": {
+                    "env_var_key" : "URLSCAN_API_KEY",
+                    "required": true
+                } 
+         }     
+    },
+    {
+        "collector": "UrlHaus",
+        "secrets": {
+            "api_key": {
+                "env_var_key" : "URLHAUS_API_KEY",
+                "required": true
+            }
+        }        
     },
     {
         "collector": "Whois",
@@ -80,6 +85,78 @@
                 "required": true
             }
          ]          
+    },
+    {
+        "collector": "Cymon",
+        "secrets": {
+            "api_key" : {
+                "env_var_key" : "CYMON_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+     "collector": "Fraudgard",
+        "secrets":{
+             "api_key":{
+                    "env_var_key": "FRAUDGARD_API_KEY",
+                    "required": true
+             }
+        }
+    },
+    {
+        "collector": "GreyNoise",
+         "secrets" : {
+            "api_key":{
+                "env_var_key": "GREYNOISE_API_KEY",
+                "required":true
+            }       
+        }
+    },
+    {
+        "collector": "CVEData",
+        "secrets": {
+            "api_key": {
+                "env_var_key" : "CVEDATA_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "collector": "IPInfo",
+         "secrets" : {
+            "api_key" :{
+                "env_var_key" : "IPINFO_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "collector": "Yarifiy",
+        "secrets" : {
+            "api_key" :{
+                "env_var_key" : "YARIFY_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "collector": "ZoomEye",
+         "secrets" : {
+            "api_key" :{
+                "env_var_key" : "ZOOMEYE_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "collector": "Pulsidve",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "PULSIDIVE_API_KEY",
+                "required": true
+            }
+        }
     }
 ]
     

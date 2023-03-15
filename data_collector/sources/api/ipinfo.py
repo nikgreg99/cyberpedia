@@ -1,31 +1,41 @@
-import ipinfo
-from data_collector.mixin import validate_ip_address
+import logging
+import requests
+from requests import HTTPError
+from data_collector.models import Collector
+from data_collector.utils import validate_ip_address
 from data_collector.exceptions import InvalidIPAddress
 
-class IPInfo():
+logging = logging.getLogger(__name__)
+
+class IPInfo(Collector):
     
     api_key = None
+    base_url = "https://ipinfo.io"
+    ipinfo = requests.Session()
 
-    def set_params(self):
-        self.api_key = ""
-        self.handler = ipinfo.getHandler(self.api_key)
-        self.async_handler = ipinfo.getHandlerAsync(self.api_key)
+    def __init__(self) -> None:
+        self.headers = {
+            "Accept": "application/json",
+            "Authorization": "Bearer {}".format(self.api_key)
+        }
+
+    def ip_info(self,ip):
+        if validate_ip_address(ip):
+            final_url = self.base_url + "/{}.".format(ip)
+            try:
+                response = self.ipinfo.get(final_url,headers=self.headers)
+                response.raise_for_status()
+            except HTTPError as ex:
+                logging.error("Error executing request")
+            return response.json()
+        else:
+            raise InvalidIPAddress("This IP is not supported")
 
 
-    def _ipinfo_sync(self, target: str):
-        try:
-            if validate_ip_address(target):
-                ip_details = self.handler.getDetails(target)
-                ip_dict = ip_details.all
-        except InvalidIPAddress as ex:
-            pass
-        return ip_dict
+      
 
-    async def _ipinfo_async(self,target: str):
-        try:
-            if validate_ip_address(target):
-                ip_details =  await self.async_handler.getDetails(target)
-                ip_dict = ip_details.all
-        except InvalidIPAddress as ex:
-            pass
-        return ip_dict
+
+
+        
+
+   

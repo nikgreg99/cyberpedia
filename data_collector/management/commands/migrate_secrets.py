@@ -1,9 +1,10 @@
+import logging
 import json
 import os
 
 from django.core.management.base import BaseCommand
 from data_collector.serializers import CollectorSerializer
-from data_collector.models import DataCollectorSecret
+from data_collector.models import Config
 
 class Command(BaseCommand):
 
@@ -20,14 +21,21 @@ class Command(BaseCommand):
     @classmethod
     def migrate_secrets(cls,collectors_list):
         for collector in collectors_list:
-            for secret in  collector['secrets']:
-                secret_name = secret['env_var_key']
-                if cls.get_env_var(secret_name):
-                    _, created = DataCollectorSecret.objects.get_or_create(
-                        name = secret_name,
-                        value = cls.get_env_var(secret_name),
-                        required = secret['required']
+            for secret in  collector['secrets'].keys():
+                secret_type = secret[secret_type]
+                if cls.get_env_var(secret_type['env_var_key']):
+                    instance, created = Config.objects.get_or_create(
+                        name = collector["collector"],
+                        type = secret_type
+                        value = cls.get_env_var(secret_type["env_var_key"]),
+                        required = secret_type['required']
                     )
+                    if created:
+                        logging.info("Key registered successfully")
+                    else:
+                        pass
+                        
+                        
     
     def add_arguments(self,parser):
         pass

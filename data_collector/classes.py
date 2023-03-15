@@ -1,34 +1,32 @@
-import enum
-from abc import abstractmethod
+from abc import ABCMeta, abstractmethod
+from data_collector.dataclasses import CollectorConfig
+
+from django.utils.functional import cached_property
 
 
-class HashType(enum):
-    MD5 = "MD5"
-    SHA256 = "SHA256"
+class Collector(metaclass=ABCMeta):
 
-class ObservableType(enum):
-    IP = "IP"
-    HASH = "Hash"
-    DOMAIN = "Domain"
-    GENERIC = "Generic"
+    name: str
+    _config : CollectorConfig
 
-class CollectorServiceType(enum):
-    SOURCE = "Source"
-    DATA_FORMAT = "Data Format" 
 
-class CollectorService(object):
-
-    collector_data_format : CollectorServiceType
-
-    @abstractmethod
-    def set_collector_parameters(**kwargs):
-        pass
-
-    @abstractmethod
+   
+    def init_collector(self):
+        raise NotImplementedError()
+    
+   
     def collect(self):
-        pass
+        raise NotImplementedError()
+    
+    
+    def collect_target(self):
+        raise NotImplementedError()
+    
+    @cached_property
+    def _secrets(self) -> dict:
+       self._config.read_secrets()
 
-    @abstractmethod
-    def collect_observable(self,target):
-        pass
 
+
+
+    

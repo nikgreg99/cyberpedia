@@ -5,7 +5,7 @@ from data_collector.classes import Collector
 
 logger = logging.getLogger(__name__)
 
-
-class ThreatExchange(Collector):
-
-    threat_exchange = requests.Session()
+class FraudGard(Collector:
+     
+     base_url : str= "'https://api.fraudguard.io/v2"
+     fraudgard = requests.Session()

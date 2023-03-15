@@ -1,7 +1,5 @@
 import os
 import requests
-from data_collector.exceptions import ErrorRequestException
-
 class UrlHausDaily():
 
     base_misp_daily_url = "https://urlhaus.abuse.ch/downloads/misp/"
