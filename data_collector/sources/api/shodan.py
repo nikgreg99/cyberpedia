@@ -39,13 +39,13 @@ class Shodan(Collector):
                 try:
                     dataset_file = self.shodan.data.list_files(dataset=dataset_name) 
                     return dataset_file
-                except ErrorRequestException as ex:
+                except HTTPError  as ex:
                     pass
     
     def _dns_domain(self,domain):
         try:
             domain = self.shodan.dns.domain_info(domain=domain, history=True, type=None)
-        except ErrorRequestException as ex:
+        except HTTPError as ex:
             pass
         return domain
     

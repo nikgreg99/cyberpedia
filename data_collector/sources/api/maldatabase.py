@@ -17,6 +17,9 @@ class Maldatabase(Collector):
         }
         
     
+    def init_collector(self):
+        return super().init_collector()
+
     def collect(self):
         try:
             final_url = self.base_url + "download"
@@ -25,3 +28,6 @@ class Maldatabase(Collector):
         except HTTPError as ex:
             logger.error("Error request")
         return response.json()
+    
+    def collect_target(self, target):
+        return super().collect_target(target)

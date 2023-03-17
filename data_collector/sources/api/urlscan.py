@@ -13,6 +13,9 @@ class Urlscan(Collector):
     urlscan = requests.Session()
     api_key = None
 
+    def init_collector(self):
+        return super().init_collector()
+
     def __init__(self) -> None:
         self.headers: dict = {
             "Content-Type": "application/json",

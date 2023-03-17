@@ -3,12 +3,16 @@ import requests
 from requests import HTTPError
 from data_collector.classes import Collector
 
-logging = logging.getLogger<(__name__)
+loggerY = logging.getLogger<(__name__)
 
 class Malpedia(Collector):
 
     base_url: str = "https://malpedia.caad.fkie.fraunhofer.de/api"
     malpedia = requests.Session()
+
+
+    def init_collector(self):
+        return super().init_collector()
 
     def __init__(self):
         api_token = ""

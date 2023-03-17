@@ -1,6 +1,6 @@
 import dataclasses
 import typing
-from .models import Config
+from .models import APIConfig
 
 
 
@@ -22,7 +22,7 @@ class CollectorConfig:
         if secret_filter is None:
             pass
         secrets = {}
-        configs = Config.objects.filter(collector_name = self.name)
+        configs = APIConfig.objects.filter(collector_name = self.name)
         for config in configs.values:
             secrets[config.type] = config.value
         return secrets

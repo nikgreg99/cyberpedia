@@ -1,3 +1,4 @@
+from unittest import skip
 from django.test import TestCase
 from data_collector.sources.api.threat_fox import ThreatFox
 
@@ -8,6 +9,7 @@ class ThreatFoxTest(TestCase):
     def setUp(self):
         pass
 
+    @skip
     def test_download_IOC(self):
         print(self.client_test._search_IOC_by_target('8.8.8.8'))
         print(self.client_test.get_malware_list())

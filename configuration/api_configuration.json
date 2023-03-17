@@ -37,6 +37,15 @@
                 "required": true
             }
         }
+    },
+    {
+        "collector": "Maltiverse",
+        "secrets": {
+            "api_key": {
+                "env_var_key" : "MALTIVERSE_API_KEY",
+                "required": true
+            }
+        }
     }
     ,
     {
@@ -50,7 +59,7 @@
             }
     },   
     {
-        "collector": "Threat Fox",
+        "collector": "ThreatFox",
         "secrets":  {
             "api_key" : {
                 "env_var_key" : "THREATFOX_API_KEY",
@@ -59,6 +68,20 @@
                
         }
     },
+    {
+        "collector": "ThreatJammer",
+        "secrets" : {
+            "api_key" : {
+                "env_var_key": "THREATJAMMER_API_KEY",
+                "required": true
+            },
+            "report_key" : {
+                "env_var_key": "THREATJAMMER_REPORT_KEY",
+                "required": true
+            }
+        }
+    },
+
     {
         "collector": "UrlScan",
         "secrets": {
@@ -79,12 +102,12 @@
     },
     {
         "collector": "Whois",
-         "secrets": [
-            {
+         "secrets": {
+           "api_key": {
                 "env_var_key" : "WHOIS_API_KEY",
                 "required": true
             }
-         ]          
+        }        
     },
     {
         "collector": "Cymon",
@@ -157,6 +180,10 @@
                 "required": true
             }
         }
+    },
+    {
+        "collector": "Valhalla",
+        "secrets" :{}
     }
 ]
     

@@ -2,7 +2,7 @@ import os
 import json
 from rest_framework import serializers as rfs
 from django.conf import settings
-from .models import Collector
+from .classes import Collector
 
 
 
@@ -24,7 +24,6 @@ class CollectorSerializer(rfs.ModelSerializer):
 
     @classmethod
     def _get_config_path(cls) -> str: 
-           print(settings.PROJECT_DIR)
            return os.path.join(
                 settings.PROJECT_DIR,"configuration",cls.CONFIG_FILE_NAME)
     

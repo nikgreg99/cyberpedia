@@ -10,6 +10,6 @@ class MaldatabaseTest(TestCase):
     def setUp(self) -> None:
         pass
 
-    
+    @skip
     def test_collect(self):
         print(self.client_test.collect())

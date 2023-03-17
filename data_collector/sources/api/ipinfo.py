@@ -1,7 +1,7 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.models import Collector
+from data_collector.classes import Collector
 from data_collector.utils import validate_ip_address
 from data_collector.exceptions import InvalidIPAddress
 
@@ -12,6 +12,10 @@ class IPInfo(Collector):
     api_key = None
     base_url = "https://ipinfo.io"
     ipinfo = requests.Session()
+
+
+    def init_collector(self):
+        return super().init_collector()
 
     def __init__(self) -> None:
         self.headers = {

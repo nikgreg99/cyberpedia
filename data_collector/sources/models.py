@@ -1,3 +1,4 @@
+from djongo import models as djongo_models
 from django.db import models
 from django.utils import timezone
 # Create your models here.
@@ -26,9 +27,10 @@ class DataFeed(models.Model):
     DataFeedFormat = DataFeedFormat
 
     id = models.UUIDField(primary_key=True)
+    source = models.TextField()
     creation_date = models.DateTimeField(default=timezone.now)
     update_date = models.DateTimeField(blank=True,null=True)
-    elements = models.ManyToManyField(DataFeedElement)
+    elements = djongo_models.ArrayField(model_container=DataFeedElement)
 
     def update(self,date):
         self.update_date = date

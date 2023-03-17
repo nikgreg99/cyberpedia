@@ -1,13 +1,16 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.models import Collector
+from data_collector.classes import Collector
 
-logging = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 class HoneyDB(Collector):
 
     base_url :str = "https://honeydb.io/api"
+
+    def init_collector(self):
+        return super().init_collector()
 
     def __init__(self):
         self.honey_db_api_id = ""
@@ -23,7 +26,7 @@ class HoneyDB(Collector):
             final_url = self.base_url.join("/bad-hosts")
             response = self.session.get(final_url,headers=self.session.headers)
         except HTTPError as ex:
-            logging.exception("Error requesting bad ip")
+            logger.exception("Error requesting bad ip")
         
         return response.json()
     
@@ -47,3 +50,9 @@ class HoneyDB(Collector):
         except HTTPError as ex:
             pass
         return ip_info
+    
+    def collect(self):
+        return super().collect()
+    
+    def collect_target(self, target):
+        return super().collect_target(target)

@@ -11,8 +11,8 @@ class UrlHaus(Collector):
     urlhaus = requests.Session()
 
 
-    def _init_(self):
-        pass
+    def init_collector(self):
+        return super().init_collector()
 
     def _make_request(self,url):
         try:
@@ -36,3 +36,9 @@ class UrlHaus(Collector):
         if limit is not  None:
             query_URL = query_URL + "/limit/{}".format(limit)
         return self._make_request(query_URL)
+    
+    def collect(self):
+        return super().collect()
+    
+    def collect_target(self, target):
+        return super().collect_target(target)

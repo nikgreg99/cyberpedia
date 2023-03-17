@@ -1,13 +1,18 @@
 from django.db import models
 from django.utils import timezone
 
-class Config(models.Model):
+class APIConfig(models.Model):
     collector_name = models.TextField(max_length=128)
     type = models.TextField(max_length=128)
     value = models.TextField(max_length=128)
     required = models.BooleanField()
     creation_date = models.DateTimeField(default = timezone.now)
-    update_date = models.DateTimeField(blank=True, null=True)
+    update_date = models.DateTimeField(blank=True)
+
+    @staticmethod
+    def collector_names():
+        collector_list = APIConfig.objects.values('collector_name').distinct()
+        return collector_list
 
     
     def update_key(self,value):

@@ -14,6 +14,10 @@ class Yarify(Collector):
     yarify =  requests.Session()
 
 
+    def init_collector(self):
+        return super().init_collector()
+
+
     def list_recent_deployed_rules(self):
         data = {
              "query" : "recent_yararules"

@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 PROJECT_DIR = BASE_DIR / "cyberpedia"
 CONFIG_DIR = PROJECT_DIR / "configuration"
 YARA_DIR = PROJECT_DIR / "yara"
+SIGMA_DIR = PROJECT_DIR / "sigma"
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +30,7 @@ SECRET_KEY = 'django-insecure-jhb9758+b%h_#v&c^!(8jv3va-u4sj%snl7q(ft#q2_3fo+536
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,18 +75,21 @@ TEMPLATES = [
     },
 ]
 
+DATABASES = {
+    'default': {
+        'ENGINE':'djongo',
+        'NAME': 'cyberpedia',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            "host": "localhost:27017"
+        }
+    }
+}
+
 WSGI_APPLICATION = 'cyberpedia.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation

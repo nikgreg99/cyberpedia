@@ -24,6 +24,9 @@ class Whois(Collector):
             "ip": 1,
             "ipWhois": 1
         }
+
+    def init_collector(self):
+        return super().init_collector()
       
     def collect_target(self,target: str):
         self.params["domainName"] = target
