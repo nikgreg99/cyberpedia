@@ -14,16 +14,15 @@ class _Secret:
 class CollectorConfig:
 
     name: str
-    description: str
     secrets: typing.Dict[str, _Secret]
 
+    def __init__(self,name) -> None:
+        self.name = name
 
-    def read_secrets(self,secret_filter=None) -> dict: 
-        if secret_filter is None:
-            pass
+    def read_secrets(self ) -> dict:
         secrets = {}
-        configs = APIConfig.objects.filter(collector_name = self.name)
-        for config in configs.values:
+        configs = APIConfig.objects.filter(name = self.name)
+        for config in configs.values():
             secrets[config.type] = config.value
         return secrets
 

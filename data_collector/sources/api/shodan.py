@@ -11,8 +11,8 @@ class Shodan(Collector):
     shodan = requests.Session()
     api_key = None
 
-    def set_paramaters(self):
-         self.api_key = ""
+    def init_collector(self):
+         self.api_key = self._secrets["api_key"]
          self.shodan = shodan.Shodan(self.api_key)
 
 

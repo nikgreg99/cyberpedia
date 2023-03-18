@@ -19,6 +19,8 @@ PROJECT_DIR = BASE_DIR / "cyberpedia"
 CONFIG_DIR = PROJECT_DIR / "configuration"
 YARA_DIR = PROJECT_DIR / "yara"
 SIGMA_DIR = PROJECT_DIR / "sigma"
+TEST_DIR = PROJECT_DIR / "test"
+FIXTURE_DIRS = TEST_DIR / "fixtures"
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "data_collector.sources",
     "data_collector",
+    "test"
 ]
 
 MIDDLEWARE = [
@@ -75,16 +78,8 @@ TEMPLATES = [
     },
 ]
 
-DATABASES = {
-    'default': {
-        'ENGINE':'djongo',
-        'NAME': 'cyberpedia',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            "host": "localhost:27017"
-        }
-    }
-}
+
+
 
 WSGI_APPLICATION = 'cyberpedia.wsgi.application'
 

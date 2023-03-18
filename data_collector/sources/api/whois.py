@@ -15,18 +15,16 @@ class Whois(Collector):
     base_url : str = "https://www.whoisxmlapi.com/whoisserver/WhoisService"
     session = requests.Session()
     
-    def _init_(self):
-        self.api_key = ""
+
+
+    def init_collector(self):
+        self.api_key = self._secrets["api_ket"]
         self.params = {
             "apiKey": self.api_key,
             "outputFormat": WhoisOutputFormatType.JSON,
             "preferFresh": 1,
             "ip": 1,
             "ipWhois": 1
-        }
-
-    def init_collector(self):
-        return super().init_collector()
       
     def collect_target(self,target: str):
         self.params["domainName"] = target

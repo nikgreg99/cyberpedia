@@ -1,6 +1,6 @@
 import os
-import logging
 import requests
+import logging
 from requests import HTTPError
 from data_collector.classes import Collector
 
@@ -12,13 +12,14 @@ class Maldatabase(Collector):
     maldatabase = requests.Session()
 
     def __init__(self):
-         self.headers = {
-            "Authorization": os.getenv("MALDATABASE_API_KEY"),
-        }
+       super().__init__(self.__class__.__name__)
         
     
     def init_collector(self):
-        return super().init_collector()
+          print(self._secrets)
+          self.headers = {
+            "Authorization": self._secrets["api_key"]
+        }
 
     def collect(self):
         try:

@@ -14,8 +14,8 @@ class ThreatFox(Collector):
     threat_fox = requests.Session() 
     api_key = None   
 
-    def __init__(self) -> None:
-        pass
+    def init_collector(self):
+        self.api_key = self._secrets["api_key"]
 
 
     def _make_threat_fox_request(self,requests_data):

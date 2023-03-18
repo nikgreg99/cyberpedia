@@ -15,13 +15,11 @@ class IPInfo(Collector):
 
 
     def init_collector(self):
-        return super().init_collector()
-
-    def __init__(self) -> None:
         self.headers = {
             "Accept": "application/json",
-            "Authorization": "Bearer {}".format(self.api_key)
+            "Authorization": "Bearer {}".format(self._secrets["api_key"]
         }
+        
 
     def ip_info(self,ip):
         if validate_ip_address(ip):

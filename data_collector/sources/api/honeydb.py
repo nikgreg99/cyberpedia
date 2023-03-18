@@ -8,19 +8,18 @@ logger = logging.getLogger(__name__)
 class HoneyDB(Collector):
 
     base_url :str = "https://honeydb.io/api"
+    session = requests.Session()
 
     def init_collector(self):
-        return super().init_collector()
-
-    def __init__(self):
-        self.honey_db_api_id = ""
-        self.honey_db_api_key = ""
-        self.session = requests.Session()
+        self.honey_db_api_id = self._secrets["api_id"]
+        self.honey_db_api_key = self._secrets["api_key"]
+        
         self.session.headers = {
             "X-HoneyDb-ApiId": self.honey_db_api_id,
             "X-HoneyDb-ApiKey": self.honey_db_api_key
         }
 
+        
     def _collect_bad_ip(self):
         try:
             final_url = self.base_url.join("/bad-hosts")

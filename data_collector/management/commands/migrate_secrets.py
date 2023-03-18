@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 secret = collector['secrets'][secret_key]
                 if cls.get_env_var(secret['env_var_key']):
                     instance, created = APIConfig.objects.get_or_create(
-                        collector_name = collector["collector"],
+                        name = collector["name"],
                         type = secret_key,
                         value = cls.get_env_var(secret["env_var_key"]),
                         required = secret['required']
@@ -43,6 +43,6 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
-        self.migrate_secrets(CollectorSerializer().read_json_file())
+        self.migrate_secrets(CollectorSerializer.read_and_verify_config())
         
 

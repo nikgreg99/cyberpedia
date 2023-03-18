@@ -14,13 +14,11 @@ class Urlscan(Collector):
     api_key = None
 
     def init_collector(self):
-        return super().init_collector()
-
-    def __init__(self) -> None:
         self.headers: dict = {
             "Content-Type": "application/json",
-            "API-KEY": self.api_key
+            "API-KEY": self._secrets["api_ket"]
         }
+       
 
     def submit_url(self,url):
         data : dict = {
@@ -44,7 +42,7 @@ class Urlscan(Collector):
                 "uuid": uuid
             }
             try:
-                response = self.urlscan.get(final_url,headers=self.headers,data=json=.dumps(data))
+                response = self.urlscan.get(final_url,headers=self.headers,data=json.dumps(data))
                 response.raise_for_status()
             except HTTPError as ex:
                 logger.exception("Failed executing request")

@@ -8,7 +8,7 @@ class Vulners(Collector):
     vulners = requests.Session()
 
     def init_collector(self):
-        return super().init_collector()
+        self.api_key = self.api_key["api_key"]
     
     def collect(self):
         return super().collect()

@@ -7,26 +7,46 @@ from data_collector.utils import validate_ip_address
 
 logging = logging.getLogger(__name__)
 
+
+class CymonInvalidAuthentication(Exception):
+    pass
+
 class Cymon(Collector):
 
     base_url : str = "https://api.cymon.io/v2"
     cymon = requests.Session()
-
-    def __init__(self) -> None:
-        api_key = None
-        super().__init__()
-        self.headers = {
-            "Content Type" : "application/json",
-            "Authorization" : "Bearer {}".format(api_key)
+   
+          
+            
+    def init_collector(self):
+        self. headers = {
+          "Content Type" : "application/json",
         }
+        self.auth()
 
-    def make_cymon_request(self,final_url):
+
+    def make_cymon_request(self,final_url,data = {}):
         try:
-            response = self.cymon.get(final_url,headers=self.headers)
+            response = self.cymon.get(final_url,headers=self.headers,data=data)
             response.raise_for_status
         except HTTPError as ex:
             logging.error("Failing listing feeds")
         return response
+    
+    
+    def auth(self):
+         final_url = self.base_url + "/auth/login"
+         username = self._secrets["username"]
+         password = self._secrets["password"]
+         data = {username,password}
+         response = self.make_cymon_request(final_url,data)
+         if "jwt" in response.json(): 
+             jwt = response.json()["jwt"]
+             self.headers.update({"Authorization": "Bearer ".format(jwt)})
+         else:
+            raise CymonInvalidAuthentication
+            
+        
 
     def _list_feeds(self):
         final_url = self.base_url + "/feeds/me"
@@ -72,4 +92,7 @@ class Cymon(Collector):
 
     def get_feed_report(self,feed_id,report_id):
         pass
+
+    def collect_target(self, target):
+        return super().collect_target(target)
     

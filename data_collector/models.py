@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 class APIConfig(models.Model):
-    collector_name = models.TextField(max_length=128)
+    name = models.TextField(max_length=128)
     type = models.TextField(max_length=128)
     value = models.TextField(max_length=128)
     required = models.BooleanField()

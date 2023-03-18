@@ -1,10 +1,15 @@
 import logging
 from celery import signals
 from celery import shared_task
+from celery import app
+
 logger = logging.getLogger(__name__)
 
 
-@shared_task
+
+
+
+@shared_task()
 def build_collector_cache(*args,**kwargs):
     logger.info("Worker correctly")
     collectors = []
@@ -16,9 +21,9 @@ def build_collector_cache(*args,**kwargs):
         collectors.append(collector)
     return collectors
 
-#startapp
+#startup
 @signals.worker_ready.connect
-def init_collector(self):
+def init_collector(**kwargs):
     build_collector_cache()
 
 

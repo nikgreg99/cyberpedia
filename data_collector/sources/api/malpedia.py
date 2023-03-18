@@ -12,14 +12,12 @@ class Malpedia(Collector):
 
 
     def init_collector(self):
-        return super().init_collector()
-
-    def __init__(self):
-        api_token = ""
+        api_key = self._secrets["api_key"]
         self.headers = {
-            "Authorization": "apitoken {}".format(api_token)
+            "Authorization": "apitoken {}".format(api_key)
         }
 
+   
     def get_yara_rules(self):
         final_url = self.base_url + "/list/yara"
         try:

@@ -1,10 +1,19 @@
 [
     {
+        "name": "AbuseIPDB",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "ABUSEIPDB_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
         "name": "Exploit Alert",
         "secrets": {}
     },
     {
-        "collector": "HoneyDB",
+        "name": "HoneyDB",
         "secrets": {
             "api_key":
                 {
@@ -21,7 +30,7 @@
             }
     },
     {
-        "collector": "Maldatabase",
+        "name": "Maldatabase",
         "secrets": {
                 "api_key": {
                      "env_var_key" : "MALDATABASE_API_KEY",
@@ -30,7 +39,7 @@
             }
     },
     {
-        "collector": "Malpedia",
+        "name": "Malpedia",
         "secrets": {
             "api_key": {
                 "env_var_key": "MALPEDIA_API_KEY",
@@ -39,7 +48,7 @@
         }
     },
     {
-        "collector": "Maltiverse",
+        "name": "Maltiverse",
         "secrets": {
             "api_key": {
                 "env_var_key" : "MALTIVERSE_API_KEY",
@@ -49,7 +58,7 @@
     }
     ,
     {
-        "collector": "Shodan",
+        "name": "Shodan",
         "secrets": {
                 "api_key": {
                     "env_var_key" : "SHODAN_API_KEY",
@@ -59,7 +68,7 @@
             }
     },   
     {
-        "collector": "ThreatFox",
+        "name": "ThreatFox",
         "secrets":  {
             "api_key" : {
                 "env_var_key" : "THREATFOX_API_KEY",
@@ -69,7 +78,7 @@
         }
     },
     {
-        "collector": "ThreatJammer",
+        "name": "ThreatJammer",
         "secrets" : {
             "api_key" : {
                 "env_var_key": "THREATJAMMER_API_KEY",
@@ -83,7 +92,7 @@
     },
 
     {
-        "collector": "UrlScan",
+        "name": "UrlScan",
         "secrets": {
                 "api_key": {
                     "env_var_key" : "URLSCAN_API_KEY",
@@ -92,7 +101,7 @@
          }     
     },
     {
-        "collector": "UrlHaus",
+        "name": "UrlHaus",
         "secrets": {
             "api_key": {
                 "env_var_key" : "URLHAUS_API_KEY",
@@ -101,7 +110,7 @@
         }        
     },
     {
-        "collector": "Whois",
+        "name": "Whois",
          "secrets": {
            "api_key": {
                 "env_var_key" : "WHOIS_API_KEY",
@@ -110,16 +119,20 @@
         }        
     },
     {
-        "collector": "Cymon",
+        "name": "Cymon",
         "secrets": {
-            "api_key" : {
-                "env_var_key" : "CYMON_API_KEY",
+            "username" : {
+                "env_var_key" : "CYMON_ACCOUNT_USERNAME",
+                "required": true
+            },
+            "password": {
+                "env_var_key" : "CYMON_ACCOUNT_PASSWORD",
                 "required": true
             }
         }
     },
     {
-     "collector": "Fraudgard",
+     "name": "Fraudgard",
         "secrets":{
              "api_key":{
                     "env_var_key": "FRAUDGARD_API_KEY",
@@ -128,7 +141,7 @@
         }
     },
     {
-        "collector": "GreyNoise",
+        "name": "GreyNoise",
          "secrets" : {
             "api_key":{
                 "env_var_key": "GREYNOISE_API_KEY",
@@ -137,7 +150,7 @@
         }
     },
     {
-        "collector": "CVEData",
+        "name": "CVEData",
         "secrets": {
             "api_key": {
                 "env_var_key" : "CVEDATA_API_KEY",
@@ -146,7 +159,7 @@
         }
     },
     {
-        "collector": "IPInfo",
+        "name": "IPInfo",
          "secrets" : {
             "api_key" :{
                 "env_var_key" : "IPINFO_API_KEY",
@@ -155,7 +168,7 @@
         }
     },
     {
-        "collector": "Yarifiy",
+        "name": "Yarifiy",
         "secrets" : {
             "api_key" :{
                 "env_var_key" : "YARIFY_API_KEY",
@@ -164,7 +177,7 @@
         }
     },
     {
-        "collector": "ZoomEye",
+        "name": "ZoomEye",
          "secrets" : {
             "api_key" :{
                 "env_var_key" : "ZOOMEYE_API_KEY",
@@ -173,7 +186,7 @@
         }
     },
     {
-        "collector": "Pulsidve",
+        "name": "Pulsidve",
         "secrets": {
             "api_key": {
                 "env_var_key": "PULSIDIVE_API_KEY",
@@ -182,7 +195,7 @@
         }
     },
     {
-        "collector": "Valhalla",
+        "name": "Valhalla",
         "secrets" :{}
     }
 ]

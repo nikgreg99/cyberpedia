@@ -12,7 +12,7 @@ class UrlHaus(Collector):
 
 
     def init_collector(self):
-        return super().init_collector()
+        api_key = self._secrets["api_key"]
 
     def _make_request(self,url):
         try:
