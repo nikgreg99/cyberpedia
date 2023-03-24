@@ -13,6 +13,8 @@ class Yarify(Collector):
     download_url : str = "https://yaraify-api.abuse.ch/download/"
     yarify =  requests.Session()
 
+    def __init__(self):
+       super().__init__(self.__class__.__name__)
 
     def init_collector(self):
         return super().init_collector()
@@ -36,7 +38,7 @@ class Yarify(Collector):
             response = self.yarify.get(self.download_url)
             response.raise_for_status()
         except HTTPError as ex:
-            logging.exception("Request error")
+            logging.exception(ex)
             
 
 

@@ -11,12 +11,14 @@ class APITest(TestCase):
         "api_test.json"
     ]
 
-    def setUp(self) -> None:
-        call_command('loaddata',*self.fixtures)
+    #maldatabase = Maldatabase()
 
-    maldatabase = Maldatabase()
+    def setUp(self) -> None:
+        call_command('loaddata',self.fixtures)
+       # self.maldatabase.init_collector()
+
 
 
     
-    def collect(self):
+    def test_collect(self):
         print(self.maldatabase.collect())

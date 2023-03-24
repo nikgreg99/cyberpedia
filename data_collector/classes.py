@@ -1,18 +1,19 @@
 from abc import ABCMeta, abstractmethod
 from data_collector.dataclasses import CollectorConfig
-
-from django.utils.functional import cached_property
+from functools import cached_property
 
 
 class Collector(object):
 
     name: str
-    _config : CollectorConfig
+    enabled: bool
+    config : CollectorConfig
 
     def __init__(self,name) -> None:
         self.name = name
-        self._config = CollectorConfig(name)
+        self.config = CollectorConfig(name)
 
+    
     def init_collector(self):
         raise NotImplementedError()
     
@@ -25,9 +26,8 @@ class Collector(object):
         raise NotImplementedError()
     
     @cached_property
-    def _secrets(self) -> dict:
-       return self._config.read_secrets()
-
+    def secrets(self) -> dict:
+       return self.config.read_secrets()
 
 
 

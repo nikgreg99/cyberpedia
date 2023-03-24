@@ -11,8 +11,12 @@ class UrlHaus(Collector):
     urlhaus = requests.Session()
 
 
+    def __init__(self) -> None:
+       super().__init__(self.__class__.__name__)
+
+
     def init_collector(self):
-        api_key = self._secrets["api_key"]
+        api_key = self.secrets["api_key"]
 
     def _make_request(self,url):
         try:

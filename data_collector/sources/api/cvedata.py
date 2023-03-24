@@ -9,11 +9,14 @@ class CVEData(Collector):
     base_url : str = "https://v1.cveapi.com"
     cve_data = requests.Session()
 
+    def __init__(self) -> None:
+        super().__init__(self.__class__.__name__)
+
     def init_collector(self):
         return super().init_collector()
     
     def collect(self):
-        return super().collect()
+        raise NotImplementedError()
 
     def collect_target(self,target):
         final_url = self.base_url + "/{}".format(target)

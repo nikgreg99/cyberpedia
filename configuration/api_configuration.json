@@ -141,7 +141,7 @@
         }
     },
     {
-        "name": "GreyNoise",
+        "name": "Greynoise",
          "secrets" : {
             "api_key":{
                 "env_var_key": "GREYNOISE_API_KEY",
@@ -168,7 +168,7 @@
         }
     },
     {
-        "name": "Yarifiy",
+        "name": "Yarify",
         "secrets" : {
             "api_key" :{
                 "env_var_key" : "YARIFY_API_KEY",
@@ -186,7 +186,7 @@
         }
     },
     {
-        "name": "Pulsidve",
+        "name": "Pulsedive",
         "secrets": {
             "api_key": {
                 "env_var_key": "PULSIDIVE_API_KEY",

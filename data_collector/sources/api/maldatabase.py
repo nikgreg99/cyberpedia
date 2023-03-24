@@ -16,9 +16,8 @@ class Maldatabase(Collector):
         
     
     def init_collector(self):
-          print(self._secrets)
           self.headers = {
-            "Authorization": self._secrets["api_key"]
+            "Authorization": self.secrets["api_key"]
         }
 
     def collect(self):

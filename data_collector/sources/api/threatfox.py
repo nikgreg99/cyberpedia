@@ -2,9 +2,8 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from data_collector.utils import validate_hash
 
-MD5_CHARACTERS = 32
-SHA256_CHARACTERS = 64
 
 logger = logging.getLogger(__name__)
 
@@ -12,10 +11,13 @@ class ThreatFox(Collector):
 
     base_url = 'https://threatfox-api.abuse.ch/api/v1/'
     threat_fox = requests.Session() 
-    api_key = None   
+
+
+    def __init__(self) -> None:
+       super().__init__(self.__class__.__name__) 
 
     def init_collector(self):
-        self.api_key = self._secrets["api_key"]
+        self.api_key = self.secrets()["api_key"]
 
 
     def _make_threat_fox_request(self,requests_data):
@@ -60,5 +62,11 @@ class ThreatFox(Collector):
             "query": "malware_list"
         }
         return self._make_threat_fox_request(data)
+    
+    def collect(self):
+        return super().collect()
+    
+    def collect_target(self, target):
+        return super().collect_target(target)
 
 

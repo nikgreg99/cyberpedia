@@ -1,12 +1,17 @@
-
-class InvalidMD5Hash(Exception):
+class InvalidMD5HashFormat(Exception):
     pass
 
-class InvalidSHA1Hash(Exception):
+class InvalidSHA1HashFormat(Exception):
     pass
 
-class InvalidSHA256Hash(Exception):
+class InvalidSHA256HashFormat(Exception):
     pass
 
-class InvalidIPAddress(Exception):
+class InvalidHashFormat(Exception):
+    pass
+
+class InvalidIPAddressFormat(Exception):
+    pass
+
+class InvalidCVEFormat(Exception):
     pass

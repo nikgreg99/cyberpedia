@@ -11,12 +11,14 @@ class Maltiverse(Collector):
     base_url: str = "https://api.maltiverse.com"
     maltiverse = requests.Session()
 
+    def __init__(self) -> None:
+        super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        return super().init_collector()
+       pass
     
     def collect(self):
-        return super().collect()
+        pass
     
     def collect_target(self, target):
-        return super().collect_target(target)
+        pass

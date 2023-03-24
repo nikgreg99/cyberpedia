@@ -8,10 +8,29 @@ logger = logging.getLogger(__name__)
 
 class ZoomEye(Collector):
     
+    base_url : str = "'https://api.zoomeye.org"
     zoomeye = requests.Session()
 
+    def __init__(self) -> None:
+       super().__init__(self.__class__.__name__)
+
     def init_collector(self):
-        api_key = self._secrets["api_key"]
-        return super().init_collector()
+        api_key = self.secrets["api_key"]
+        self.headers = {
+            "API-KEY": api_key
+        }
+        
+    
+
+    def collect_target(self, target):
+        try:
+            final_url = self.base_url + "/host/search"
+            response =  self.zoomeye.get(final_url,headers=self.headers)
+            response.raise_for_status()
+        except HTTPError as ex:
+            logger.exception(ex)
+        return response.json()
+
+
     
 

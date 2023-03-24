@@ -1,0 +1,39 @@
+import requests
+from requests import HTTPError
+import logging 
+from data_collector.classes import Collector
+
+
+logger = logging.getLogger(__name__)
+
+class InQuest(Collector):
+
+    base_url : str = "https://labs.inquest.net/api"
+    inquest = requests.Session()
+
+    def __init__(self) -> None:
+        super().__init__(self.__class__.__name__)
+
+    def make_inquest_request(self,final_url,paramters):
+        try:
+            response = self.inquest.get(final_url,params=paramters)
+            response.raise_for_status()
+        except HTTPError as ex:
+            logger.exception(ex)
+        return response.json()
+
+
+    def init_collector(self):
+        self.headers = {'Accept': 'application/json'}
+    
+    def collect(self):
+        return super().collect()
+    
+
+    def search_IOC(self,target):
+        final_url = self.base_url + "/repdb"
+        parameters = {'search': target}
+        return self.make_inquest_request(final_url,parameters)
+
+    def collect_target(self, target):
+        return super().collect_target(target)

@@ -1,30 +1,28 @@
 import logging
 import requests
 from requests import HTTPError
-import enum
 from data_collector.classes import Collector
 
 logger = logging.getLogger(__name__)
 
-class WhoisOutputFormatType(enum):
-    XML = "XML"
-    JSON = "JSON"
 
 class Whois(Collector):
 
     base_url : str = "https://www.whoisxmlapi.com/whoisserver/WhoisService"
     session = requests.Session()
+
+    def __init__(self) -> None:
+       super().__init__(self.__class__.__name__)
     
-
-
     def init_collector(self):
-        self.api_key = self._secrets["api_ket"]
+        self.api_key = self.secret["api_key"]
         self.params = {
             "apiKey": self.api_key,
-            "outputFormat": WhoisOutputFormatType.JSON,
+            "outputFormat": "JSON",
             "preferFresh": 1,
             "ip": 1,
             "ipWhois": 1
+        }
       
     def collect_target(self,target: str):
         self.params["domainName"] = target

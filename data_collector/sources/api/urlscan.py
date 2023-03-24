@@ -7,16 +7,20 @@ from data_collector.classes import Collector
 
 logger = logging.getLogger(__name__)
 
-class Urlscan(Collector):
+class UrlScan(Collector):
 
     base_url : str = "https://urlscan.io/api/v1"
     urlscan = requests.Session()
     api_key = None
 
+
+    def __init__(self) -> None:
+        super().__init__(self.__class__.__name__)
+
     def init_collector(self):
         self.headers: dict = {
             "Content-Type": "application/json",
-            "API-KEY": self._secrets["api_ket"]
+            "API-KEY": self._secrets["api_key"]
         }
        
 

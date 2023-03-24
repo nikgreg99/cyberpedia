@@ -1,6 +1,12 @@
 import os
 import requests
-class UrlHausDaily():
+from requests import HTTPError
+import logging
+from data_collector.classes import Collector
+
+logger = logging.getLogger(__name__)
+
+class UrlHausDaily(Collector):
 
     base_misp_daily_url = "https://urlhaus.abuse.ch/downloads/misp/"
     base_suricata_daily_url = "https://urlhaus.abuse.ch/downloads/suricata-ids/"
@@ -9,8 +15,8 @@ class UrlHausDaily():
         try:
             manifest_response = requests.get(self.base_misp_daily_url.join("/manifest.json"))
             manifest_response.raise_for_status()
-        except ErrorRequestException as ex:
-            raise ErrorRequestException
+        except HTTPError as ex:
+           pass
         
         manifest = manifest_response.json()
         misp_daily_rules = list()
@@ -21,8 +27,8 @@ class UrlHausDaily():
                 misp_rule = requests.get(self.base_misp_daily_url.join(misp_file_string))
                 misp_rule.raise_for_status()
                 misp_daily_rules.append(misp_rule.json())
-            except ErrorRequestException as ex:
-                raise ErrorRequestException
+            except HTTPError as ex:
+                pass
 
         return misp_daily_rules    
 
@@ -30,7 +36,7 @@ class UrlHausDaily():
         try:
             snort_file_response = requests.get(self.base_suricata_daily_url)
             snort_file_response.raise_for_status()
-        except ErrorRequestException as ex:
+        except HTTPError as ex:
             pass
             
         snort_file = snort_file_response.content

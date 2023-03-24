@@ -19,8 +19,9 @@ PROJECT_DIR = BASE_DIR / "cyberpedia"
 CONFIG_DIR = PROJECT_DIR / "configuration"
 YARA_DIR = PROJECT_DIR / "yara"
 SIGMA_DIR = PROJECT_DIR / "sigma"
-TEST_DIR = PROJECT_DIR / "test"
-FIXTURE_DIRS = TEST_DIR / "fixtures"
+TEST_DIR =  PROJECT_DIR/ "tests"
+
+FIXTURE_DIRS = PROJECT_DIR / 'fixtures'
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,9 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
-    "data_collector.sources",
     "data_collector",
-    "test"
+    "data_collector.sources",
+    "cyberpedia_api",
 ]
 
 MIDDLEWARE = [
@@ -57,8 +58,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
+
+
 
 ROOT_URLCONF = 'cyberpedia.urls'
 
