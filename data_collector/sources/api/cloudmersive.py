@@ -8,8 +8,7 @@ logger = logging.getLogger(__name__)
 class Cloudmersive(Collector):
 
     def __init__(self) -> None:
-        
-        super().__init_(__class__.__name__)
+        super().__init__(self.__class__.__name__)
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]

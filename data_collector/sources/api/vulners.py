@@ -32,7 +32,7 @@ class Vulners(Collector):
             logger.exception(ex)
         return CVE_response
     
-    def CVE_references(self,CVE);
+    def CVE_references(self,CVE):
         try:
             cve_references = self.vulners.get_bulletin_references(cve_references)
         except VulnersApiError as ex:

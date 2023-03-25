@@ -9,60 +9,15 @@
         }
     },
     {
-        "name": "ExploitAlert",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "EXPLOITALERT_API_KEY",
-                "required": false
-            }
-        }
-    },
-    {
-         "name": "EmailRep",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "EMAILREP_API_KEY",
-                "required": false
-            }
-        }
-    },
-    {
-        "name": "EmergingThreats",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "EMERGING_THREAT_API_KEY",
-                "required": true
-            }
-        }
-    },
-    {
-        "name": "HaveIBeenPwned",
-        "secrets": {
-            "api_key":{
-             "env_var_key": "HAVEIBEENPWNED_API_KEY",
-             "required": false
-         }
-     }
-    },
-    {
-        "name": "Cloudmersive",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "CLOUDMERSIVE_API_KEY",
-                "required": true
-            }
-        }
-    },
-    {
         "name": "HoneyDB",
         "secrets": {
-            "api_key":
-                {
+                "api_key":
+                 {
                     "env_var_key": "X-HONEYDB_API_KEY",
                     "required": true
                 
                 },
-            "api_id":
+                "api_id":
                 {
                     "env_var_key": "X-HONEYDB_API_ID",
                     "required": true
@@ -236,11 +191,56 @@
         }
     },
     {
+        "name": "ExploitAlert",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "EXPLOITALERT_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "EmailRep",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "EMAILREP_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "EmergingThreats",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "EMERGINGTHREAT_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "HaveIBeenPwned",
+        "secrets": {
+            "api_key": {
+             "env_var_key": "HAVEIBEENPWNED_API_KEY",
+             "required": true
+         }
+     }
+    },
+    {
+        "name": "Cloudmersive",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "CLOUDMERSIVE_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
         "name": "Valhalla",
-        "secrets" :{
+        "secrets": {
             "api_key": {
                 "env_var_key": "VALHALLA_API_KEY",
-                "required": false
+                "required": true
             }
         }
     }

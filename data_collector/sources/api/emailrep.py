@@ -13,6 +13,9 @@ class EmailRep(Collector):
     def __init__(self) -> None:
         super().__init__(__class__.__name__)
 
+    def init_collector(self):
+        pass
+
     def collect_target(self, target):
         final_url = self.base_url + "/{}".format(target)
         try:

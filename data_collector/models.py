@@ -4,14 +4,14 @@ from django.utils import timezone
 from djongo import  models  as djongo_models
 from .constants import DataFeedFormat
 
+
 class APIConfig(models.Model):
-    config_id = models.UUIDField(auto_created=True,unique=True,default=uuid.uuid4)
-    name = models.TextField(max_length=128)
-    type = models.TextField(max_length=128)
-    value = models.TextField(max_length=128,null=True, blank=True)
+    name = models.CharField(max_length=128)
+    type = models.CharField(max_length=128)
+    value = models.TextField(blank=True,null=False)
     required = models.BooleanField()
     creation_date = models.DateTimeField(default = timezone.now)
-    update_date = models.DateTimeField(blank=True)
+    update_date = models.DateTimeField(default= timezone.now)
 
     @staticmethod
     def collector_names():
@@ -47,7 +47,8 @@ class DataFeed(models.Model):
     elements = djongo_models.ArrayField(model_container=DataFeedElement)
 
 
-    def update_feed(self, data: list):
+    def update_feed(self, source, data: list):
+        feed = DataFeed.objects.get(name = source)
         data_feed = DataFeedElement.objects.create(content= data)
         self.elements = self.elements + data_feed
         self.update_date = timezone.now()

@@ -13,9 +13,7 @@ class Malpedia(Collector):
     
     def __init__(self):
        super().__init__(self.__class__.__name__)
-    
-        
-
+       
 
     def init_collector(self):
         api_key = self.secrets["api_key"]

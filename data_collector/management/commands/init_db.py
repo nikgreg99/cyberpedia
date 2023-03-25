@@ -26,12 +26,13 @@ class Command(BaseCommand):
         for collector in collectors_list:
             for secret_key in collector['secrets']:
                 secret = collector['secrets'][secret_key]
-                _ , created = APIConfig.objects.get_or_create(
+                instance , created = APIConfig.objects.get_or_create(
                         name = collector["name"],
                         type = secret_key,
                         value = cls.get_env_var(secret["env_var_key"]),
                         required = secret['required']
                 )
+
                 if created:
                     logger.info("Key registered successfully")
                     
@@ -41,14 +42,10 @@ class Command(BaseCommand):
     def init_data_feed(cls):
         collectors = APIConfig.collector_names()
         for collector in collectors:
-            _,created = DataFeed.objects.get_or_create(
+            _, created = DataFeed.objects.get_or_create(
                 name= collector["name"]
             )
 
-
-    
-    def add_arguments(self,parser):
-        pass
 
     def handle(self, *args, **options):
         self.migrate_secrets(CollectorSerializer.read_and_verify_config())

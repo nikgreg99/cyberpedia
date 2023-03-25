@@ -25,6 +25,7 @@ class Collector(object):
     def collect_target(self,target):
         raise NotImplementedError()
     
+    
     @cached_property
     def secrets(self) -> dict:
        return self.config.read_secrets()

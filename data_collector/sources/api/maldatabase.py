@@ -1,4 +1,3 @@
-import os
 import requests
 import logging
 from requests import HTTPError
@@ -8,7 +7,7 @@ logger = logging.Logger(__name__)
 
 class Maldatabase(Collector):
 
-    base_url = 'https://api.maldatabase.com/'
+    base_url = 'https://api.maldatabase.com'
     maldatabase = requests.Session()
 
     def __init__(self):
@@ -22,7 +21,7 @@ class Maldatabase(Collector):
 
     def collect(self):
         try:
-            final_url = self.base_url + "download"
+            final_url = self.base_url + "/download"
             response = self.maldatabase.get(final_url,headers=self.headers)
             response.raise_for_status()
         except HTTPError as ex:
