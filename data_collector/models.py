@@ -8,7 +8,7 @@ class APIConfig(models.Model):
     config_id = models.UUIDField(auto_created=True,unique=True,default=uuid.uuid4)
     name = models.TextField(max_length=128)
     type = models.TextField(max_length=128)
-    value = models.TextField(max_length=128, blank=True)
+    value = models.TextField(max_length=128,null=True, blank=True)
     required = models.BooleanField()
     creation_date = models.DateTimeField(default = timezone.now)
     update_date = models.DateTimeField(blank=True)
@@ -19,7 +19,7 @@ class APIConfig(models.Model):
         return collector_list
 
     
-    def update_apikey_date(self,value):
+    def update_key(self,value):
         self.value = value
         self.update_date = timezone.now()
         self.save(update_fields=["update_date"])
@@ -47,10 +47,11 @@ class DataFeed(models.Model):
     elements = djongo_models.ArrayField(model_container=DataFeedElement)
 
 
-    def update_feed(self,data: list):
-        if data is not None:
-            for data_block in data:
-                self.elemen
+    def update_feed(self, data: list):
+        data_feed = DataFeedElement.objects.create(content= data)
+        self.elements = self.elements + data_feed
+        self.update_date = timezone.now()
+        self.save(update_fields=['elements','update_time'])
     
 
     

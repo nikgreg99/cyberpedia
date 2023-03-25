@@ -26,7 +26,7 @@ class Command(BaseCommand):
         for collector in collectors_list:
             for secret_key in collector['secrets']:
                 secret = collector['secrets'][secret_key]
-                instance, created = APIConfig.objects.get_or_create(
+                _ , created = APIConfig.objects.get_or_create(
                         name = collector["name"],
                         type = secret_key,
                         value = cls.get_env_var(secret["env_var_key"]),

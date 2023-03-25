@@ -17,7 +17,7 @@ class Yarify(Collector):
        super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        return super().init_collector()
+        pass
 
 
     def list_recent_deployed_rules(self):

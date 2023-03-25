@@ -15,7 +15,7 @@ class ThreatJammer(Collector):
        super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        return super().init_collector(self)
+        pass
     
 
     def collect(self):

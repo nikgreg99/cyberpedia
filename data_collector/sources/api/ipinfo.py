@@ -20,7 +20,7 @@ class IPInfo(Collector):
     def init_collector(self):
         self.headers = {
             "Accept": "application/json",
-            "Authorization": "Bearer {}".format(self.secrets()["api_key"])
+            "Authorization": "Bearer {}".format(self.secrets["api_key"])
         }
         
 

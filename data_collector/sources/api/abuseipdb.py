@@ -18,7 +18,7 @@ class AbuseIPDB(Collector):
     def init_collector(self):
         self.headers = {
             "Accept": 'application/json',
-            "Key": self.secrets(self)["api_key"]
+            "Key": self.secrets["api_key"]
         }
 
     def request_abuse_ipdb(self,final_url,params):

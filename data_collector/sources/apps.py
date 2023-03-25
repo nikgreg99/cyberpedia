@@ -14,6 +14,7 @@ def start_up():
         klass = getattr(api_module,name)
         api_instance = klass()
         sources[name] = api_instance
+        api_instance.init_collector()
 
 
 class SourcesConfig(AppConfig):

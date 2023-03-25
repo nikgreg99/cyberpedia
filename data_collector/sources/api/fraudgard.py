@@ -38,7 +38,7 @@ class Fraudgard(Collector):
           return self.make_request_fraudgard(final_url)
 
      def init_collector(self):
-          return super().init_collector()
+          pass
      
      def collect(self):
           return super().collect()

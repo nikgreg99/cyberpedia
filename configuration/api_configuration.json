@@ -9,8 +9,49 @@
         }
     },
     {
-        "name": "Exploit Alert",
-        "secrets": {}
+        "name": "ExploitAlert",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "EXPLOITALERT_API_KEY",
+                "required": false
+            }
+        }
+    },
+    {
+         "name": "EmailRep",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "EMAILREP_API_KEY",
+                "required": false
+            }
+        }
+    },
+    {
+        "name": "EmergingThreats",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "EMERGING_THREAT_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "HaveIBeenPwned",
+        "secrets": {
+            "api_key":{
+             "env_var_key": "HAVEIBEENPWNED_API_KEY",
+             "required": false
+         }
+     }
+    },
+    {
+        "name": "Cloudmersive",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "CLOUDMERSIVE_API_KEY",
+                "required": true
+            }
+        }
     },
     {
         "name": "HoneyDB",
@@ -33,7 +74,7 @@
         "name": "Maldatabase",
         "secrets": {
                 "api_key": {
-                     "env_var_key" : "MALDATABASE_API_KEY",
+                    "env_var_key" : "MALDATABASE_API_KEY",
                     "required": true
                 }
             }
@@ -196,7 +237,12 @@
     },
     {
         "name": "Valhalla",
-        "secrets" :{}
+        "secrets" :{
+            "api_key": {
+                "env_var_key": "VALHALLA_API_KEY",
+                "required": false
+            }
+        }
     }
 ]
     

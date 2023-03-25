@@ -15,7 +15,7 @@ class Whois(Collector):
        super().__init__(self.__class__.__name__)
     
     def init_collector(self):
-        self.api_key = self.secret["api_key"]
+        self.api_key = self.secrets["api_key"]
         self.params = {
             "apiKey": self.api_key,
             "outputFormat": "JSON",

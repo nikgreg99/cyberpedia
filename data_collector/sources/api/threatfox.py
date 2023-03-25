@@ -17,7 +17,7 @@ class ThreatFox(Collector):
        super().__init__(self.__class__.__name__) 
 
     def init_collector(self):
-        self.api_key = self.secrets()["api_key"]
+        self.api_key = self.secrets["api_key"]
 
 
     def _make_threat_fox_request(self,requests_data):

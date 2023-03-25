@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('data_collector', '0002_alter_apiconfig_value'),
+        ('data_collector', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='apiconfig',
             name='value',
-            field=models.TextField(blank=True, max_length=128, null=True),
+            field=models.TextField(max_length=128, null=True),
         ),
     ]

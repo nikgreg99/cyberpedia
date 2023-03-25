@@ -20,33 +20,35 @@ class Cymon(Collector):
             
     def init_collector(self):
         self. headers = {
-          "Content Type" : "application/json",
+          "Content-Type" : "application/json",
         }
-        self.auth()
+        # self.auth()
 
 
     def make_cymon_request(self,final_url,data = {}):
         try:
             response = self.cymon.get(final_url,headers=self.headers,data=data)
-            response.raise_for_status
+            response.raise_for_status()
         except HTTPError as ex:
-            logging.error("Failing listing feeds")
+            logging.exception(ex)
         return response
     
     
     def auth(self):
          final_url = self.base_url + "/auth/login"
-         username = self._secrets["username"]
-         password = self._secrets["password"]
-         data = {username,password}
-         response = self.make_cymon_request(final_url,data)
+         username = self.secrets["username"]
+         password = self.secrets["password"]
+         data = {
+             "username": username,
+             "password": password
+        }
+         response = self.cymon.post(final_url,headers=self.headers,data=data)
          if "jwt" in response.json(): 
              jwt = response.json()["jwt"]
              self.headers.update({"Authorization": "Bearer ".format(jwt)})
          else:
             raise CymonInvalidAuthentication
             
-        
 
     def _list_feeds(self):
         final_url = self.base_url + "/feeds/me"

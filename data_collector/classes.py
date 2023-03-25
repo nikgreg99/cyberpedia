@@ -13,7 +13,7 @@ class Collector(object):
         self.name = name
         self.config = CollectorConfig(name)
 
-    
+    @abstractmethod
     def init_collector(self):
         raise NotImplementedError()
     
