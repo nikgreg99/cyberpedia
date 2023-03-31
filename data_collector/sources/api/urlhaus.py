@@ -26,7 +26,7 @@ class UrlHaus(Collector):
             pass
         return response.json()
 
-    def query_recent_URL(self,limit = None):
+    def query_recent_urls(self,limit = None):
         basic_url = "urls/recent"
         query_URL = self.base_url + basic_url
         if limit is not None:

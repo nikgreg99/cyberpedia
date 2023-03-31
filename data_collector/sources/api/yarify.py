@@ -25,7 +25,7 @@ class Yarify(Collector):
              "query" : "recent_yararules"
          }
         try:
-             response  = self.yarify.post(self.yarify,data=data)
+             response  = self.yarify.post(self.base_url,json=data)
              response.raise_for_status()
         except HTTPError as ex:
              logging.error("Error requesting Yara rules ")
@@ -35,7 +35,7 @@ class Yarify(Collector):
     def download_Yara_rulset(self):
         os.chdir(settings.YARA_DIR)
         try:
-            response = self.yarify.get(self.download_url)
+            response = self.yarify.get(self.base_url)
             response.raise_for_status()
         except HTTPError as ex:
             logging.exception(ex)

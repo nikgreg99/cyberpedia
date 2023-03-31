@@ -18,7 +18,7 @@ class Malpedia(Collector):
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.headers = {
-            "Authorization": "apitoken {}".format(api_key)
+            "Authorization ": "apitoken {}".format(api_key)
         }
 
    

@@ -8,14 +8,15 @@ logger = logging.getLogger(__name__)
 class Vulners(Collector):
 
     base_url : str = "https://vulners.com/api/v3"
-    vulners = None
 
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
-        self.vulners = vulners.VulnersApi(self.api_key)
+        print(self.api_key)
+        self.vulners = vulners.VulnersApi(api_key = self.api_key)
+        
 
 
     def search_target(self,target):
@@ -63,4 +64,4 @@ class Vulners(Collector):
         return all_cve
     
     def collect_target(self, target):
-        return super().collect_target(target)
+        pass

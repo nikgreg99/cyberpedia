@@ -22,13 +22,13 @@ class ThreatFox(Collector):
 
     def _make_threat_fox_request(self,requests_data):
         try:
-            recent_ioc_response = self.threat_fox.post(self.base_url,data=requests_data)
+            recent_ioc_response = self.threat_fox.post(self.base_url,json=requests_data)
             recent_ioc_response.raise_for_status()
         except HTTPError as ex:
             pass
         return recent_ioc_response.json()
 
-    def _query_recent_IOC(self):
+    def query_recent_IOC(self):
         data = {
             "query": "get_iocs",
             "days": 7

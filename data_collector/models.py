@@ -46,13 +46,14 @@ class DataFeed(models.Model):
     format_type = models.CharField(max_length=128, choices=DataFeedFormat.choices,default=DataFeedFormat.OTHER)
     elements = djongo_models.ArrayField(model_container=DataFeedElement)
 
+    objects = djongo_models.DjongoManager()
 
-    def update_feed(self, source, data: list):
-        feed = DataFeed.objects.get(name = source)
-        data_feed = DataFeedElement.objects.create(content= data)
-        self.elements = self.elements + data_feed
+    def update_feed(self, data):
+        data_feed_element = {'element_id': uuid.uuid4(), 'content': data, 'creation_date': timezone.now()}
+        self.elements.append(data_feed_element)
         self.update_date = timezone.now()
-        self.save(update_fields=['elements','update_time'])
+        print(self.elements)
+        self.save(update_fields=['elements','update_date'])
     
 
     

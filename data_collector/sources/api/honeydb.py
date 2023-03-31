@@ -15,26 +15,25 @@ class HoneyDB(Collector):
 
     def init_collector(self):
         self.honey_db_api_id = self.secrets["api_id"]
-        self.honey_db_api_key = self.secrets["api_key"]
-        
+        self.honey_db_api_key = self.secrets["api_key"]        
         self.honeydb.headers = {
             "X-HoneyDb-ApiId": self.honey_db_api_id,
             "X-HoneyDb-ApiKey": self.honey_db_api_key
         }
 
         
-    def _collect_bad_ip(self):
+    def collect_bad_ip(self):
         try:
-            final_url = self.base_url.join("/bad-hosts")
+            final_url = self.base_url + "/bad-hosts"
             response = self.honeydb.get(final_url,headers=self.honeydb.headers)
         except HTTPError as ex:
             logger.exception("Error requesting bad ip")
         
         return response.json()
     
-    def _collect_twitter_feed(self):
+    def collect_twitter_feed(self):
         try:
-            final_url = self.base_url.join("/twitter-threat-feed")
+            final_url = self.base_url + "/twitter-threat-feed"
             response = self.honeydb.get(final_url,headers=self.honeydb.headers)
         except HTTPError as ex:
             pass

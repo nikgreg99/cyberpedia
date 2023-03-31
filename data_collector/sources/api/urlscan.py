@@ -19,8 +19,8 @@ class UrlScan(Collector):
 
     def init_collector(self):
         self.headers: dict = {
-            "Content-Type": "application/json",
-            "API-KEY": self.secrets["api_key"]
+            "Content-Type ": "application/json",
+            "API-KEY" : self.secrets["api_key"]
         }
        
 

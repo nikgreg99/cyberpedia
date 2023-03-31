@@ -22,7 +22,7 @@ class Pulsedive(Collector):
             response = self.pulsidive.get(final_url,params=parameters)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.exception()
+            logger.exception(ex)
         return response.json()
 
     def get_indicator_by_value(self,target):

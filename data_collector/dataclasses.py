@@ -2,8 +2,6 @@ import dataclasses
 import typing
 from .models import APIConfig
 
-
-
 @dataclasses.dataclass
 class _Param:
     name : str

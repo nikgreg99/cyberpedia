@@ -191,6 +191,19 @@
         }
     },
     {
+        "name": "OpenCVE",
+        "secrets" : {
+            "username": {
+                "env_var_key": "OPENCVE_USERNAME",
+                "required": true
+            },
+            "password": {
+                "env_var_key": "OPENCVE_PASSWORD",
+                "required": true
+            }
+          }
+    },
+    {
         "name": "ExploitAlert",
         "secrets": {
             "api_key": {
@@ -231,6 +244,24 @@
         "secrets": {
             "api_key": {
                 "env_var_key": "CLOUDMERSIVE_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "VirusTotal",
+        "secrets": {
+            "api_key": {
+                "env_var_key" : "VIRUSTOTAL_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "Vulners",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "VULNERS_API_KEY",
                 "required": true
             }
         }

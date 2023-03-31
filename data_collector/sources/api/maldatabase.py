@@ -1,7 +1,11 @@
+import os
+import csv
+import json
 import requests
 import logging
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.Logger(__name__)
 
@@ -16,17 +20,23 @@ class Maldatabase(Collector):
     
     def init_collector(self):
           self.headers = {
-            "Authorization": self.secrets["api_key"]
+            "Authorization": self.secrets["api_key"],
+            "Accept-Encoding": "gzip, deflate"
         }
+          
+    def csv_to_json(self,data):
+        pass
 
+    
     def collect(self):
         try:
             final_url = self.base_url + "/download"
             response = self.maldatabase.get(final_url,headers=self.headers)
+            print(response.content)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.error("Error request")
-        return response.json()
+            logger.exception(ex)
+        return []
     
     def collect_target(self, target):
-        return super().collect_target(target)
+        pass

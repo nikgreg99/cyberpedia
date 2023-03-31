@@ -26,7 +26,7 @@ class IPInfo(Collector):
 
     def ip_info(self,ip):
         if validate_ip_address(ip):
-            final_url = self.base_url + "/{}.".format(ip)
+            final_url = self.base_url + "/{}".format(ip)
             try:
                 response = self.ipinfo.get(final_url,headers=self.headers)
                 response.raise_for_status()

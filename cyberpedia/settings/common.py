@@ -17,11 +17,9 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 PROJECT_DIR = BASE_DIR / "cyberpedia"
 CONFIG_DIR = PROJECT_DIR / "configuration"
-YARA_DIR = PROJECT_DIR / "yara"
-SIGMA_DIR = PROJECT_DIR / "sigma"
 TEST_DIR =  PROJECT_DIR/ "tests"
-
 FIXTURE_DIRS = PROJECT_DIR / 'fixtures'
+DATA_DIR = PROJECT_DIR / "data"
 
 
 # Quick-start development settings - unsuitable for production

@@ -17,7 +17,7 @@ class ZoomEye(Collector):
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.headers = {
-            "API-KEY": api_key
+            "API-KEY" : api_key
         }
         
     
