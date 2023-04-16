@@ -6,7 +6,7 @@ MD5_HASH_REGEX = "^[a-fA-F0-9]{32}$"
 SHA1_HASH_REGEX = "^[a-fA-F0-9]{40}"
 SHA_256_REGEX = "^[a-fA-F0-9]{64}$"
 SSDEEP_REGEX = "((\d*):(\w*):(\w*)|(\d*):(\w*)\+(\w*):(\w*))"
-
+EMAIL_ADDRESS_REGEX = "/^w+[+.w-]*@([w-]+.)*w+[w-]*.([a-z]{2,4}|d+)$/i"
 
 class DataFeedFormat(models.TextChoices):
     YARA = "Yara"

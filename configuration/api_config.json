@@ -51,8 +51,7 @@
                 "required": true
             }
         }
-    }
-    ,
+    },
     {
         "name": "Shodan",
         "secrets": {
@@ -155,10 +154,41 @@
         }
     },
     {
+        "name": "Censys",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "CENSYS_API_KEY",
+                "required": true
+            },
+            "secret": {
+                "env_var_key": "CENSYS_SECRET",
+                "required": true
+            }
+        }
+    },
+    {
         "name": "IPInfo",
          "secrets" : {
             "api_key" :{
                 "env_var_key" : "IPINFO_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "Neutrino",
+        "secrets": {
+            "user_id": {
+                "env_var_key": "NEUTRINO_USER_ID",
+                "required": true
+            },
+            "api_key_test": {
+                "env_var_key": "NEUTRINO_TEST_API_KEY",
+                "required": true
+            },
+
+            "api_key_production" : {
+                "env_var_key": "NEUTRINO_PROD_API_KEY",
                 "required": true
             }
         }
@@ -191,6 +221,15 @@
         }
     },
     {
+        "name": "Tranco",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "TRANCO_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
         "name": "OpenCVE",
         "secrets" : {
             "username": {
@@ -202,6 +241,15 @@
                 "required": true
             }
           }
+    },
+    {
+        "name": "Koodus",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "KOODUS_API_KEY",
+                "required": true
+            }
+        }
     },
     {
         "name": "ExploitAlert",

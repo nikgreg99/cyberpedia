@@ -21,7 +21,6 @@ class ZoomEye(Collector):
         }
         
     
-
     def collect_target(self, target):
         try:
             final_url = self.base_url + "/host/search"

@@ -5,9 +5,9 @@ sources = {}
 
 def start_up():
     global sources
-    from data_collector.models import APIConfig
+    from data_collector.models import DataFeed
     api_module = importlib.import_module('data_collector.sources.api')
-    collector_names = APIConfig.collector_names()
+    collector_names = DataFeed.collector_names()
     for collector_name in collector_names:
         name = collector_name["name"]
         api_module = importlib.import_module('data_collector.sources.api.{}'.format(name.lower()))

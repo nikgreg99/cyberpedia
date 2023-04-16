@@ -18,5 +18,5 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cyberpedia-api/',include('cyberpedia_api.urls'))
+    path('cyberpedia.api/',include('cyberpedia_api.urls'))
 ]

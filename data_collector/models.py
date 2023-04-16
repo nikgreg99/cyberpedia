@@ -13,12 +13,7 @@ class APIConfig(models.Model):
     creation_date = models.DateTimeField(default = timezone.now)
     update_date = models.DateTimeField(default= timezone.now)
 
-    @staticmethod
-    def collector_names():
-        collector_list = APIConfig.objects.values('name').distinct()
-        return collector_list
 
-    
     def update_key(self,value):
         self.value = value
         self.update_date = timezone.now()
@@ -47,6 +42,11 @@ class DataFeed(models.Model):
     elements = djongo_models.ArrayField(model_container=DataFeedElement)
 
     objects = djongo_models.DjongoManager()
+
+    @staticmethod
+    def collector_names():
+        collector_list = DataFeed.objects.values('name').distinct()
+        return collector_list
 
     def update_feed(self, data):
         data_feed_element = {'element_id': uuid.uuid4(), 'content': data, 'creation_date': timezone.now()}

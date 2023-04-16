@@ -22,8 +22,8 @@ class Command(BaseCommand):
             return value
 
     @classmethod
-    def migrate_secrets(cls,collectors_list):
-        for collector in collectors_list:
+    def migrate_secrets(cls,collector_list):
+        for collector in collector_list:
             for secret_key in collector['secrets']:
                 secret = collector['secrets'][secret_key]
                 instance , created = APIConfig.objects.get_or_create(
@@ -39,17 +39,17 @@ class Command(BaseCommand):
         logger.info("All API Key migrate succesfully")
                         
     @classmethod 
-    def init_data_feed(cls):
-        collectors = APIConfig.collector_names()
-        for collector in collectors:
+    def init_data_feed(cls,collector_list):
+        for collector in collector_list:
             _, created = DataFeed.objects.get_or_create(
                 name= collector["name"]
             )
 
 
     def handle(self, *args, **options):
-        self.migrate_secrets(CollectorSerializer.read_and_verify_config())
-        self.init_data_feed()
+        collectors_list = CollectorSerializer.read_and_verify_config()
+        self.migrate_secrets(collectors_list)
+        self.init_data_feed(collectors_list)
         
         
 

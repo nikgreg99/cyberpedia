@@ -1,15 +1,15 @@
 from rest_framework import serializers as rfs
-from data_collector.models import DataFeed
+from data_collector.models import APIConfig
 
-class DataFeedSerializer(rfs.ModelSerializer):
+class APIConfigSerializer(rfs.ModelSerializer):
     class Meta:
-        model = DataFeed
+        model = APIConfig
         fields = (
-            "feed_id",
             "name",
+            "type",
+            "value",
+            "required"
             "creation_date",
             "update_date",
-            "type",
-            "elements"
         )
 

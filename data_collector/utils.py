@@ -1,5 +1,5 @@
-from .exceptions import InvalidCVEFormat, InvalidHashFormat, InvalidIPAddressFormat
-from .constants import HashType, CVE_REGEX, MD5_HASH_REGEX, SHA1_HASH_REGEX, SHA_256_REGEX, SSDEEP_REGEX
+from .exceptions import InvalidCVEFormat, InvalidHashFormat, InvalidIPAddressFormat, InvalidEmailFormat
+from .constants import HashType, CVE_REGEX, MD5_HASH_REGEX, SHA1_HASH_REGEX, SHA_256_REGEX, SSDEEP_REGEX, EMAIL_ADDRESS_REGEX
 from ipaddress import ip_address, IPv4Address,IPv6Address
 import hashlib
 import pyssdeep
@@ -11,7 +11,7 @@ def validate_ip_address(ip: str):
     if type(ip_checker) is IPv4Address or type(ip_checker) is IPv6Address:
         return True
     else:
-        raise InvalidIPAddressFormat("IP is not in a valid format")
+        raise InvalidIPAddressFormat(f"{ip} is not in a valid format")
     
 def validate_hash(content,regexp):
     return re.match(content,regexp)
@@ -46,14 +46,23 @@ def get_hash_type(hash):
     if validate_hash(hash,SSDEEP_REGEX):
         return HashType.SSDEEP
 
-    raise InvalidHashFormat
+    raise InvalidHashFormat(f"{hash} is not of the types available")
   
 
 def validate_cve_format(cve):
     match = re.match(cve,CVE_REGEX)
     if match:
         return True
-    raise InvalidCVEFormat("CVE is not in a valid")
+    else:
+        raise InvalidCVEFormat(f"{cve} is not in a valid format")
+
+
+def validate_email_adddress(email):
+    match = re.match(email,EMAIL_ADDRESS_REGEX)
+    if match:
+        return True
+    else:
+        raise InvalidEmailFormat (f"{email} is not valid")
    
 
 

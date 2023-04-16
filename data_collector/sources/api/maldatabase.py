@@ -1,6 +1,3 @@
-import os
-import csv
-import json
 import requests
 import logging
 from requests import HTTPError
@@ -24,8 +21,7 @@ class Maldatabase(Collector):
             "Accept-Encoding": "gzip, deflate"
         }
           
-    def csv_to_json(self,data):
-        pass
+  
 
     
     def collect(self):

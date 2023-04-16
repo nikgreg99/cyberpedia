@@ -2,6 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import Collector
+from data_collector.utils import validate_cve_format
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +33,15 @@ class OpenCVE(Collector):
     
     def list_CVE(self):
         final_url = self.base_url + "/cve"
+        return self.make_requets_open_cve(final_url)
+    
+    def get_CVE_by_id(self,CVE):
+        if validate_cve_format(CVE):
+            final_url = self.base_url + f"/cve/{CVE}"
+            return self.make_requets_open_cve(final_url)
+        
+    def get_CWE_by_id(self,CWE):
+        final_url = self.base_url + f"/cwe{CWE}"
         return self.make_requets_open_cve(final_url)
     
     def list_CWE(self):
