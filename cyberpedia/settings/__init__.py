@@ -4,5 +4,6 @@ try:
     from .mongo_db import *
     from .elastic_search import *
     from .misp import *
+    from .opentaxii import *
 except:
     pass

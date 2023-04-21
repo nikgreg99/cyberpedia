@@ -28,7 +28,7 @@ class Valhalla(Collector):
         except ApiError as ex:
             logger.exception(ex)
     
-    def downoad_public_sigma_rules(self):
+    def download_public_sigma_rules(self):
         try:
             return self.valhalla.get_sigma_rules_zip()
         except ApiError as ex:

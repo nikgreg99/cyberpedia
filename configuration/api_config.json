@@ -9,6 +9,19 @@
         }
     },
     {
+        "name": "DNSDb",
+        "secrets": {
+            "api_id": {
+                "env_var_key": "DNSDB_API_ID",
+                "required": true
+            },
+            "api_key": {
+                "env_var_key": "DNSDB_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
         "name": "HoneyDB",
         "secrets": {
                 "api_key":
@@ -24,6 +37,19 @@
                 }
                
             }
+    },
+    {
+        "name": "HybridAnalysis",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "HYBRID_ANALYSIS_API_KEY",
+                "required": true
+            },
+            "secret": {
+                "env_var_key": "HYBRID_ANALYSIS_SECRET",
+                "required": true
+            }
+        }
     },
     {
         "name": "Maldatabase",
@@ -243,10 +269,10 @@
           }
     },
     {
-        "name": "Koodus",
+        "name": "Koodous",
         "secrets": {
             "api_key": {
-                "env_var_key": "KOODUS_API_KEY",
+                "env_var_key": "KOODOUS_API_KEY",
                 "required": true
             }
         }
@@ -310,6 +336,15 @@
         "secrets": {
             "api_key": {
                 "env_var_key": "VULNERS_API_KEY",
+                "required": true
+            }
+        }
+    },
+    {
+        "name": "Virushee",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "VIRUSHEE_API_KEY",
                 "required": true
             }
         }

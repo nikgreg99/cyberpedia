@@ -10,6 +10,7 @@ def start_up():
     collector_names = DataFeed.collector_names()
     for collector_name in collector_names:
         name = collector_name["name"]
+        print(name)
         api_module = importlib.import_module('data_collector.sources.api.{}'.format(name.lower()))
         klass = getattr(api_module,name)
         api_instance = klass()

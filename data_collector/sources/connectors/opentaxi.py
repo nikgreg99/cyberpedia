@@ -1,4 +1,5 @@
 import logging
+import cabby
 
 logger = logging.getLogger(__name__)
 

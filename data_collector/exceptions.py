@@ -9,3 +9,15 @@ class InvalidCVEFormat(Exception):
 
 class InvalidEmailFormat(Exception):
     pass
+
+class InvalidURLFormat(Exception):
+    pass
+
+class InvalidDomainFormat(Exception):
+    pass
+
+class InvalidHostFormat(Exception):
+    pass
+
+class UnsupportedTarget(Exception):
+    pass

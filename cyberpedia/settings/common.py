@@ -20,6 +20,8 @@ CONFIG_DIR = PROJECT_DIR / "configuration"
 TEST_DIR =  PROJECT_DIR/ "tests"
 FIXTURE_DIRS = PROJECT_DIR / 'fixtures'
 DATA_DIR = PROJECT_DIR / "data"
+TMP_DIR = PROJECT_DIR / "tmp"
+TEMPLATE_DIR = PROJECT_DIR / "templates"
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     "data_collector",
     "data_collector.sources",
     "cyberpedia_api",
+    'django_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -66,7 +69,7 @@ ROOT_URLCONF = 'cyberpedia.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,13 +83,7 @@ TEMPLATES = [
 ]
 
 
-
-
 WSGI_APPLICATION = 'cyberpedia.wsgi.application'
-
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -107,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 ENVIRONMENT = {
-    "development": '.env'
+    "development": '.env',
 }
 
 dotenv_path = os.path.join(CONFIG_DIR,"development.env")

@@ -28,7 +28,7 @@ class Koodous(Collector):
         return response.json()
     
 
-    def feed_apks(self)
+    def feed_apks(self):
         final_url = self.base_url + "feed/apks"
         return self.make_request_koodous(final_url)
     
