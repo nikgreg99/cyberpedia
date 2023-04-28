@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ class Virushee(Collector):
         return super().__init__(self.__class__.__name__)
 
     def init_collector(self):
+        self.virushee.proxies = settings.PROXIES
         #api_key = self.secrets["api_key"]
         pass
         #self.headers = {"X-API-Key" : api_key}

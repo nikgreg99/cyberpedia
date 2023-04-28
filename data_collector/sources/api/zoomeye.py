@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +20,7 @@ class ZoomEye(Collector):
         self.headers = {
             "API-KEY" : api_key
         }
-        
+        self.zoomeye.proxies = {settings.PROXY_URL}
     
     def collect_target(self, target):
         try:

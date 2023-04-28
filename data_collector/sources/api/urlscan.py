@@ -3,7 +3,7 @@ import requests
 import logging
 from requests import HTTPError
 from data_collector.classes import Collector
-
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,7 @@ class UrlScan(Collector):
             "Content-Type ": "application/json",
             "API-KEY" : self.secrets["api_key"]
         }
+        self.urlscan.proxies = settings.PROXIES
        
 
     def submit_url(self,url):

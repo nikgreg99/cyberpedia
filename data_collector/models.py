@@ -2,16 +2,17 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from djongo import  models  as djongo_models
+from django.utils.translation import ugettext_lazy as _
 from .constants import DataFeedFormat
 
 
 class APIConfig(models.Model):
-    name = models.CharField(max_length=128)
-    type = models.CharField(max_length=128)
-    value = models.TextField(blank=True,null=False)
-    required = models.BooleanField()
-    creation_date = models.DateTimeField(default = timezone.now)
-    update_date = models.DateTimeField(default= timezone.now)
+    name = models.CharField(_('name'), max_length=128, )
+    type = models.CharField(_('type'),max_length=128)
+    value = models.TextField(_('value'),blank=True,null=False)
+    required = models.BooleanField(_('required'))
+    creation_date = models.DateTimeField(_("creation_date"),default = timezone.now)
+    update_date = models.DateTimeField(_("update_date"),default= timezone.now)
 
 
     def update_key(self,value):
@@ -34,12 +35,10 @@ class DataFeed(models.Model):
 
     #Constants
     DataFeedFormat = DataFeedFormat
-    feed_id = models.UUIDField(unique=True,auto_created=True,default=uuid.uuid4)
     name = models.TextField(blank=False)
     creation_date = models.DateTimeField(default=timezone.now)
     update_date = models.DateTimeField(blank=True,null=True)
-    format_type = models.CharField(max_length=128, choices=DataFeedFormat.choices,default=DataFeedFormat.OTHER)
-    elements = djongo_models.ArrayField(model_container=DataFeedElement)
+    elements = models.JSONField()
 
     objects = djongo_models.DjongoManager()
 
@@ -47,13 +46,5 @@ class DataFeed(models.Model):
     def collector_names():
         collector_list = DataFeed.objects.values('name').distinct()
         return collector_list
-
-    def update_feed(self, data):
-        data_feed_element = {'element_id': uuid.uuid4(), 'content': data, 'creation_date': timezone.now()}
-        self.elements.append(data_feed_element)
-        self.update_date = timezone.now()
-        print(self.elements)
-        self.save(update_fields=['elements','update_date'])
-    
 
     

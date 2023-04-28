@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ class Whois(Collector):
             "ip": 1,
             "ipWhois": 1
         }
+        self.session.proxies = settings.PROXIES
       
     def collect_target(self,target: str):
         self.params["domainName"] = target

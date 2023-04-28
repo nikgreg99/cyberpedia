@@ -2,6 +2,7 @@ import requests
 from requests import HTTPError
 import logging 
 from data_collector.classes import Collector
+from django.conf import settings
 
 
 logger = logging.getLogger(__name__)
@@ -13,6 +14,7 @@ class InQuest(Collector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
+        self.inquest.proxies = settings.PROXIES
 
     def make_inquest_request(self,final_url,paramters):
         try:

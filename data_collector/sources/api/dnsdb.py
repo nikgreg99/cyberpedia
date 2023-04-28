@@ -2,6 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import Collector
+from django.apps import settings
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ class DNSDb(Collector):
             "API-ID": api_id,
             "API-KEY": api_key
         }
+        self.dns_db.proxies = {settings.PROXIES}
 
     def collect_target(self, target):
         final_url = self.base_url + "/search"

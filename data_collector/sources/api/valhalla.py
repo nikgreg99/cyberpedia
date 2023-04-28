@@ -2,6 +2,7 @@ from valhallaAPI.valhalla import ValhallaAPI
 from valhallaAPI.valhalla import ApiError
 from data_collector.classes import Collector
 import logging
+from django.conf import settings
 
 logger = logging.getLogger()
 
@@ -13,6 +14,7 @@ class Valhalla(Collector):
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
         self.valhalla = ValhallaAPI(api_key=self.api_key)
+        self.valhalla.proxies = settings.PROXIES
 
     def collect(self):
         try:

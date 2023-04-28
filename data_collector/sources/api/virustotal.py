@@ -3,6 +3,7 @@ from virustotal_python.virustotal import VirustotalError
 import logging
 from data_collector.classes import Collector
 from data_collector.utils import validate_ip_address
+from django.conf import settings
 
 logger = logging.getLogger(__name__ )
 
@@ -17,6 +18,8 @@ class VirusTotal(Collector):
         api_key = self.secrets["api_key"]
         self.vt_instance = virustotal_python.Virustotal(
             API_KEY=api_key, API_VERSION=3
+            ,
+            PROXIES= settings.PROXIES
         )
         self.headers = {
             "Accept": "application/json"

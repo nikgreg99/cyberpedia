@@ -3,6 +3,7 @@ from requests import HTTPError
 import logging
 from data_collector.classes import Collector
 from data_collector.utils import validate_ip_address
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,7 @@ class Fraudgard(Collector):
           self.headers = {
 
           }
+          self.fraudgard.proxies = settings.PROXIES
 
      def make_request_fraudgard(self,final_url):
           try:

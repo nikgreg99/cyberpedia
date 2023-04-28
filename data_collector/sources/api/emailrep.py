@@ -2,6 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ class EmailRep(Collector):
         super().__init__(__class__.__name__)
 
     def init_collector(self):
-        pass
+        self.emailrep.proxies = {settings.PROXIES}
 
     def collect_target(self, target):
         final_url = self.base_url + "/{}".format(target)

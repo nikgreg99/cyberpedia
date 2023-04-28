@@ -5,5 +5,6 @@ try:
     from .elastic_search import *
     from .misp import *
     from .opentaxii import *
+    from .proxy import *
 except:
     pass

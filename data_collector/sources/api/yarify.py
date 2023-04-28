@@ -4,6 +4,7 @@ import requests
 from requests import HTTPError
 from django.conf import settings
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class Yarify(Collector):
        super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        pass
+        self.yarify.proxies = settings.PROXIES
 
 
     def list_recent_deployed_rules(self):

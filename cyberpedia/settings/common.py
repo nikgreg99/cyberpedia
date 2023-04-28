@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    'django_elasticsearch_dls',
+    'django_elasticsearch_dsl_drf'
     "data_collector",
     "data_collector.sources",
     "cyberpedia_api",

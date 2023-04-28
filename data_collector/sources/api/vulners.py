@@ -2,6 +2,7 @@ import vulners
 from vulners.base import VulnersApiError
 import logging
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +15,7 @@ class Vulners(Collector):
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
-        print(self.api_key)
-        self.vulners = vulners.VulnersApi(api_key = self.api_key)
+        self.vulners = vulners.VulnersApi(api_key = self.api_key, proxies = settings.PROXIES)
         
 
 

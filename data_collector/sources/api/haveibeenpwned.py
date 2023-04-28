@@ -3,6 +3,7 @@ from requests import HTTPError
 import requests
 import logging
 from data_collector.classes import Collector
+from django.conf import settings
 
 
 logger = logging.getLogger()
@@ -17,7 +18,7 @@ class HaveIBeenPwned(Collector):
         super().__init__(self.__class__.__name__)
     
     def init_collector(self):
-        pass
+        self.have_i_been_pwned.proxies= settings.PROXIES
 
     def make_request_pwned(self,final_url,paramters=None):
         try:

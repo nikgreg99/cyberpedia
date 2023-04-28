@@ -4,6 +4,7 @@ import logging
 from data_collector.classes import Collector
 from data_collector.utils import validate_ip_address
 from data_collector.exceptions import InvalidIPAddressFormat
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ class Greynoise(Collector):
         self.headers = {
             'Key': self.secrets["api_key"]
         }
+        self.greynoise.proxies = settings.PROXIES
        
     
     def collect_target(self, target):

@@ -2,7 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
-
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +20,7 @@ class ThreatJammer(Collector):
             'Accept': "application/json",
             "Authorization": "Bearer {}".format(api_key)
         }
+        self.threat_jammer.proxies = settings.PROXIES
 
     def request_threat_jammer(self,final_url,parameters = None):
         try:

@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,7 @@ class HoneyDB(Collector):
             "X-HoneyDb-ApiId": self.honey_db_api_id,
             "X-HoneyDb-ApiKey": self.honey_db_api_key
         }
+        self.honeydb.proxies = settings.PROXIES
 
         
     def collect_bad_ip(self):

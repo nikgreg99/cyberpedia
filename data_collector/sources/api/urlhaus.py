@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,7 @@ class UrlHaus(Collector):
 
     def init_collector(self):
         api_key = self.secrets["api_key"]
+        self.urlhaus.proxies = settings.PROXIES
 
     def _make_request(self,url):
         try:

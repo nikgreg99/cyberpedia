@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,7 @@ class Koodous(Collector):
         self.headers = {
             "Authorization": api_key
         }
+        self.koodous.proxies = settings.PROXIES
 
     def make_request_koodous(self,final_url):
         try:

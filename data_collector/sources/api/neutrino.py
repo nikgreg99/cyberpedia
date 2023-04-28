@@ -2,6 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger()
 
@@ -21,6 +22,7 @@ class Neutrino(Collector):
             "User-ID": self.user_id,
             "API-Key": self.test_key # just for now
         }
+        self.neutrino.proxies = settings.PROXIES
 
     def make_neutrino_request(self,final_url,data=None):
         try:

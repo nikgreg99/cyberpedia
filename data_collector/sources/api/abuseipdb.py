@@ -3,6 +3,7 @@ from requests import HTTPError
 import logging
 from data_collector.utils import validate_ip_address
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,7 @@ class AbuseIPDB(Collector):
             "Accept": 'application/json',
             "Key": self.secrets["api_key"]
         }
+        self.abuseipdbb.proxies = {settings.PROXIES}
 
     def request_abuse_ipdb(self,final_url,params):
         try:

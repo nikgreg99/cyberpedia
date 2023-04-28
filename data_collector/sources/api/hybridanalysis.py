@@ -4,6 +4,7 @@ import logging
 from data_collector.classes import Collector
 from data_collector.exceptions import UnsupportedTarget
 from data_collector.utils import validate_domain,validate_hash,validate_url,validate_ip_address
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ class HybridAnalysis(Collector):
             'user-agent': 'Falcon Sandbox',
             'accept': 'application/json'
         }
+        self.hybrid_analysis.proxies = settings.PROXIES
 
     def collect_target(self, target):
         if validate_domain(target):

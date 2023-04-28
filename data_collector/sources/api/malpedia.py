@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,7 @@ class Malpedia(Collector):
         self.headers = {
             "Authorization ": "apitoken {}".format(api_key)
         }
+        self.malpedia.proxies = settings.PROXIES
 
    
     def get_yara_rules(self):

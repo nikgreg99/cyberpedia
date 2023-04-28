@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,7 @@ class Pulsedive(Collector):
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
+        self.pulsidive.proxies = settings.PROXIES
        
     def make_pulsidve_request(self,final_url,parameters):
         try:

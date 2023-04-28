@@ -3,6 +3,7 @@ import requests
 from requests import HTTPError
 from data_collector.classes import Collector
 from data_collector.utils import validate_ip_address
+from django.conf import settings
 
 logging = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ class Cymon(Collector):
         self. headers = {
           "Content-Type" : "application/json",
         }
+        self.cymon.proxies = {settings.PROXIES}
         # self.auth()
 
 

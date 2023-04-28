@@ -2,6 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import Collector
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,7 @@ class Tranco(Collector):
 
     def init_collector(self):
         api_key = self.secrets["api_key"]
+        self.tranco.proxies = settings.PROXIES
 
     
     def collect_target(self,target):
