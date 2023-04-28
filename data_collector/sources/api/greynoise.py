@@ -29,7 +29,7 @@ class Greynoise(Collector):
             try:
                 response = self.greynoise.get(final_url,headers=self.headers)
                 response.raise_for_status()
-            except HTTPError.as ex:
+            except HTTPError as ex:
                 logger.exception(ex)
             return response.json()
             

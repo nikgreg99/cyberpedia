@@ -41,7 +41,8 @@ class Command(BaseCommand):
     @classmethod 
     def init_data_feed(cls,collector_list):
         for collector in collector_list:
-            _, created = DataFeed.objects.get_or_create(
+            print(collector["name"])
+            _ , created = DataFeed.objects.get_or_create(
                 name= collector["name"]
             )
 

@@ -2,9 +2,7 @@ from abc import abstractmethod
 from data_collector.dataclasses import CollectorConfig
 from functools import cached_property
 from data_collector.utils import compute_md5, computer_sha1, compute_sha256,compute_ssdeep, compute_imphash
-import magic
 
-#mime = magic.Magic(mime=True)
 
 
 class Collector(object):

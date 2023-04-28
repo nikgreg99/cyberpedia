@@ -1,13 +1,12 @@
 import uuid
 from django.db import models
 from django.utils import timezone
-from djongo import  models  as djongo_models
-from django.utils.translation import ugettext_lazy as _
-from .constants import DataFeedFormat
+from django.utils.translation import gettext_lazy as _
+from djongo import models as djongo_models
 
 
 class APIConfig(models.Model):
-    name = models.CharField(_('name'), max_length=128, )
+    name = models.CharField(_('name'), max_length=128)
     type = models.CharField(_('type'),max_length=128)
     value = models.TextField(_('value'),blank=True,null=False)
     required = models.BooleanField(_('required'))
@@ -20,25 +19,22 @@ class APIConfig(models.Model):
         self.update_date = timezone.now()
         self.save(update_fields=["update_date"])
 
-
-class DataFeedElement(models.Model):
+class FeedElement(djongo_models.Model):
 
     class Meta:
         abstract = True
 
-    element_id = models.UUIDField(unique=True,auto_created=True, default=uuid.uuid4)
-    content = models.JSONField(blank=True)
-    creation_date = models.DateTimeField(default=timezone.now)
+    creation_date = djongo_models.DateTimeField(_("creation_date"), auto_now=False, auto_now_add=False)
+    content = djongo_models.TextField(_("content"))
    
 
 class DataFeed(models.Model):
 
-    #Constants
-    DataFeedFormat = DataFeedFormat
-    name = models.TextField(blank=False)
-    creation_date = models.DateTimeField(default=timezone.now)
-    update_date = models.DateTimeField(blank=True,null=True)
-    elements = models.JSONField()
+
+    name = models.TextField(_("name"),max_length=128)
+    creation_date = models.DateTimeField(_("creation_date"),default=timezone.now)
+    update_date = models.DateTimeField(_("update_date"),blank=True,null=True)
+    elements = djongo_models.ArrayField(model_container=FeedElement)
 
     objects = djongo_models.DjongoManager()
 
@@ -46,5 +42,8 @@ class DataFeed(models.Model):
     def collector_names():
         collector_list = DataFeed.objects.values('name').distinct()
         return collector_list
+    
+
+
 
     

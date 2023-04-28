@@ -15,7 +15,7 @@ class EmailRep(Collector):
         super().__init__(__class__.__name__)
 
     def init_collector(self):
-        self.emailrep.proxies = {settings.PROXIES}
+        self.emailrep.proxies = settings.PROXIES
 
     def collect_target(self, target):
         final_url = self.base_url + "/{}".format(target)

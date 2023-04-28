@@ -13,16 +13,6 @@ SHA_256_REGEX = "^[a-fA-F0-9]{64}$"
 SSDEEP_REGEX = "((\d*):(\w*):(\w*)|(\d*):(\w*)\+(\w*):(\w*))"
 
 
-
-class DataFeedFormat(models.TextChoices):
-    YARA = "Yara"
-    STIX = "STIX"
-    SIGMA = "SIGMA"
-    SURICATA = "Suricata"
-    MISP = "MISP"
-    OTHER = "Other"
-
-
 class HashType(models.TextChoices):
     MD5 = "MD5"
     SHA1 = "SHA1"

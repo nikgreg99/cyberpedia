@@ -45,13 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "rest_framework",
-    'django_elasticsearch_dls',
-    'django_elasticsearch_dsl_drf'
     "data_collector",
     "data_collector.sources",
     "cyberpedia_api",
-    'django_bootstrap5'
+    'django_bootstrap5',
+    'rest_framework',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf'
 ]
 
 MIDDLEWARE = [

@@ -11,10 +11,9 @@ DATABASES = {
     'default': {
         'ENGINE': os.environ.get('MONGODB_ENGINE'),
         'NAME': os.environ.get('MONGODB_NAME'),
-        "USER": os.environ.get('MONGODB_USER'),
-        "PASSWORD": os.environ.get('MONGODB_PASSWORD'),
-        "HOST": os.environ.get('MONGODB_HOST'),
-        "PORT": os.environ.get('MONGODB_PORT'),
-        'ENFORCE_SCHEMA': os.environ.get('MONGODB_ENFORCE_SCHEMA')
+    'CLIENT':{
+        'host': 'mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb'
+
+    }
     }
 }

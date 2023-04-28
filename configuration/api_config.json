@@ -296,15 +296,6 @@
         }
     },
     {
-        "name": "EmergingThreats",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "EMERGINGTHREAT_API_KEY",
-                "required": true
-            }
-        }
-    },
-    {
         "name": "HaveIBeenPwned",
         "secrets": {
             "api_key": {

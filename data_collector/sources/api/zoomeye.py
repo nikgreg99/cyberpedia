@@ -20,7 +20,7 @@ class ZoomEye(Collector):
         self.headers = {
             "API-KEY" : api_key
         }
-        self.zoomeye.proxies = {settings.PROXY_URL}
+        self.zoomeye.proxies = settings.PROXIES
     
     def collect_target(self, target):
         try:

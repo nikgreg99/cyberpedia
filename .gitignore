@@ -131,3 +131,9 @@ dmypy.json
 
 /test/fixtures/
 /cyberpedia/data
+
+lib64/
+lib/
+bin/
+lib64
+pyvenv.cfg

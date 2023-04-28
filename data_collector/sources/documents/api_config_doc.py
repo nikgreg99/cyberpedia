@@ -1,8 +1,8 @@
 from data_collector.models import APIConfig
-from django_elasticsearch_dsl import (Document, fields, Index)
+from django_elasticsearch_dsl import Document, fields, Index
+
 
 api_config_index = Index('api_config')
-
 
 @api_config_index.doc_type
 class APIConfigDocument(Document):

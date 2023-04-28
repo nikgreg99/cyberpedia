@@ -18,7 +18,7 @@ class Cloudmersive(Collector):
         self.api_key = self.secrets["api_key"]
         self.config = cloudmersive_validate_api_client.Configuration()
         self.config.api_key["Apikey"] = self.api_key
-        self.config.proxy = {settings.PROXY_URL}
+        self.config.proxy = settings.PROXIES
        
     
     def check_ip(self,ip):

@@ -23,7 +23,7 @@ class Cymon(Collector):
         self. headers = {
           "Content-Type" : "application/json",
         }
-        self.cymon.proxies = {settings.PROXIES}
+        self.cymon.proxies = settings.PROXIES
         # self.auth()
 
 

@@ -21,7 +21,7 @@ class AbuseIPDB(Collector):
             "Accept": 'application/json',
             "Key": self.secrets["api_key"]
         }
-        self.abuseipdbb.proxies = {settings.PROXIES}
+        self.abuseipdbb.proxies = settings.PROXIES
 
     def request_abuse_ipdb(self,final_url,params):
         try:

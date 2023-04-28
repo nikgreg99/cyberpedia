@@ -1,8 +1,9 @@
 from data_collector.models import DataFeed
 from django_elasticsearch_dsl import (Document, fields, Index)
 
-api_config_index = Index('cyberpedia_index')
+feed_index =  Index('feeds')
 
+@feed_index.doc_type
 class FeedDocument(Document):
 
     name = fields.TextField(attr= "name")
