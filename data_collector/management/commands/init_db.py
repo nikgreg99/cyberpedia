@@ -33,6 +33,8 @@ class Command(BaseCommand):
                         required = secret['required']
                 )
 
+                instance.save()
+
                 if created:
                     logger.info("Key registered successfully")
                     
