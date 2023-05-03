@@ -52,7 +52,8 @@
                 "env_var_key": "HYBRID_ANALYSIS_SECRET",
                 "required": true
             }
-        }
+        },
+        "indexes": ["ha-domain","ha-url","ha-host"]
     },
     {
         "name": "Maldatabase",
@@ -61,7 +62,8 @@
                     "env_var_key" : "MALDATABASE_API_KEY",
                     "required": true
                 }
-            }
+            },
+        "indexes": ["maldatabase"]
     },
     {
         "name": "Malpedia",
@@ -101,7 +103,7 @@
                 "required": true
              }
         },
-        "indexes": ["thrat_fox_ioc"]
+        "indexes": ["thrat_fox_ioc","threat_fox_malware_list"]
     },
     {
         "name": "ThreatJammer",

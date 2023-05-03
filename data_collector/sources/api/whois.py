@@ -32,6 +32,7 @@ class Whois(Collector):
             response =  self.session.get(self.base_url,params=self.params)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.error("Error executing request")
+            logger.error(ex)
+        return response.json()
 
     

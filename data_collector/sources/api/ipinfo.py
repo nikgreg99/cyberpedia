@@ -6,7 +6,7 @@ from data_collector.utils import validate_ip_address
 from data_collector.exceptions import InvalidIPAddressFormat
 from django.conf import settings
 
-logging = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 class IPInfo(Collector):
     
@@ -27,16 +27,16 @@ class IPInfo(Collector):
         
 
     def ip_info(self,ip):
-        if validate_ip_address(ip):
-            final_url = self.base_url + "/{}".format(ip)
-            try:
-                response = self.ipinfo.get(final_url,headers=self.headers)
-                response.raise_for_status()
-            except HTTPError as ex:
-                logging.error("Error executing request")
-            return response.json()
-        else:
-            raise InvalidIPAddressFormat("This IP is not supported")
+        final_url = self.base_url + "/{}".format(ip)
+        try:
+            response = self.ipinfo.get(final_url,headers=self.headers)
+            response.raise_for_status()
+        except HTTPError as ex:
+            logger.exception(ex)
+        return response.json()
+        
+    def collect_target(self, target):
+        return super().collect_target(target)
 
 
       

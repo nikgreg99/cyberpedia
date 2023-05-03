@@ -32,7 +32,7 @@ class Maldatabase(Collector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-        return []
+        return response.content
     
     def collect_target(self, target):
         pass

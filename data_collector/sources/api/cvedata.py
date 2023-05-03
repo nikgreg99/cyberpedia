@@ -2,6 +2,8 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from data_collector.utils import validate_cve_format
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -13,17 +15,21 @@ class CVEData(Collector):
         super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        pass
+        self.cve_data.headers = {
+
+        }
+        self.cve_data.proxies = settings.PROXIES
     
     def collect(self):
-        raise NotImplementedError()
+        pass
 
     def collect_target(self,target):
-        final_url = self.base_url + "/{}".format(target)
-        try:
-            response = self.cve_data.get(final_url)
-            response.raise_for_status()
-        except HTTPError as ex:
-            logger.exception("Error requsting CVE data")
-        return response.json()
+        if validate_cve_format(target):
+            final_url = self.base_url + "/{}".format(target)
+            try:
+                response = self.cve_data.get(final_url)
+                response.raise_for_status()
+            except HTTPError as ex:
+                logger.exception(ex)
+            return response.json()
     

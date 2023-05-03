@@ -3,6 +3,7 @@ from requests import HTTPError
 import logging
 from data_collector.classes import Collector
 from data_collector.utils import validate_ip_address
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,12 @@ class Maltiverse(Collector):
         super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-       pass
+       self.maltiverse.proxies = settings.PROXIES
+       secret = self.secrets["api_key"]
+       self.maltiverse.headers = {
+           'bearer Auth': secret
+       }
+
     
     def collect(self):
         pass

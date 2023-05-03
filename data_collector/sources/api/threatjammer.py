@@ -24,7 +24,7 @@ class ThreatJammer(Collector):
 
     def request_threat_jammer(self,final_url,parameters = None):
         try:
-            response = self.pulsidive.get(final_url,params=parameters,headers=self.headers)
+            response = self.threat_jammer.get(final_url,params=parameters,headers=self.headers)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)

@@ -1,6 +1,5 @@
 from censys.search import CensysHosts
 from censys.search import CensysCertificates
-#from censys.common.exceptions import APIError
 from data_collector.classes import Collector
 import logging
 

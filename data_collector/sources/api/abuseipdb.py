@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class AbuseIPDB(Collector):
 
     base_url : str = "https://api.abuseipdb.com/api/v2"
-    abuseipdbb = requests.Session()
+    abuseipdb = requests.Session()
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
@@ -21,11 +21,11 @@ class AbuseIPDB(Collector):
             "Accept": 'application/json',
             "Key": self.secrets["api_key"]
         }
-        self.abuseipdbb.proxies = settings.PROXIES
+        self.abuseipdb.proxies = settings.PROXIES
 
     def request_abuse_ipdb(self,final_url,params):
         try:
-            response = self.abuseipdbb.get(final_url,params=params)
+            response = self.abuseipdb.get(final_url,params=params)
             response.raise_for_status()
         except HTTPError as ex:
             logger.ex(ex)
