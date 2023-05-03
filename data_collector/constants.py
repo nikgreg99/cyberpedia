@@ -19,11 +19,6 @@ class HashType(models.TextChoices):
     SHA256 = "SHA256"
     SSDEEP = "ssdeep"
 
-class CollectorType(models.TextChoices):
-    FILE = "File"
-    TARGET = "Target"
-
-
 class ObservableType(models.TextChoices):
     IP = "IP"
     URL = "URL"

@@ -1,10 +1,11 @@
 try:
     from .common import *
-    from .celery_conf import * 
+    from .celery import * 
     from .mongo_db import *
     from .elastic import *
     from .misp import *
     from .opentaxii import *
     from .proxy import *
+    from .open_cve import *
 except:
     pass

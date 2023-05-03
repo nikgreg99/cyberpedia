@@ -17,7 +17,7 @@ class Koodous(Collector):
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.headers = {
-            "Authorization": api_key
+            "Authorization":  f"Token {api_key}"
         }
         self.koodous.proxies = settings.PROXIES
 
@@ -29,15 +29,18 @@ class Koodous(Collector):
             logger.exception(ex)
         return response.json()
     
+    def apks(self):
+        final_url = self.base_url + "/apks"
+        return self.make_request_koodous(final_url)
 
     def feed_apks(self):
-        final_url = self.base_url + "feed/apks"
+        final_url = self.base_url + "/feed/apks"
         return self.make_request_koodous(final_url)
     
-    def feed_analyses(self):
-        final_url = self.base_url + "feed/analyses"
+    def feed_analysis(self):
+        final_url = self.base_url + "/feed/analyses"
         return self.make_request_koodous(final_url)
     
     def feed_detected(self):
-        final_url = self.base_url + "feed/detected"
+        final_url = self.base_url + "/feed/detected"
         return self.make_request_koodous(final_url)

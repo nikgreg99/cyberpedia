@@ -6,7 +6,8 @@
                 "env_var_key": "ABUSEIPDB_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["abuseipdb"]
     },
     {
         "name": "DNSDb",
@@ -19,7 +20,8 @@
                 "env_var_key": "DNSDB_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["dnsdb"]
     },
     {
         "name": "HoneyDB",
@@ -36,7 +38,8 @@
                     "required": true
                 }
                
-            }
+            },
+            "indexes" : ["honeydb-bad-ip","honey-db-twitter-feed"]
     },
     {
         "name": "HybridAnalysis",
@@ -67,7 +70,8 @@
                 "env_var_key": "MALPEDIA_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["malpedia"]
     },
     {
         "name": "Maltiverse",
@@ -76,7 +80,8 @@
                 "env_var_key" : "MALTIVERSE_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["maltiverse"]
     },
     {
         "name": "Shodan",
@@ -85,8 +90,8 @@
                     "env_var_key" : "SHODAN_API_KEY",
                     "required": true
                 }
-                
-            }
+            },
+            "indexes": ["shodan"]
     },   
     {
         "name": "ThreatFox",
@@ -95,8 +100,8 @@
                 "env_var_key" : "THREATFOX_API_KEY",
                 "required": true
              }
-               
-        }
+        },
+        "indexes": ["thrat_fox_ioc"]
     },
     {
         "name": "ThreatJammer",
@@ -109,7 +114,8 @@
                 "env_var_key": "THREATJAMMER_REPORT_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["threat_jammmer"]
     },
 
     {
@@ -119,7 +125,8 @@
                     "env_var_key" : "URLSCAN_API_KEY",
                     "required": true
                 } 
-         }     
+         },
+         "indexes": ["urlscan"]
     },
     {
         "name": "UrlHaus",
@@ -127,8 +134,9 @@
             "api_key": {
                 "env_var_key" : "URLHAUS_API_KEY",
                 "required": true
-            }
-        }        
+            }          
+        },
+        "indexes": ["urlhaus_urls","urlhaus_payloads"]        
     },
     {
         "name": "Whois",
@@ -137,7 +145,8 @@
                 "env_var_key" : "WHOIS_API_KEY",
                 "required": true
             }
-        }        
+        },
+        "indexes": ["whois"]    
     },
     {
         "name": "Cymon",
@@ -150,7 +159,8 @@
                 "env_var_key" : "CYMON_ACCOUNT_PASSWORD",
                 "required": true
             }
-        }
+        },
+        "indexes":[ "cymon"]
     },
     {
      "name": "Fraudgard",
@@ -159,7 +169,8 @@
                     "env_var_key": "FRAUDGARD_API_KEY",
                     "required": true
              }
-        }
+        },
+        "indexes": ["fraudgard"]
     },
     {
         "name": "Greynoise",
@@ -168,7 +179,8 @@
                 "env_var_key": "GREYNOISE_API_KEY",
                 "required":true
             }       
-        }
+        },
+        "indexes": ["greynoise"]
     },
     {
         "name": "CVEData",
@@ -177,7 +189,8 @@
                 "env_var_key" : "CVEDATA_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["cve_data"]
     },
     {
         "name": "Censys",
@@ -190,7 +203,8 @@
                 "env_var_key": "CENSYS_SECRET",
                 "required": true
             }
-        }
+        },
+        "indexes": ["censys"]
     },
     {
         "name": "IPInfo",
@@ -199,7 +213,8 @@
                 "env_var_key" : "IPINFO_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["ip_info"]
     },
     {
         "name": "Neutrino",
@@ -217,7 +232,8 @@
                 "env_var_key": "NEUTRINO_PROD_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["neutrino"]
     },
     {
         "name": "Yarify",
@@ -226,7 +242,8 @@
                 "env_var_key" : "YARIFY_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["yarify"]
     },
     {
         "name": "ZoomEye",
@@ -235,7 +252,8 @@
                 "env_var_key" : "ZOOMEYE_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["zoomeye"]
     },
     {
         "name": "Pulsedive",
@@ -244,7 +262,8 @@
                 "env_var_key": "PULSIDIVE_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["pulsedive"]
     },
     {
         "name": "Tranco",
@@ -266,7 +285,8 @@
                 "env_var_key": "OPENCVE_PASSWORD",
                 "required": true
             }
-          }
+          },
+          "indexes": ["opencve"]
     },
     {
         "name": "Koodous",
@@ -275,7 +295,8 @@
                 "env_var_key": "KOODOUS_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["koodus_apk"]
     },
     {
         "name": "ExploitAlert",
@@ -284,7 +305,8 @@
                 "env_var_key": "EXPLOITALERT_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["exploit_alert"]
     },
     {
         "name": "EmailRep",
@@ -293,7 +315,8 @@
                 "env_var_key": "EMAILREP_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["email_rep"]
     },
     {
         "name": "HaveIBeenPwned",
@@ -302,7 +325,8 @@
              "env_var_key": "HAVEIBEENPWNED_API_KEY",
              "required": true
          }
-     }
+     },
+     "indexes": ["haveibeenpwned"]
     },
     {
         "name": "Cloudmersive",
@@ -320,7 +344,8 @@
                 "env_var_key" : "VIRUSTOTAL_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["vt_url"]
     },
     {
         "name": "Vulners",
@@ -329,7 +354,8 @@
                 "env_var_key": "VULNERS_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["vulners"]
     },
     {
         "name": "Virushee",
@@ -338,7 +364,8 @@
                 "env_var_key": "VIRUSHEE_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes":["virushee"]
     },
     {
         "name": "Valhalla",
@@ -347,7 +374,8 @@
                 "env_var_key": "VALHALLA_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["valhalla_yara","valhalla_sigma"]
     }
 ]
     

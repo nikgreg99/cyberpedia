@@ -27,7 +27,7 @@ class ThreatFox(Collector):
             recent_ioc_response = self.threat_fox.post(self.base_url,json=requests_data)
             recent_ioc_response.raise_for_status()
         except HTTPError as ex:
-            pass
+            logger.exception(ex)
         return recent_ioc_response.json()
 
     def query_recent_IOC(self):

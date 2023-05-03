@@ -21,7 +21,7 @@ class EmailRep(Collector):
         final_url = self.base_url + "/{}".format(target)
         try:
             response = self.emailrep.get(final_url)
-            response.raise_for_status()
+            response.ror_status()
         except HTTPError as ex:
             logger.exception(ex)
         return response.json()

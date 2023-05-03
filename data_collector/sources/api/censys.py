@@ -1,5 +1,6 @@
 from censys.search import CensysHosts
 from censys.search import CensysCertificates
+#from censys.common.exceptions import APIError
 from data_collector.classes import Collector
 import logging
 
@@ -21,11 +22,15 @@ class Censys(Collector):
         self.censys_certificates_client = CensysCertificates(api_secret=secret,api_id=api_key)
 
     def collect_certificates(self):
-        return self.censys_certificates_client.bulk()
+       # try:
+        response =  self.censys_certificates_client.bulk()
+        #except APIError as ex:
+        return response
 
 
     def collect_target(self, target):
-        return self.censys_host.search(target)
+        response = self.censys_host.search(target)
+        return response
 
 
     

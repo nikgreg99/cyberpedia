@@ -1,3 +1,4 @@
+import os 
 import requests
 from requests import HTTPError
 import logging

@@ -18,9 +18,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 PROJECT_DIR = BASE_DIR / "cyberpedia"
 CONFIG_DIR = PROJECT_DIR / "configuration"
 TEST_DIR =  PROJECT_DIR/ "tests"
-FIXTURE_DIRS = PROJECT_DIR / 'fixtures'
-DATA_DIR = PROJECT_DIR / "data"
-TMP_DIR = PROJECT_DIR / "tmp"
 TEMPLATE_DIR = PROJECT_DIR / "templates"
 
 
@@ -33,7 +30,7 @@ SECRET_KEY = 'django-insecure-jhb9758+b%h_#v&c^!(8jv3va-u4sj%snl7q(ft#q2_3fo+536
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -128,6 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_FILE_DIRS = [os.path.join('assets')]
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
