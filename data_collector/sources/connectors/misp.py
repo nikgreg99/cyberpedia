@@ -17,7 +17,7 @@ class MISPConnector(Connector):
             "Authorization": settings.MISP_AUTH_KEY,
             "Accept": "application/json",
             "Content-type": "application/json"
-        }
+        } 
        
         
     def get_misp_feed(self,feed_name):
