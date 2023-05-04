@@ -3,20 +3,23 @@ version: "3.8"
 services:
   mongo:
     image: mongo:4.4.6
+    container_name: mongo
     restart: always
     ports:
-      - "27017:270§7"
+      - 27017:27017
     environment:
-      - MONGO_INIT_DB_ROOT_USERNAME = 
-      - MONGO_INIT_DB_ROOT_PASSWORD = 
+      - "MONGO_INIT_DB_ROOT_USERNAME="
+      - "MONGO_INIT_DB_ROOT_PASSWORD="
     volumes:
-      - ./mongo-data/mongo/db 
+      - "./mongo-data/mongo/db"
 
   redis:
     image: redis:5.0.6
+    container_name: redis
 
   mysql:
     image: mysql:latest
+    container_name: mysql
     restart: always
     ports:
       - "3306:3306"
@@ -24,21 +27,28 @@ services:
       - "MYSQL_USER="
       - "MYSQL_PASSWORD="
       - "MYSQL_ROOT_PASSWORD="
-      - "MYSQL_DATABASE"
+      - "MYSQL_DATABASE="
     volumes:
-      -mysql_data:/var/lib/mysql
-
+      - "mysql_data:/var/lib/mysql"
+ # Snippet taken from https://github.com/coolacid/docker-misp
     misp:
       image: coolacid/misp-docker:core-latest
+      container_name: misp
       depends_on:
-        redis
+        - redis
+        - mysql
       ports:
-        - "80:80"
-        - "443:443"
+        - 80:80
+        - 443:443
       environment:
         - "HOSTNAME"
         - "INIT=true"
-        -  "CRON_USER_ID="
+        - "CRON_USER_ID="
+        - "MYSQL_USER="
+        - "MYSQL_PASSWORD="
+        - "MYSQL_ROOT_PASSWORD="
+        - "MYSQL_DATABASE"
+        - INIT=true
       volumes:
        - "./misp-conf/var/www/MISP/app/Config/"
        - "./misp-logs/var/www/MISP/app/tmp/logs"
@@ -46,12 +56,40 @@ services:
 
     misp-modules:
       image: coolacid/misp-docker:modules-latest
+      container_name: misp-modules
       environment:
-        - "REDIA_BACKENDD=redis"
+        - "REDIS_BACKEND=redis"
       depends_on:
         - redis
         - mysql
+
+  elastisearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:latest
+      restart: always
+      container_name: elasticsearch
+      ports:
+       - "9200:9200"
+       - "9300:9300"
+      environment: 
+        - "xpack.security.enabled=false"
+        - "discovery.type=single-node"
+      volumes:
+        - "esdata:/usr/share/elasticsearch/data"
+  kibana:
+    image: docker.elastic.co/elasticsearch/kibana:latest
+    restart: always
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      - "ELASTICSEARCH_URL=value"
+      - "ELASTICSEARCH_HOSTS="
+    depends_on:
+      - elasticsearch
+
 volumes:
-  mysql_data
+  mysql_data:
+  esdata:
+    driver: local
 
           
