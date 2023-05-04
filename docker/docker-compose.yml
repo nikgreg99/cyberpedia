@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:4.4.6
+    restart: always
+    ports:
+      - "27017:270§7"
+    environment:
+      - MONGO_INIT_DB_ROOT_USERNAME = 
+      - MONGO_INIT_DB_ROOT_PASSWORD = 
+    volumes:
+      - ./mongo-data/mongo/db 
+
+  redis:
+    image: redis:5.0.6
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_USER="
+      - "MYSQL_PASSWORD="
+      - "MYSQL_ROOT_PASSWORD="
+      - "MYSQL_DATABASE"
+    volumes:
+      -mysql_data:/var/lib/mysql
+
+    misp:
+      image: coolacid/misp-docker:core-latest
+      depends_on:
+        redis
+      ports:
+        - "80:80"
+        - "443:443"
+      environment:
+        - "HOSTNAME"
+        - "INIT=true"
+        -  "CRON_USER_ID="
+      volumes:
+       - "./misp-conf/var/www/MISP/app/Config/"
+       - "./misp-logs/var/www/MISP/app/tmp/logs"
+       - "./files/:var/www/MISP/app/files"
+
+    misp-modules:
+      image: coolacid/misp-docker:modules-latest
+      environment:
+        - "REDIA_BACKENDD=redis"
+      depends_on:
+        - redis
+        - mysql
+volumes:
+  mysql_data
+
+          
