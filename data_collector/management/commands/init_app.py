@@ -6,6 +6,8 @@ from django.core.management.base import BaseCommand
 from data_collector.serializers import CollectorSerializer
 from data_collector.models import APIConfig,Feed,Index
 from data_collector.managers.elastic_manager import ElasticManager
+from data_collector.helpers import read_json_file
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +17,6 @@ elastic = ElasticManager()
 class Command(BaseCommand):
 
     help = "Migrate secrets and indexes from .env file file to database"
-  
 
     @staticmethod
     def get_env_var(name):
@@ -24,6 +25,14 @@ class Command(BaseCommand):
             return json.loads(name)
         except(json.JSONDecodeError,TypeError):
             return value
+
+    def load_MISP_feed(cls):
+        path = os.path.join(settings.CONFIG_DIR,"misp_feeds.json")
+        misp_feeds = read_json_file(path)
+        for feed in misp_feeds:
+            index = feed ["index"]
+            elastic.create_index(index)
+
 
     @classmethod
     def migrate_secrets(cls,collector_list):
@@ -69,7 +78,8 @@ class Command(BaseCommand):
         data = APIConfig.to_json()
         #Index for API KEY
         elastic.create_index('secrets')
-        elastic.insert_data_bulk('secrets',data)
+        #elastic.insert_data_bulk('secrets',data)
+        self.load_MISP_feed()
         
         
         

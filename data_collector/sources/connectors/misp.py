@@ -1,4 +1,4 @@
-from pymisp import PyMISP, MISPFeed
+from pymisp import PyMISP
 from .connector import Connector
 from django.conf import settings
 import logging
@@ -7,26 +7,29 @@ import logging
 logger = logging.getLogger(__name__)
 
 class MISPConnector(Connector):
+
+    _self = None
+
+    @classmethod
+    def init(cls):
+        if cls._self is None:
+            cls._self = super().__init__(cls)
+        return cls._self
     
-    def init_connector():
+    def init_connector(self):
         url = settings.MISP_URL
-        auth_key = settings.MISP_KEY
+        auth_key = settings.MISP_API_KEY
         verify_cert = settings.MISP_VERIFY_CERT
-        self.misp = PyMISP(url,auth_key,verify_cert,'json',debug=True)
-        self.headers = {
-            "Authorization": settings.MISP_AUTH_KEY,
-            "Accept": "application/json",
-            "Content-type": "application/json"
-        } 
+        self.misp = PyMISP(url,auth_key,ssl=False,proxies = settings.PROXIES)
        
         
     def get_misp_feed(self,feed_name):
-        feed = MISPFeed(feed_name,self.misp)
-        return feed.download()
+        feed = self.misp.fetch_feed(feed_name)
+        return feed
+
     
     def get_misp_events(self,feed_name):
-        feed = self.get_misp_feed(feed_name)
-        return feed.to_events()
+        print(self.get_misp_feed(feed_name))
         
 
 

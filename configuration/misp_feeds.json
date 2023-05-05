@@ -1,0 +1,13 @@
+[
+    {
+        "name" : "CIRCL OSINT Feed",
+        "id": 1,
+        "index": "osint-feed"
+    },
+    {
+        "name": "The Botvrij.eu Data",
+        "id": "2",
+        "index": "botvrij"
+    }
+    
+]

@@ -1,12 +1,13 @@
+import logging
 import requests
 from requests import HTTPError
-import logging
-from data_collector.utils import validate_ip_address
 from data_collector.classes import Collector
+from data_collector.utils import validate_ip_address
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+MAX_AGE_IN_DAYS = 90
 
 class AbuseIPDB(Collector):
 
@@ -19,22 +20,23 @@ class AbuseIPDB(Collector):
     def init_collector(self):
         self.headers = {
             "Accept": 'application/json',
-            "Key": self.secrets["api_key"]
+            "Key": self.secrets["api_key"],
         }
         self.abuseipdb.proxies = settings.PROXIES
 
     def request_abuse_ipdb(self,final_url,params):
         try:
-            response = self.abuseipdb.get(final_url,params=params)
+            response = self.abuseipdb.get(final_url,params=params,headers=self.headers)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.ex(ex)
+            logger.exception(ex)
         return response.json()
 
     def check_ip(self,ip):
         if validate_ip_address(ip):
             final_url = self.base_url + "/check"
             parameters = {
-                "ipAddress": ip
+                "ipAddress": ip,
+                "maxAgeInDays": MAX_AGE_IN_DAYS
             }
             return self.request_abuse_ipdb(final_url,parameters)

@@ -6,10 +6,13 @@ from data_collector.sources.apps import sources
 from django.core.management.base import BaseCommand
 from data_collector.managers.elastic_manager import ElasticManager
 from data_collector.managers.mongo_manager import MongoManager
+from data_collector.sources.connectors.misp import MISPConnector
 
 logger = logging.getLogger(__name__)
 mongo = MongoManager()
 elastic = ElasticManager()
+misp = MISPConnector()
+misp.init_connector()
 
 class Command(BaseCommand):
 
@@ -40,6 +43,17 @@ class Command(BaseCommand):
         data = sources["Yarify"].list_recent_deployed_rules()
         elastic.insert_data_bulk('yarify',data)
         mongo.save_data_one('Yarify',data)
+
+    def write_from_abuse_ipdb(self):
+        data = sources["HoneyDB"].collect_twitter_feed()
+        abuse_ipdb = []
+        for bad_ip in data:
+            remote_host = bad_ip["remote_host"]
+            response = sources["AbuseIPDB"].check_ip(remote_host)
+            abuse_ipdb.append(response)
+        print(response)
+        elastic.insert_data_bulk("abuse_ipdb",abuse_ipdb)
+        mongo.save_data("abuse_ipdb",abuse_ipdb)
 
 
     def honeydb_collect_twitter_feed(self):
@@ -122,12 +136,12 @@ class Command(BaseCommand):
         print(data)
         elastic.insert_data_bulk('threat_jammer',data)
         mongo.save_data_one('threat_jammer',data)
+
+    def misp_data(self):
+        events = misp.get_misp_feed(1)
+        print(events)
         
 
     def handle(self, *args, **options):
-      #self.write_data_exploit_alert()
-      #self.write_data_ip()
-      self.koodous_feed_apk()
-      self.threat_jammer_feed()
-     
+        self.misp_data()
         

@@ -86,6 +86,14 @@ services:
       - "ELASTICSEARCH_HOSTS="
     depends_on:
       - elasticsearch
+    
+    squid:
+      image: ubuntu/squid
+      restart: always
+      ports:
+        - "3128:3128"
+      volumes:
+       -  srv/docker/squid/cache:var/spool/squid
 
 volumes:
   mysql_data:
