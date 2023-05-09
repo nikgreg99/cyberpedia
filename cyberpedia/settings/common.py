@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "data_collector.sources",
     "cyberpedia_api",
     'django_bootstrap5',
+    'django_celery_beat',
     'rest_framework'
 ]
 
