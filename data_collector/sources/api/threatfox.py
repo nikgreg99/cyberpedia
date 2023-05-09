@@ -66,7 +66,7 @@ class ThreatFox(Collector):
         return self._make_threat_fox_request(data)
     
     def collect(self):
-        return super().collect()
+        return self.query_recent_IOC(),self.get_malware_list()
     
     def collect_target(self, target):
         return super().collect_target(target)

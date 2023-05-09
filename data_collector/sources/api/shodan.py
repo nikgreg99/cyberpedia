@@ -53,5 +53,8 @@ class Shodan(Collector):
             domain =  {'error': 'No domain info available'}
         return domain
     
+    def collect_target(self, target):
+        return self.host_details(target)
+    
 
    

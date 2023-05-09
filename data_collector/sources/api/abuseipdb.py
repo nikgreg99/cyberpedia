@@ -24,7 +24,7 @@ class AbuseIPDB(Collector):
         }
         self.abuseipdb.proxies = settings.PROXIES
 
-    def request_abuse_ipdb(self,final_url,params):
+    def request(self,final_url,params):
         try:
             response = self.abuseipdb.get(final_url,params=params,headers=self.headers)
             response.raise_for_status()
@@ -40,3 +40,6 @@ class AbuseIPDB(Collector):
                 "maxAgeInDays": MAX_AGE_IN_DAYS
             }
             return self.request_abuse_ipdb(final_url,parameters)
+        
+    def collect_target(self, target):
+        return self.check_ip(target)

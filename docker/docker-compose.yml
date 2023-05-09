@@ -8,13 +8,13 @@ services:
     ports:
       - 27017:27017
     environment:
-      - "MONGO_INIT_DB_ROOT_USERNAME="
-      - "MONGO_INIT_DB_ROOT_PASSWORD="
+      - "MONGO_INIT_DB_ROOT_USERNAME=${MONGO_INIT_DB_ROOT}"
+      - "MONGO_INIT_DB_ROOT_PASSWORD=${MONGO_INIT__DB_ROOT_PASSWORD}"
     volumes:
       - "./mongo-data/mongo/db"
 
   redis:
-    image: redis:5.0.6
+    image: redis:latest
     container_name: redis
 
   mysql:
@@ -24,12 +24,13 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - "MYSQL_USER="
-      - "MYSQL_PASSWORD="
-      - "MYSQL_ROOT_PASSWORD="
-      - "MYSQL_DATABASE="
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
     volumes:
       - "mysql_data:/var/lib/mysql"
+
  # Snippet taken from https://github.com/coolacid/docker-misp
     misp:
       image: coolacid/misp-docker:core-latest
@@ -38,17 +39,16 @@ services:
         - redis
         - mysql
       ports:
-        - 80:80
-        - 443:443
+        - "80:80"
+        - "443:443"
       environment:
-        - "HOSTNAME"
+        - "HOSTNAME=${MISP_HOSTNAME}"
         - "INIT=true"
-        - "CRON_USER_ID="
-        - "MYSQL_USER="
-        - "MYSQL_PASSWORD="
-        - "MYSQL_ROOT_PASSWORD="
-        - "MYSQL_DATABASE"
-        - INIT=true
+        - "CRON_USER_ID=1"
+        - "MYSQL_USER=${MYSQL_USER}"
+        - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+        - "MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD}"
+        - "MYSQL_DATABASE=${MYSQL_DATABASE}"
       volumes:
        - "./misp-conf/var/www/MISP/app/Config/"
        - "./misp-logs/var/www/MISP/app/tmp/logs"
@@ -75,20 +75,22 @@ services:
         - "discovery.type=single-node"
       volumes:
         - "esdata:/usr/share/elasticsearch/data"
+ 
   kibana:
     image: docker.elastic.co/elasticsearch/kibana:latest
     restart: always
     container_name: kibana
     ports:
-      - 5601:5601
+      - "5601:5601"
     environment:
-      - "ELASTICSEARCH_URL=value"
-      - "ELASTICSEARCH_HOSTS="
+      - "ELASTICSEARCH_URL=${ELASTICSEARCH_URL}"
+      - "ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}"
     depends_on:
       - elasticsearch
     
     squid:
       image: ubuntu/squid
+      container_name: squid-proxy
       restart: always
       ports:
         - "3128:3128"

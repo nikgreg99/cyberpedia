@@ -44,7 +44,7 @@ class UrlHaus(Collector):
         return self._make_request(query_URL)
     
     def collect(self):
-        return super().collect()
+        return self.query_recent_urls(),self.query_recent_payloads()
     
     def collect_target(self, target):
         return super().collect_target(target)

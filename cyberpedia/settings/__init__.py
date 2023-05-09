@@ -4,7 +4,6 @@ try:
     from .mongo_db import *
     from .elastic import *
     from .misp import *
-    from .opentaxii import *
     from .proxy import *
     from .open_cve import *
 except:

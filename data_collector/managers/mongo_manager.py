@@ -24,20 +24,15 @@ class MongoManager(Manager):
     def get_db(self):
         return self.mongo_db
 
-    def create_collections(self,collection_names:list):
-        for collection_name in collection_names:
-           collection = self.mongo_db[collection_name]
-
 
     def save_data(self,collection_name,data):
-        print(data)
         collection = self.mongo_db[collection_name]
-        doc = collection.insert_many(data)
+        if len(data) > 1:
+            docs = collection.insert_many(data)
+        else:
+            doc = collection.insert_one(data)
 
 
-    def save_data_one(self,collection_name,data):
-        collection = self.mongo_db[collection_name]
-        doc = collection.insert_one(data)
 
     
     

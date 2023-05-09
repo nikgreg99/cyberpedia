@@ -20,9 +20,6 @@ class Maldatabase(Collector):
             "Authorization": self.secrets["api_key"],
             "Accept-Encoding": "gzip, deflate"
         }
-          
-  
-
     
     def collect(self):
         try:

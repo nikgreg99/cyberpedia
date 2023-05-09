@@ -36,8 +36,7 @@ class IPInfo(Collector):
         return response.json()
         
     def collect_target(self, target):
-        return super().collect_target(target)
-
+        return self.ip_info(target)
 
       
 

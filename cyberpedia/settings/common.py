@@ -46,9 +46,7 @@ INSTALLED_APPS = [
     "data_collector.sources",
     "cyberpedia_api",
     'django_bootstrap5',
-    'rest_framework',
-    'django_elasticsearch_dsl',
-    'django_elasticsearch_dsl_drf'
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

@@ -21,7 +21,7 @@ class Yarify(Collector):
         self.yarify.proxies = settings.PROXIES
 
 
-    def list_recent_deployed_rules(self):
+    def list_recent_rules(self):
         data = {
              "query" : "recent_yararules"
          }
@@ -29,7 +29,7 @@ class Yarify(Collector):
              response  = self.yarify.post(self.base_url,json=data)
              response.raise_for_status()
         except HTTPError as ex:
-             logging.error("Error requesting Yara rules ")
+             logging.exception(ex)
         return response.json()
 
 
@@ -41,5 +41,7 @@ class Yarify(Collector):
         except HTTPError as ex:
             logging.exception(ex)
             
+    def collect(self):
+        return self.list_recent_rules()
 
 
