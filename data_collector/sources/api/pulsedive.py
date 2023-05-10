@@ -43,6 +43,8 @@ class Pulsedive(Collector):
             "indicator": threat
           }
         return self.make_pulsidve_request(self.base_url_info,parameters)
-
+    
+    def collect_target(self, target):
+        return self.get_threat_by_name(target)
 
     

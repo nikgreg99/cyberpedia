@@ -2,6 +2,7 @@ import requests
 import logging
 from requests import HTTPError
 from data_collector.classes import Collector
+from data_collector.helpers import csv_to_json
 from django.conf import settings
 
 logger = logging.Logger(__name__)

@@ -17,7 +17,6 @@ class Virushee(Collector):
     def init_collector(self):
         self.virushee.proxies = settings.PROXIES
         api_key = self.secrets["api_key"]
-        pass
         self.headers = {"X-API-Key" : api_key}
 
     def collect_target(self, target):

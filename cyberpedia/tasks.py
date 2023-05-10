@@ -3,11 +3,10 @@ from data_collector.download.download_ip import IPDownloader
 from data_collector.download.download_yara import YaraDownloader
 from data_collector.download.download_ioc import IOCDownloader
 from data_collector.download.download_malware import MalwareDownloader
+from data_collector.download.download_breaches import BreachDownloader
+from cyberpedia.celery import app
 
-logger = logging.getLogger(__name__)
-
-
-#Feed downloads
+logger = logging.getLogger()
 
 def updateIP():
     ip_downloader = IPDownloader
@@ -30,6 +29,10 @@ def updateMalware():
     malware = MalwareDownloader()
     malware.download_data()
     
+@app.task()
+def update_breaches():
+    breach = BreachDownloader()
+    breach.download_data()
     
     
    

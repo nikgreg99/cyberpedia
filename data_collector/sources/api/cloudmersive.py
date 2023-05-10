@@ -28,7 +28,6 @@ class Cloudmersive(Collector):
                 api_response = cloudmersive_ip_address.i_p_address_ip_intelligence(ip)
             except ApiException as ex:
                 logger.exception(ex)
-        
             return api_response
         
     def check_domanin(self,domain):

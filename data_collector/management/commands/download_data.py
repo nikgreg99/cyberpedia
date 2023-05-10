@@ -16,29 +16,6 @@ misp.init_connector()
 
 class Command(BaseCommand):
 
-    def write_bulk_data(self,name,data):
-        with open(os.path.join(settings.DATA_DIR,"{}.json").format(name),"w") as f:
-            json.dump(data,f)
-
-    def write_data_exploit_alert(self):
-      oracle_info = sources["ExploitAlert"].collect_target('Oracle')
-      adobe_info = sources["ExploitAlert"].collect_target('Adobe')
-      apache_info = sources["ExploitAlert"].collect_target('Apache')  
-      metasploit_info = sources["ExploitAlert"].collect_target('Metasploit')
-    
-
-      mongo.save_data('ExploitAlert',oracle_info)
-      mongo.save_data('ExploitAlert',adobe_info)
-      mongo.save_data('ExploitAlert',apache_info)
-      mongo.save_data('ExploitAlert',metasploit_info)
-      elastic.insert_data_bulk('exploit_alert',oracle_info)
-      elastic.insert_data_bulk('exploit_alert',adobe_info)
-      elastic.insert_data_bulk('exploit_alert',apache_info)
-      elastic.insert_data_bulk('exploit_info',metasploit_info)
-
-    def write_data_maldatabase(self):
-        data = sources["Maldatabase"].collect()
-
     def write_data_yarify(self):
         data = sources["Yarify"].list_recent_deployed_rules()
         elastic.insert_data_bulk('yarify',data)
@@ -52,7 +29,6 @@ class Command(BaseCommand):
             response = sources["AbuseIPDB"].check_ip(remote_host)
             abuse_ipdb.append(response)
         print(response)
-        elastic.insert_data_bulk("abuse_ipdb",abuse_ipdb)
         mongo.save_data("abuse_ipdb",abuse_ipdb)
 
 
@@ -66,38 +42,6 @@ class Command(BaseCommand):
          elastic.insert_data_bulk("honey-db-twitter-feed",data)
          mongo.save_data('HoneyDB_bad_ip',data)
       
-
-    def write_data_ip(self):
-        data = sources["HoneyDB"].collect_twitter_feed()
-        ip_infos = []
-        shodan = []
-        whois = []
-        for bad_ip in data:
-            remote_host = bad_ip["remote_host"]
-            shodan.append(sources["Shodan"].host_details(remote_host))
-        elastic.insert_data_bulk('shodan',shodan)
-        mongo.save_data('shodan',shodan)
-
-    def have_i_been_pwned(self):
-        data = sources["HaveIBeenPwned"].collect()
-        print(data)
-        elastic.insert_data_bulk('have_i_been_pwned',data)
-        mongo.save_data('HaveIBeenPwned',data)
-       
-
-    def threat_fox_ioc(self):
-        data = sources["ThreatFox"].query_recent_IOC()
-        print(data)
-        elastic.insert_data_bulk('threat_fox_ioc',data)
-        mongo.save_data_one("threat_fox_ioc",data)
-      
-
-    def threat_fox_malware_list(self):
-        data = sources["ThreatFox"].get_malware_list()
-        print(data)
-        elastic.insert_data_bulk("threat_fox_malware_list",data)
-        mongo.save_data_one("threat_fox_malware_list",data)
-
     def urlhaus_payloads(self):
         data = sources['UrlHaus'].query_recent_urls()
         print(data)

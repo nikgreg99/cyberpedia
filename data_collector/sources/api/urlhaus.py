@@ -25,7 +25,7 @@ class UrlHaus(Collector):
             response = self.urlhaus.get(url)
             response.raise_for_status()
         except HTTPError as ex:
-            pass
+            logger.exception(ex)
         return response.json()
 
     def query_recent_urls(self,limit = None):

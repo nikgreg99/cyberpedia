@@ -37,21 +37,21 @@ class ThreatFox(Collector):
         }
         return self._make_threat_fox_request(data)
     
-    def _search_IOC_by_target(self,target):
+    def search_IOC_by_target(self,target):
         data = {
             "query": "search_ioc",
             "search_term": target
         }
         return self._make_threat_fox_request(data)
     
-    def _search_IOC_by_hash(self,hash):
+    def search_IOC_by_hash(self,hash):
         data = {
             "query": "search_by_hash",
             "hash": hash
         }
         return self._make_threat_fox_request(data)
 
-    def _query_malware(self,malware, limit=100): 
+    def query_malware(self,malware, limit=100): 
         data = {
             "query:": "malwareinfo",
             "malware": malware,

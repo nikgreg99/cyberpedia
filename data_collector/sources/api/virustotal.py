@@ -17,29 +17,20 @@ class VirusTotal(Collector):
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.vt_instance = virustotal_python.Virustotal(
-            API_KEY=api_key, API_VERSION=3
-            ,
-            PROXIES= settings.PROXIES
-        )
-        self.headers = {
-            "Accept": "application/json"
-        }
-
-    def scan_url(self,url):
-        headers = self.headers
-        headers["Content-Type"] = "application/x-www-form-urlencoded"
-
-    def ip_address_report(self,ip):
-        if validate_ip_address(ip):
-            try:
-                response =  self.vt_instance.request(f"/ip_address/{ip}",)
-            except VirustotalError as ex:
-                logger.exception(ex)
-            return response.jpi
+            API_KEY=api_key, 
+            API_VERSION=3,
+            PROXIES = settings.PROXIES)
+        
+    def ip_report(self,ip):
+        try:
+            response =  self.vt_instance.request(f"/ip_address/{ip}")
+        except VirustotalError as ex:
+            logger.exception(ex)
+        return response.json()
     
     def domain_report(self,ip):
         try:
-            response =  self.vt_instance.request(f"/domanin/{ip}")
+            response =  self.vt_instance.request(f"/domain/{ip}")
         except VirustotalError as ex:
             logger.exception(ex)
         return response.json()
@@ -47,5 +38,6 @@ class VirusTotal(Collector):
     def collect(self): 
         pass
 
-    def collect_target(self):
-        pass
+    def collect_target(self,target):
+        if validate_ip_address(target):
+            return self.ip_report()

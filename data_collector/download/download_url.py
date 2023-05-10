@@ -2,6 +2,8 @@ import logging
 from .data_download import DataDownloader
 from data_collector.sources.apps import sources
 
+URL_HAUS = 'URLHAUS'
+
 logger = logging.getLogger(__name__)
 
 class UrlDownload(DataDownloader):

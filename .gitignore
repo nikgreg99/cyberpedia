@@ -137,3 +137,5 @@ lib/
 bin/
 lib64
 pyvenv.cfg
+
+celerybeat-schedule.*

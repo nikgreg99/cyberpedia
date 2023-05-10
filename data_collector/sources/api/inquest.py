@@ -38,4 +38,4 @@ class InQuest(Collector):
         return self.make_inquest_request(final_url,parameters)
 
     def collect_target(self, target):
-        return super().collect_target(target)
+        return self.collect_target()

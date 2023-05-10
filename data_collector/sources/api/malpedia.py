@@ -2,6 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import Collector
+from data_collector.helpers import csv_to_json
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -31,5 +32,5 @@ class Malpedia(Collector):
             response.raise_for_status()
         except HTTPError  as ex:
             logging.exception(ex)
-        return response.json()
+        return csv_to_json(response.content)
         

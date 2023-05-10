@@ -15,9 +15,6 @@ class CVEData(Collector):
         super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        self.cve_data.headers = {
-
-        }
         self.cve_data.proxies = settings.PROXIES
     
     def collect(self):

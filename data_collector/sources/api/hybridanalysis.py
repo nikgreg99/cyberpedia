@@ -20,9 +20,9 @@ class HybridAnalysis(Collector):
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.hybrid_analysis.headers = {
-            'api-key': api_key,
-            'user-agent': 'Falcon Sandbox',
-            'accept': 'application/json'
+            'Api-key': api_key,
+            'User-agent': 'Falcon Sandbox',
+            'Accept': 'application/json'
         }
         self.hybrid_analysis.proxies = settings.PROXIES
 

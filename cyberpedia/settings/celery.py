@@ -12,29 +12,15 @@ CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
 CELERY_ACCEPT_CONTENT = [os.environ.get('CELERY_ACCEPT_CONTENT')]
 CELERY_TASK_SERIALIZER = os.environ.get('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = os.environ.get('CELERY_RESULT_SERIALIZER')
+CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER')
 CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
-
-print(os.environ.get('CELERY_BROKER_URL') )
 
 
 CELERY_BEAT_SCHEDULE = {
-   'updateIP': {
-    'task': 'cyberpedia.tasks.updateIP',
-    'schedule': crontab(hour=0, minute =  0)
+   'add-every-minute': {
+    'task': 'cyberpedia.tasks.update_breaches',
+    'schedule': crontab(),
    },
-   'updateYara': {
-      'task': 'cyberpedia.tasks.updateYara', 
-      'schedule': crontab(minute='*/30')
-   },
-   'updateIOC': {
-       'task': 'cyberpedia.tasks.updateIOC',
-       'schedule': crontab(hour = 0, minute = 0)
-   },
-   'updateMalware': {
-       'task': 'cyperbedia.tasks.updateMalware',
-       'schedule': crontab(hour = 1, minute = 0)
-   }
-   
 }
 
 

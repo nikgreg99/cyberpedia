@@ -39,7 +39,5 @@ class IPDownloader(DataDownloader):
         self.process_IP(twitter_feed)
         
 
-
-
     def download_data(self):
         self.download_IP()
