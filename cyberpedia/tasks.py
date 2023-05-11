@@ -1,39 +1,25 @@
 import logging
 from data_collector.download.download_ip import IPDownloader
-from data_collector.download.download_yara import YaraDownloader
-from data_collector.download.download_ioc import IOCDownloader
-from data_collector.download.download_malware import MalwareDownloader
-from data_collector.download.download_breaches import BreachDownloader
+from data_collector.sources.apps import sources
+from data_collector.managers.mongo_manager import MongoManager
+from data_collector.managers.elastic_manager import ElasticManager
 from cyberpedia.celery import app
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
+mongo = MongoManager()
+elastic = ElasticManager()
 
-def updateIP():
-    ip_downloader = IPDownloader
-    ip_downloader.download_data()
+MALDATABASE= 'Maldatabase'
 
-
-
-def updateYara():
-    yara = YaraDownloader()
-    yara.download_data()
-
-
-def updateIOC():
-   ioc = IOCDownloader()
-   ioc.download_data()
-
-
-
-def updateMalware():
-    malware = MalwareDownloader()
-    malware.download_data()
-    
 @app.task()
-def update_breaches():
-    breach = BreachDownloader()
-    breach.download_data()
+def updateMalpediaFeed():
+    data = sources["Maldatabase"].collect()
+    print(data)
+    elastic.insert_data_bulk("maldatabase",data)
+    mongo.save_data("maldatabase",data)
     
+
+
     
    
 

@@ -11,81 +11,15 @@ from data_collector.sources.connectors.misp import MISPConnector
 logger = logging.getLogger(__name__)
 mongo = MongoManager()
 elastic = ElasticManager()
-misp = MISPConnector()
-misp.init_connector()
+
+
+from data_collector.download.download_ip import IPDownloader
 
 class Command(BaseCommand):
 
-    def write_data_yarify(self):
-        data = sources["Yarify"].list_recent_deployed_rules()
-        elastic.insert_data_bulk('yarify',data)
-        mongo.save_data_one('Yarify',data)
-
-    def write_from_abuse_ipdb(self):
-        data = sources["HoneyDB"].collect_twitter_feed()
-        abuse_ipdb = []
-        for bad_ip in data:
-            remote_host = bad_ip["remote_host"]
-            response = sources["AbuseIPDB"].check_ip(remote_host)
-            abuse_ipdb.append(response)
-        print(response)
-        mongo.save_data("abuse_ipdb",abuse_ipdb)
-
-
-    def honeydb_collect_twitter_feed(self):
-        data = sources["HoneyDB"].collect_twitter_feed()
-        elastic.insert_data_bulk("honeydb-bad-ip",data)
-        mongo.save_data('HoneyDB_twitter_feed',data)
-
-    def honeydb_collect_bad_ip(self):
-         data = sources["HoneyDB"].collect_bad_ip()
-         elastic.insert_data_bulk("honey-db-twitter-feed",data)
-         mongo.save_data('HoneyDB_bad_ip',data)
-      
-    def urlhaus_payloads(self):
-        data = sources['UrlHaus'].query_recent_urls()
-        print(data)
-        elastic.insert_data_bulk("urlahus_payloads",data)
-        mongo.save_data_one('urlahus_payloads,data',data)
-        
-    def urlahus_url(self):
-        data = sources['UrlHaus'].query_recent_urls()
-        print(data)
-        elastic.insert_data_bulk("urlaus_urls",data)
-        mongo.save_data_one("urlahus_urls",data)
-        
-    
-    def opencve_cve(self):
-        data = sources["OpenCVE"].list_CVE()
-       
-    
-    def opencve_cwe(self):
-        data = sources["OpenCVE"].list_CWE()
-    
-    
-    def koodous_feed_apk(self):
-        feed_apks = sources['Koodous'].apks()
-        mongo.save_data_one('Koodous_apks',feed_apks)
-       
-    
-    def download_valhalla_feed(self):
-        yara_rules,sigma_rules = sources["Valhalla"].collect()
-        elastic.insert_data_bulk("valhalla_yara",yara_rules)
-        elastic.insert_data_bulk("valhalla_sigma",sigma_rules)
-        mongo.save_data_one('Valhalla_Yara',yara_rules)
-        mongo.save_data_one('Valhalla_Sigma',sigma_rules)
-
-    def threat_jammer_feed(self):
-        data = sources["ThreatJammer"].collect()
-        print(data)
-        elastic.insert_data_bulk('threat_jammer',data)
-        mongo.save_data_one('threat_jammer',data)
-
-    def misp_data(self):
-        events = misp.get_misp_feed(1)
-        print(events)
-        
-
     def handle(self, *args, **options):
-        self.misp_data()
+        data = sources["Maldatabase"].collect()
+        print(data)
+        elastic.insert_data_bulk("maldatabase",data)
+        mongo.save_data("maldatabase",data)
         

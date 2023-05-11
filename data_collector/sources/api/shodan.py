@@ -1,12 +1,12 @@
 import logging
 import shodan
 from shodan.exception import APIError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address,validate_domain
 
 logger = logging.getLogger(__name__)
 
-class Shodan(Collector):
+class Shodan(TargetCollector):
 
 
     def __init__(self) -> None:

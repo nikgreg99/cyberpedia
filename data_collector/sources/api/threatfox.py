@@ -1,14 +1,14 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector,FeedCollector
 from data_collector.utils import validate_hash
 from django.conf import settings
 
 
 logger = logging.getLogger(__name__)
 
-class ThreatFox(Collector):
+class ThreatFox(FeedCollector,TargetCollector):
 
     base_url = 'https://threatfox-api.abuse.ch/api/v1/'
     threat_fox = requests.Session() 

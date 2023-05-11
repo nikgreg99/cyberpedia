@@ -34,6 +34,7 @@ class Feed(models.Model):
 class Index(models.Model):
     
     name = models.TextField(_("name"),max_length=128)
+    collector = models.ForeignKey(Feed,on_delete=models.CASCADE, null=True)
 
     @staticmethod
     def indexes():

@@ -1,13 +1,13 @@
 import virustotal_python
 from virustotal_python.virustotal import VirustotalError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address
 from django.conf import settings
 
 logger = logging.getLogger(__name__ )
 
-class VirusTotal(Collector):
+class VirusTotal(TargetCollector):
 
     vt_instance = None
 

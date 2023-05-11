@@ -34,12 +34,12 @@ class ElasticManager(Manager):
         }
 
     def insert_data_bulk(self,index_name,data):
+     print('ok')
      bulk(self.elastic, self.gen_index_data(index_name,data))
      print("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
 
 
     def create_index(self,name_index):
-     print(name_index)
      if not self.elastic.indices.exists(index=name_index):
             self.elastic.indices.create(index=name_index)
 

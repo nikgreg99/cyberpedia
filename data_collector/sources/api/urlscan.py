@@ -2,12 +2,12 @@ import json
 import requests
 import logging
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector,FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class UrlScan(Collector):
+class UrlScan(TargetCollector,FeedCollector):
 
     base_url : str = "https://urlscan.io/api/v1"
     urlscan = requests.Session()
@@ -35,7 +35,7 @@ class UrlScan(Collector):
             response = self.urlscan.post(final_url,headers=self.headers,data=json.dumps(data))
             response.raise_for_status()
         except HTTPError as ex:
-            logger.exception("Failing submission URL")
+            logger.exception(ex)
         return response.json()
         
     def get_url_report(self,url,submission_response):
@@ -50,6 +50,6 @@ class UrlScan(Collector):
                 response = self.urlscan.get(final_url,headers=self.headers,data=json.dumps(data))
                 response.raise_for_status()
             except HTTPError as ex:
-                logger.exception("Failed executing request")
+                logger.exception(ex)
         else:
             logger.error("Non field uuid present in submission_URL responsnse")

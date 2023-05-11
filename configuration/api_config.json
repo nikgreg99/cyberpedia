@@ -1,10 +1,20 @@
 [
     {
-        "name": "AbuseIPDB",
-        "secrets": {
+        "name": "Auth0",
+        "secrets":{
             "api_key": {
-                "env_var_key": "ABUSEIPDB_API_KEY",
+                "env_var_key": "AUTH0_API_KEY",
                 "required": true
+            }          
+        },
+        "indexes": ["auth0"]
+    },
+    {
+        "name": "AbuseIPDB",
+        "secrets":{
+            "api_key":{
+              "env_var_key": "ABUSEIPDB_API_KEY",
+              "required": true
             }
         },
         "indexes": ["abuseipdb"]
@@ -30,7 +40,6 @@
                  {
                     "env_var_key": "X-HONEYDB_API_KEY",
                     "required": true
-                
                 },
                 "api_id":
                 {
@@ -45,11 +54,11 @@
         "name": "HybridAnalysis",
         "secrets": {
             "api_key": {
-                "env_var_key": "HYBRID_ANALYSIS_API_KEY",
+                "env_var_key": "HYBRIDANALYSIS_API_KEY",
                 "required": true
             },
             "secret": {
-                "env_var_key": "HYBRID_ANALYSIS_SECRET",
+                "env_var_key": "HYBRIDANALYSIS_SECRET",
                 "required": true
             }
         },

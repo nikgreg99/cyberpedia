@@ -1,14 +1,14 @@
 import requests
 from requests import HTTPError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address
 from data_collector.exceptions import InvalidIPAddressFormat
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class Greynoise(Collector):
+class Greynoise(TargetCollector):
 
     base_url : str = "https://api.greynoise.io/v3"
     greynoise = requests.Session()

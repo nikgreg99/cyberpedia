@@ -1,7 +1,7 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address
 from django.conf import settings
 
@@ -11,7 +11,7 @@ logging = logging.getLogger(__name__)
 class CymonInvalidAuthentication(Exception):
     pass
 
-class Cymon(Collector):
+class Cymon(TargetCollector):
 
     base_url : str = "https://api.cymon.io/v2"
     cymon = requests.Session()
@@ -93,9 +93,6 @@ class Cymon(Collector):
         response = self.make_cymon_request(final_url)
         return response.json()
     
-
-    def get_feed_report(self,feed_id,report_id):
-        pass
 
     def collect_target(self, target):
         return super().collect_target(target)

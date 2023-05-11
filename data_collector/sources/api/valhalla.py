@@ -1,12 +1,12 @@
 from valhallaAPI.valhalla import ValhallaAPI
 from valhallaAPI.valhalla import ApiError
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector
 import logging
 from django.conf import settings
 
 logger = logging.getLogger()
 
-class Valhalla(Collector):
+class Valhalla(FeedCollector):
 
     def __init__(self):
         super().__init__(self.__class__.__name__)

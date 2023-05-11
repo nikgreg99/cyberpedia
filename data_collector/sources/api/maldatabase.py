@@ -1,13 +1,13 @@
 import requests
 import logging
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector
 from data_collector.helpers import csv_to_json
 from django.conf import settings
 
 logger = logging.Logger(__name__)
 
-class Maldatabase(Collector):
+class Maldatabase(FeedCollector):
 
     base_url = 'https://api.maldatabase.com'
     maldatabase = requests.Session()
@@ -26,11 +26,10 @@ class Maldatabase(Collector):
         try:
             final_url = self.base_url + "/download"
             response = self.maldatabase.get(final_url,headers=self.headers)
-            print(response.content)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-        return response.content
+        return csv_to_json(response.text)
     
     def collect_target(self, target):
         pass

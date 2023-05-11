@@ -1,12 +1,12 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector,TargetCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class UrlHaus(Collector):
+class UrlHaus(FeedCollector,TargetCollector):
     base_url : str = 'https://urlhaus-api.abuse.ch/v1/'
     api_key = None
     urlhaus = requests.Session()

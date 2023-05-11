@@ -1,13 +1,13 @@
 import requests
 from requests import HTTPError
 import logging 
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from django.conf import settings
 
 
 logger = logging.getLogger(__name__)
 
-class InQuest(Collector):
+class InQuest(TargetCollector):
 
     base_url : str = "https://labs.inquest.net/api"
     inquest = requests.Session()

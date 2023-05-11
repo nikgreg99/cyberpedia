@@ -1,13 +1,10 @@
-import os
+import io
 import csv
 import json
 
 def csv_to_json(csv_content):
-    json_dictionary = []
-    csv_reader = csv.DictReader(csv_content)
-    for row in csv_reader:
-        json_dictionary.append()  
-    return json.dumps(json_dictionary,indent=4)
+    reader = csv.DictReader(io.StringIO(csv_content))
+    return json.dumps(list(reader))
 
 
 def read_json_file(file_path)-> dict:

@@ -1,13 +1,13 @@
 import requests
 from requests import HTTPError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address, validate_host,validate_url
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class Maltiverse(Collector):
+class Maltiverse(TargetCollector):
 
     base_url: str = "https://api.maltiverse.com"
     maltiverse = requests.Session()
@@ -32,15 +32,15 @@ class Maltiverse(Collector):
 
 
     def ip(self,ip):
-        final_url = self.base_url + "f/ip/{ip}"
+        final_url = self.base_url + f"/ip/{ip}"
         return self.make_request(final_url)
         
     def host(self,host):
-        final_url = self.base_url + "f/host/{host}"
+        final_url = self.base_url + f"/host/{host}"
         return self.make_request(final_url)
     
     def url(self,url):
-        final_url = self.base_url + "f/url{url}}"
+        final_url = self.base_url + f"/url{url}"
         return self.make_request(final_url)
 
 

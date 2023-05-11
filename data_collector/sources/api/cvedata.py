@@ -1,13 +1,13 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_cve_format
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class CVEData(Collector):
+class CVEData(TargetCollector):
     base_url : str = "https://v1.cveapi.com"
     cve_data = requests.Session()
 

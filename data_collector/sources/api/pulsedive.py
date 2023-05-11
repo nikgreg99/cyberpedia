@@ -1,12 +1,12 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class Pulsedive(Collector):
+class Pulsedive(TargetCollector):
 
     base_url: str = "https://pulsedive.com/api"
     base_url_info : str = base_url + "/info.php"

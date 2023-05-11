@@ -2,13 +2,13 @@ import logging
 import cloudmersive_validate_api_client
 import cloudmersive_virus_api_client
 from cloudmersive_validate_api_client.rest import ApiException
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class Cloudmersive(Collector):
+class Cloudmersive(TargetCollector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)

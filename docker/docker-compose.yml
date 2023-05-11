@@ -6,7 +6,7 @@ services:
     container_name: mongo
     restart: always
     ports:
-      - 27017:27017
+      - "27017:27017"
     environment:
       - "MONGO_INIT_DB_ROOT_USERNAME=${MONGO_INIT_DB_ROOT}"
       - "MONGO_INIT_DB_ROOT_PASSWORD=${MONGO_INIT__DB_ROOT_PASSWORD}"
@@ -88,14 +88,29 @@ services:
     depends_on:
       - elasticsearch
     
-    squid:
-      image: ubuntu/squid
-      container_name: squid-proxy
-      restart: always
-      ports:
-        - "3128:3128"
-      volumes:
-       -  srv/docker/squid/cache:var/spool/squid
+  squid:
+    image: ubuntu/squid
+    container_name: squid-proxy
+    restart: always
+    ports:
+      - "3128:3128"
+    volumes:
+      - "srv/docker/squid/cache:var/spool/squid"
+
+  celery_worker:
+    build:
+      context: .
+    depends_on:
+      - redis
+      - mongo
+      
+  celery_beat:
+    build: 
+     context: .
+    depends_on:
+      - redis
+      - mongo
+
 
 volumes:
   mysql_data:

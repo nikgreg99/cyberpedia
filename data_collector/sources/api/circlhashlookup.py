@@ -30,8 +30,8 @@ class CIRCLHashLookup(Collector):
         return response.json()
 
 
-    def bulk_md5(self,hashesh: list):
-        data= {'hashes': hashesh}
+    def bulk_md5(self,hashes: list):
+        data= {'hashes': hashes}
         final_url = self.base_url + "/bulk/md5"
         return self.make_request(final_url,data=data)
 

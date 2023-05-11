@@ -1,12 +1,12 @@
 import requests
 from requests import HTTPError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector,FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger()
 
-class Neutrino(Collector):
+class Neutrino(TargetCollector,FeedCollector):
 
     base_url: str = "https://neutrinoapi.net"
     neutrino = requests.Session()
@@ -59,6 +59,12 @@ class Neutrino(Collector):
         final_url = self.base + "/host-reputation"
         data = {'host': target}
         return self.make_neutrino_request(final_url,data)
+    
+    def collect(self) -> dict:
+        return super().collect()
+    
+    def collect_target(self) -> dict:
+        return super().collect_target()
 
 
 

@@ -37,19 +37,22 @@ class Command(BaseCommand):
     @classmethod
     def migrate_secrets(cls,collector_list):
         for collector in collector_list:
-            
             for secret_key in collector['secrets']:
                 secret = collector['secrets'][secret_key]
-                print(secret)
-                _, created = APIConfig.objects.get_or_create(
+                key = cls.get_env_var(secret["env_var_key"])
+
+                instance, created = APIConfig.objects.get_or_create(
                         name = collector["name"],
-                        type = secret_key,
-                        value = cls.get_env_var(secret["env_var_key"]),
+                        type = secret["env_var_key"],
+                        value = key,
                         required = secret['required']
                 )
             
                 if created:
                     logger.info("Key registered successfully")
+                
+                if instance.value != key:
+                    instance.update_key(cls)
 
                 if "indexes" in collector:
                      for index in collector["indexes"]:

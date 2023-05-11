@@ -1,8 +1,7 @@
 import logging
 from data_collector.download.data_download import DataDownloader
 from data_collector.sources.apps import sources
-from data_collector.managers.elastic_manager import ElasticManager
-from data_collector.managers.mongo_manager import MongoManager
+
 
 logger = logging.getLogger(__name__)
 

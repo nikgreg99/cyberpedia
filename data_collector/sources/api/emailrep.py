@@ -1,12 +1,12 @@
 import requests
 from requests import HTTPError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class EmailRep(Collector):
+class EmailRep(TargetCollector):
 
     base_url: str = "'https://emailrep.io"
     emailrep = requests.Session()

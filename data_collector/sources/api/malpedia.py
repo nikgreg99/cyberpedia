@@ -1,13 +1,13 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector
 from data_collector.helpers import csv_to_json
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class Malpedia(Collector):
+class Malpedia(FeedCollector):
 
     base_url: str = "https://malpedia.caad.fkie.fraunhofer.de/api"
     malpedia = requests.Session()

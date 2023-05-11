@@ -18,7 +18,7 @@ CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
 
 CELERY_BEAT_SCHEDULE = {
    'add-every-minute': {
-    'task': 'cyberpedia.tasks.update_breaches',
+    'task': 'cyberpedia.tasks.updateMalpediaFeed',
     'schedule': crontab(),
    },
 }

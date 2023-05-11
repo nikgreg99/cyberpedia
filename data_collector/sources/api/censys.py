@@ -1,11 +1,11 @@
 from censys.search import CensysHosts
 from censys.search import CensysCertificates
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 import logging
 
 logger = logging.getLogger()
 
-class Censys(Collector):
+class Censys(TargetCollector):
     
     censys_host_client = None
     censys_certificates_client = None

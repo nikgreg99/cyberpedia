@@ -1,12 +1,12 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class HoneyDB(Collector):
+class HoneyDB(FeedCollector):
 
     base_url :str = "https://honeydb.io/api"
     honeydb = requests.Session()
@@ -34,12 +34,12 @@ class HoneyDB(Collector):
         
     def collect_bad_ip(self):
         final_url = self.base_url + "/bad-hosts"
-        return self.make_requst(final_url)
+        return self.make_request(final_url)
 
     
     def collect_twitter_feed(self):
         final_url = self.base_url + "/twitter-threat-feed"
-        return self.make_requst(final_url)
+        return self.make_request(final_url)
     
     
     def collect(self):

@@ -1,7 +1,7 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from data_collector.utils import validate_ip_address
 from django.conf import settings
 
@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 MAX_AGE_IN_DAYS = 90
 
-class AbuseIPDB(Collector):
+class AbuseIPDB(TargetCollector):
 
     base_url : str = "https://api.abuseipdb.com/api/v2"
     abuseipdb = requests.Session()
@@ -39,7 +39,7 @@ class AbuseIPDB(Collector):
                 "ipAddress": ip,
                 "maxAgeInDays": MAX_AGE_IN_DAYS
             }
-            return self.request_abuse_ipdb(final_url,parameters)
+            return self.request(final_url,parameters)
         
     def collect_target(self, target):
         return self.check_ip(target)

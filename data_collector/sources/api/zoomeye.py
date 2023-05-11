@@ -1,13 +1,13 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
 
-class ZoomEye(Collector):
+class ZoomEye(TargetCollector):
     
     base_url : str = "'https://api.zoomeye.org"
     zoomeye = requests.Session()

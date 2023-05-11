@@ -2,13 +2,13 @@ import os
 import requests
 from requests import HTTPError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import  FeedCollector,TargetCollector
 from data_collector.utils import validate_cve_format
 
 logger = logging.getLogger(__name__)
 
 
-class OpenCVE(Collector):
+class OpenCVE(FeedCollector,TargetCollector):
 
     base_url : str = "https://www.opencve.io/api"
     open_cve = requests.Session()

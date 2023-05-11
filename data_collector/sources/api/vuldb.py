@@ -1,12 +1,12 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import  FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class VulDB(Collector):
+class VulDB(FeedCollector):
     base_url : str = "https://vuldb.com/?api"
     vuldb = requests.Session()
 

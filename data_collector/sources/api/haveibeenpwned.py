@@ -2,14 +2,14 @@ import requests
 from requests import HTTPError
 import requests
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector
 from django.conf import settings
 
 
 logger = logging.getLogger()
 
 
-class HaveIBeenPwned(Collector):
+class HaveIBeenPwned(FeedCollector):
 
     base_url : str = "https://haveibeenpwned.com/api/v3"
     have_i_been_pwned = requests.Session()

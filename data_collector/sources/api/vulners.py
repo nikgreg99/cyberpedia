@@ -1,12 +1,12 @@
 import vulners
 from vulners.base import VulnersApiError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class Vulners(Collector):
+class Vulners(FeedCollector):
 
     base_url : str = "https://vulners.com/api/v3"
 

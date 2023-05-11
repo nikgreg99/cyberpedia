@@ -2,11 +2,11 @@ import requests
 from requests import HTTPError
 import logging
 from django.conf import settings
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 
 logger = logging.getLogger(__name__)
 
-class Auth0(Collector):
+class Auth0(TargetCollector):
 
     base_url = "https://signals.api.auth0.com/v2.0/ip"
     auth0 = requests.Session()
@@ -15,11 +15,7 @@ class Auth0(Collector):
         super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        secret = self.secrets["api_key"]
-        self.auth0.proxies = settings.PROXIES
-        self.auth0.headers = {
-            'X-Auth-Token': secret
-        }
+        pass
 
     def collect_target(self, target):
         try:

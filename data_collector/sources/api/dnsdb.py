@@ -1,13 +1,13 @@
 import requests
 from requests import HTTPError
 import logging
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
 
-class DNSDb(Collector):
+class DNSDb(TargetCollector):
 
     base_url = "https://api.dnsdb.io/v1"
     dns_db = requests.Session()
