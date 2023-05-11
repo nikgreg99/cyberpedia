@@ -112,7 +112,7 @@
                 "required": true
              }
         },
-        "indexes": ["thrat_fox_ioc","threat_fox_malware_list"]
+        "indexes": ["threat-fox-ioc","threat-fox_malware-list"]
     },
     {
         "name": "ThreatJammer",
@@ -126,7 +126,7 @@
                 "required": true
             }
         },
-        "indexes": ["threat_jammmer"]
+        "indexes": ["threat-jammmer"]
     },
 
     {
@@ -147,7 +147,7 @@
                 "required": true
             }          
         },
-        "indexes": ["urlhaus_urls","urlhaus_payloads"]        
+        "indexes": ["urlhaus-urls","urlhaus-payloads"]        
     },
     {
         "name": "Whois",
@@ -201,7 +201,7 @@
                 "required": true
             }
         },
-        "indexes": ["cve_data"]
+        "indexes": ["cve-data"]
     },
     {
         "name": "Censys",
@@ -225,7 +225,7 @@
                 "required": true
             }
         },
-        "indexes": ["ip_info"]
+        "indexes": ["ip-info"]
     },
     {
         "name": "Neutrino",
@@ -283,7 +283,8 @@
                 "env_var_key": "TRANCO_API_KEY",
                 "required": true
             }
-        }
+        },
+        "indexes": ["tranco"]
     },
     {
         "name": "OpenCVE",
@@ -307,7 +308,7 @@
                 "required": true
             }
         },
-        "indexes": ["koodus_apk"]
+        "indexes": ["koodus-apk"]
     },
     {
         "name": "ExploitAlert",
@@ -317,7 +318,7 @@
                 "required": true
             }
         },
-        "indexes": ["exploit_alert"]
+        "indexes": ["exploit-alert"]
     },
     {
         "name": "EmailRep",
@@ -327,7 +328,7 @@
                 "required": true
             }
         },
-        "indexes": ["email_rep"]
+        "indexes": ["email-rep"]
     },
     {
         "name": "HaveIBeenPwned",
@@ -337,7 +338,7 @@
              "required": true
          }
      },
-     "indexes": ["haveibeenpwned"]
+     "indexes": ["been-pwned"]
     },
     {
         "name": "Cloudmersive",
@@ -356,7 +357,7 @@
                 "required": true
             }
         },
-        "indexes": ["vt_url"]
+        "indexes": ["vt-url"]
     },
     {
         "name": "Vulners",
@@ -386,7 +387,7 @@
                 "required": true
             }
         },
-        "indexes": ["valhalla_yara","valhalla_sigma"]
+        "indexes": ["valhalla-yara","valhalla-sigma"]
     }
 ]
     
