@@ -1,6 +1,7 @@
 import io
 import csv
 import json
+import os
 
 def csv_to_json(csv_content):
     reader = csv.DictReader(io.StringIO(csv_content))
@@ -13,10 +14,10 @@ def read_json_file(file_path)-> dict:
          return config_dict
 
 
- 
 def get_env_var(name):
         value = os.getenv(name)
         try:
             return json.loads(name)
         except(json.JSONDecodeError,TypeError):
             return value
+ 

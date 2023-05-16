@@ -1,12 +1,11 @@
 import logging
-import json
 import os
 
 from django.core.management.base import BaseCommand
 from data_collector.serializers import CollectorSerializer
 from data_collector.models import APIConfig,Feed,Index
 from data_collector.managers.elastic_manager import ElasticManager
-from data_collector.helpers import read_json_file
+from data_collector.helpers import read_json_file, get_env_var
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -18,14 +17,6 @@ class Command(BaseCommand):
 
     help = "Migrate secrets and indexes from .env file file to database"
 
-    @staticmethod
-    def get_env_var(name):
-        value = os.getenv(name)
-        try:
-            return json.loads(name)
-        except(json.JSONDecodeError,TypeError):
-            return value
-
     def load_MISP_feed(cls):
         path = os.path.join(settings.CONFIG_DIR,"misp_feeds.json")
         misp_feeds = read_json_file(path)
@@ -35,53 +26,42 @@ class Command(BaseCommand):
 
 
     @classmethod
-    def migrate_secrets(cls,collector_list):
+    def migrate(cls,collector_list):
         for collector in collector_list:
+            
+            feed_instance,created = Feed.objects.get_or_create(
+                name = collector["name"]
+            )
+
             for secret_key in collector['secrets']:
                 secret = collector['secrets'][secret_key]
-                key = cls.get_env_var(secret["env_var_key"])
+                key = get_env_var(secret["env_var_key"])
 
-                instance, created = APIConfig.objects.get_or_create(
+                conf_instance, created = APIConfig.objects.get_or_create(
                         name = collector["name"],
-                        type = secret["env_var_key"],
+                        type = secret_key,
                         value = key,
                         required = secret['required']
                 )
             
-                if created:
-                    logger.info("Key registered successfully")
+                if conf_instance.value != key:
+                    conf_instance.update_key(cls)
                 
-                if instance.value != key:
-                    instance.update_key(cls)
-
-                if "indexes" in collector:
-                     for index in collector["indexes"]:
-                        _, created = Index.objects.get_or_create(
-                            name=index
+            if "indexes" in collector:
+                for index in collector["indexes"]:
+                    _, created = Index.objects.get_or_create(
+                            name=index,
+                            collector = feed_instance
                         )
-                        elastic.create_index(index)
-                        if created:
-                            logger.info("Index registered successfully")
+                    elastic.create_index(index)
+                   
                     
         logger.info("All API Key and index are  migrated succesfully")
                         
-    @classmethod 
-    def init_data_feed(cls,collector_list):
-        for collector in collector_list:
-            print(collector["name"])
-            _ , created = Feed.objects.get_or_create(
-                name= collector["name"]
-            )
-
 
     def handle(self, *args, **options):
         collectors_list = CollectorSerializer.read_and_verify_config()
-        self.migrate_secrets(collectors_list)
-        self.init_data_feed(collectors_list)
-        data = APIConfig.to_json()
-        #Index for API KEY
-        elastic.create_index('secrets')
-        #elastic.insert_data_bulk('secrets',data)
+        self.migrate(collectors_list)
         self.load_MISP_feed()
         
         

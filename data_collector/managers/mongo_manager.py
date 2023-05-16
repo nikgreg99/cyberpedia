@@ -27,10 +27,10 @@ class MongoManager(Manager):
 
     def save_data(self,collection_name,data):
         collection = self.mongo_db[collection_name]
-        if len(data) > 1:
-            docs = collection.insert_many(data)
+        if isinstance(data,dict):
+            docs = collection.insert_one(data)
         else:
-            doc = collection.insert_one(data)
+            doc = collection.insert_many(data)
 
 
 

@@ -62,7 +62,7 @@
                 "required": true
             }
         },
-        "indexes": ["ha-domain","ha-url","ha-host"]
+        "indexes": ["hybrid-analysis-domain","hybrid-analysis-url","hybrid-analysis-host"]
     },
     {
         "name": "Maldatabase",
@@ -112,7 +112,7 @@
                 "required": true
              }
         },
-        "indexes": ["threat-fox-ioc","threat-fox_malware-list"]
+        "indexes": ["threat-fox-ioc","threat-fox-malware-list"]
     },
     {
         "name": "ThreatJammer",
@@ -298,7 +298,7 @@
                 "required": true
             }
           },
-          "indexes": ["opencve"]
+          "indexes": ["opencve-cve","opencve-cwe"]
     },
     {
         "name": "Koodous",
@@ -338,7 +338,7 @@
              "required": true
          }
      },
-     "indexes": ["been-pwned"]
+     "indexes": ["have-i-been-pwned"]
     },
     {
         "name": "Cloudmersive",
@@ -357,7 +357,7 @@
                 "required": true
             }
         },
-        "indexes": ["vt-url"]
+        "indexes": ["virus-total-url"]
     },
     {
         "name": "Vulners",
