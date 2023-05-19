@@ -14,6 +14,8 @@ class HaveIBeenPwned(FeedCollector):
     base_url : str = "https://haveibeenpwned.com/api/v3"
     have_i_been_pwned = requests.Session()
 
+    
+
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
     

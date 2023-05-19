@@ -8,8 +8,15 @@ logger = logging.getLogger(__name__)
 
 class Auth0(TargetCollector):
 
+    _self = None
     base_url = "https://signals.api.auth0.com/v2.0/ip"
     auth0 = requests.Session()
+
+    @classmethod
+    def init(cls):
+        if cls._self is None:
+            cls._self = super().__init__(cls)
+        return cls._self
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)

@@ -11,8 +11,16 @@ MAX_AGE_IN_DAYS = 90
 
 class AbuseIPDB(TargetCollector):
 
+    _self = None
     base_url : str = "https://api.abuseipdb.com/api/v2"
     abuseipdb = requests.Session()
+
+
+    @classmethod
+    def init(cls):
+        if cls._self is None:
+            cls._self = super().__init__(cls)
+        return cls._self
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
