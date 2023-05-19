@@ -23,7 +23,7 @@ class CollectorSerializer(rfs.ModelSerializer):
          model = Collector
          fields = "__all__"
 
-    CONFIG_FILE_NAME = "api_config.json"
+    CONFIG_FILE_NAME = "config.json"
 
     name = rfs.CharField(required=True)
     secrets = rfs.DictField(child=_SecretSerializer())

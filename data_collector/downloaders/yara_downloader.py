@@ -1,14 +1,18 @@
 import logging
-from .data_download import DataDownloader
+from .downloader import DataDownloader
 from data_collector.sources.apps import sources
 
 logger = logging.getLogger(__name__)
 
-YARIFY = 'Yarify'
 
 class YaraDownloader(DataDownloader):
 
     _self = None
+    YARIFY = "Yarify"
+
+
+    def __init__(self) -> None:
+        super().__init__()
 
     @classmethod
     def init(cls):
@@ -17,5 +21,7 @@ class YaraDownloader(DataDownloader):
         return cls._self
     
     def download_data(self):
-        data = sources[YARIFY].collect()
+        data = sources["Yarify"].collect()
+        self.elastic.insert_data_bulk("yarify",data)
+        self.mongo.save_data("yarify",data)
 

@@ -1,12 +1,12 @@
 import logging
-from .data_download import DataDownloader
+from .downloader import DataDownloader
 from data_collector.sources.apps import sources
 
 URL_HAUS = 'URLHAUS'
 
 logger = logging.getLogger(__name__)
 
-class UrlDownload(DataDownloader):
+class URLDownloader(DataDownloader):
 
     @classmethod
     def init(cls):
@@ -15,5 +15,5 @@ class UrlDownload(DataDownloader):
         return cls._self
 
 
-    def download_data():
+    def download_data(self):
         pass

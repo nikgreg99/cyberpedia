@@ -1,3 +1,4 @@
+import uuid
 import os
 import logging
 from .manager import Manager
@@ -28,13 +29,14 @@ class ElasticManager(Manager):
 
     def gen_index_data(self,index_name,data):
         for chunck in data:
-         yield {
+         if chunck is not None:
+            yield {
+            "_id": uuid.uuid4(),
             "_index": index_name,
-            "data": chunck
-        }
+            "_source": chunck     
+            }
 
     def insert_data_bulk(self,index_name,data):
-     print('ok')
      bulk(self.elastic, self.gen_index_data(index_name,data))
      print("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
 

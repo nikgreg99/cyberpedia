@@ -1,9 +1,6 @@
 import logging
-from .data_download import DataDownloader
+from .downloader import DataDownloader
 from data_collector.sources.apps import sources
-from data_collector.managers.elastic_manager import ElasticManager
-from data_collector.managers.mongo_manager import MongoManager
-
 
 logger = logging.getLevelName(__name__)
 
@@ -17,5 +14,8 @@ class MISPDownloader(DataDownloader):
             cls._self = super().__init__(cls)
         return cls._self
     
-    def download_data():
+    def __init__(self) -> None:
+        super().__init__()
+    
+    def download_data(self):
         pass

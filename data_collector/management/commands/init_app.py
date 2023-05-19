@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 )
             
                 if conf_instance.value != key:
-                    conf_instance.update_key(cls)
+                    conf_instance.update_key()
                 
             if "indexes" in collector:
                 for index in collector["indexes"]:
@@ -63,6 +63,7 @@ class Command(BaseCommand):
         collectors_list = CollectorSerializer.read_and_verify_config()
         self.migrate(collectors_list)
         self.load_MISP_feed()
+
         
         
         

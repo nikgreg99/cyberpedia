@@ -1,32 +1,37 @@
-import os 
+import base64
 import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import  FeedCollector,TargetCollector
+from django.conf import settings
 from data_collector.utils import validate_cve_format
+from data_collector.helpers import get_env_var
 
 logger = logging.getLogger(__name__)
 
 
 class OpenCVE(FeedCollector,TargetCollector):
 
-    base_url : str = "https://www.opencve.io/api"
-    open_cve = requests.Session()
+    base_url : str = "http://localhost:8100/api"
+    opencve = requests.Session()
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
 
     def init_collector(self):
         username = self.secrets["username"]
-        password = self.secrets["password"]
-        self.headers = {
-            "Authorization": "{}:{}".format(username,password),
+        password = self.secrets["password"] 
+        auth_message_bytes= f"{username}:{password}".encode()
+        auth_base64 = base64.b64encode(auth_message_bytes).decode("ascii")
+        self.opencve.headers = {
+            "Authorization": f"Basic {auth_base64}",
             "Accept": "application/json"
         }
+        self.opencve.proxies = settings.PROXIES
 
     def make_requets_open_cve(self,final_url):
         try:
-            response = self.open_cve.get(final_url,headers = self.headers)
+            response = self.opencve.get(final_url)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
@@ -49,8 +54,17 @@ class OpenCVE(FeedCollector,TargetCollector):
         final_url = self.base_url + "/cwe"
         return self.make_requets_open_cve(final_url)
     
+    def list_vendors(self):
+        final_url = self.base_url + "/vendors"
+        return self.make_requets_open_cve(final_url)
+    
+
+    def list_products(self):
+        final_url = self.base_url + "/products"
+        return self.make_requets_open_cve(final_url)
+    
     def collect_target(self, target):
         return super().collect_target(target)
     
     def collect(self):
-        return super().collect()
+        return self.list_CVE(),self.list_CWE(),self.list_vendors(),self.list_products()

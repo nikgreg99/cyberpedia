@@ -23,5 +23,6 @@ class SourcesConfig(AppConfig):
     name = 'data_collector.sources'
 
     def ready(self) -> None:
-        start_up()
+        #start_up()
+        pass
 

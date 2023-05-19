@@ -18,10 +18,9 @@ class APIConfig(models.Model):
     def update_key(self,value):
         self.value = value
         self.update_date = timezone.now()
-        self.save(update_fields=["update_date"])
+        self.save(update_fields=["value","update_date"])
 
 class Feed(models.Model):
-
 
     name = models.TextField(_("name"),max_length=128)
     creation_date = models.DateTimeField(_("creation_date"),default=timezone.now)
@@ -40,6 +39,11 @@ class Index(models.Model):
     def indexes():
         indexes = Index.objects.values('name').distinct()
         return indexes
+    
+    @staticmethod
+    def indexes_by_key(collector_name):
+        feed = Feed.objects.get(name=collector_name)
+        return Index.objects.filter(collector = feed.id).values('name')
     
 
 

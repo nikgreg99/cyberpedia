@@ -298,7 +298,7 @@
                 "required": true
             }
           },
-          "indexes": ["opencve-cve","opencve-cwe"]
+          "indexes": ["opencve-cve","opencve-cwe", "opencve-vendors","opencve-products"]
     },
     {
         "name": "Koodous",

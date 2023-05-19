@@ -1,44 +1,30 @@
 import logging
-from data_collector.download.download_ip import IPDownloader
-from data_collector.sources.apps import sources
-from data_collector.managers.mongo_manager import MongoManager
-from data_collector.managers.elastic_manager import ElasticManager
+from data_collector.downloaders.yara_downloader import YaraDownloader
+from data_collector.downloaders.ip_downloader import IPDownloader
+from data_collector.downloaders.url_downloader import URLDownloader
 from cyberpedia.celery import app
 
 logger = logging.getLogger(__name__)
 
-mongo = MongoManager()
-elastic = ElasticManager()
-
-
-MALDATABASE= 'Maldatabase'
-YARIFY = 'Yarify'
-VALHALLA = 'Valhalla'
 
 @app.task()
-def updateMalpediaFeed():
-    data = sources["Maldatabase"].collect()
-    print(data)
-    elastic.insert_data_bulk("maldatabase",data)
-    mongo.save_data("maldatabase",data)
-
+def update_yara():
+    yara = YaraDownloader()
+    yara.download_data()
 
 @app.task()
-def updateIPFeed():
-    ip_feed = IPDownloader()
-    ip_feed.download_data()
+def update_IP():
+    ip = IPDownloader()
+    ip.download_data()
 
 @app.task()
-def updateYara():
-    data = sources['Yarify'].collect()
-    elastic.insert_data_bulk("yarify",data)
-    mongo.save_data("yarify",data)
+def update_URL():
+    url_downloader = URLDownloader()
+    url_downloader.download_data()
 
-@app.task
-def updateValhalla():
-    yara,sigma = sources[VALHALLA].collect()
-    mongo.save_data('valhalla-yara',yara)
-    mongo.save_data("valhalla-sigma",sigma)
+
+
+
 
 
 

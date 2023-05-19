@@ -89,13 +89,14 @@ services:
       - elasticsearch
     
   squid:
-    image: ubuntu/squid
-    container_name: squid-proxy
-    restart: always
+    image: ubuntu/squid:latest
     ports:
       - "3128:3128"
     volumes:
-      - "srv/docker/squid/cache:var/spool/squid"
+      - ./squid/squid.conf:/etc/squid/squid.conf
+      - ./squid/passwords:/etc/squid/passwords
+    restart: always
+
 
   celery_worker:
     build:
