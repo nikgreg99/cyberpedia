@@ -28,7 +28,6 @@ class Command(BaseCommand):
     @classmethod
     def migrate(cls,collector_list):
         for collector in collector_list:
-            
             feed_instance,created = Feed.objects.get_or_create(
                 name = collector["name"]
             )

@@ -1,10 +1,11 @@
 import logging
-from .downloader import DataDownloader
+from .feed_downloader import FeedDownloader
+from data_collector.sources.connectors.misp  import MISPConnector
 from data_collector.sources.apps import sources
 
 logger = logging.getLevelName(__name__)
 
-class MISPDownloader(DataDownloader):
+class MISPDownloader(FeedDownloader):
 
     _self = None
 
@@ -15,7 +16,8 @@ class MISPDownloader(DataDownloader):
         return cls._self
     
     def __init__(self) -> None:
+        self.misp = MISPConnector()
         super().__init__()
     
-    def download_data(self):
+    def download_feed(self):
         pass

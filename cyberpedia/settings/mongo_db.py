@@ -12,9 +12,6 @@ DATABASES = {
         'ENGINE': os.environ.get('MONGO_ENGINE'),
         'NAME': os.environ.get('MONGO_NAME'),
         'ENFORCE_SCHEMA': os.environ.get('MONGO_ENFORCE_SCHEMA'),
-    'CLIENT':{
-        'host': os.environ.get('MONGO_URL')
-
-    }
+        'HOST': os.environ.get('MONGO_URL')
     }
 }

@@ -1,26 +1,29 @@
 import logging
-from data_collector.downloaders.yara_downloader import YaraDownloader
-from data_collector.downloaders.ip_downloader import IPDownloader
-from data_collector.downloaders.url_downloader import URLDownloader
+from data_collector.downloaders.feed.breach_downloader import BreachDownloader
+from data_collector.downloaders.feed.valhalla_downloader import ValhallaDownloader
+from data_collector.downloaders.feed.yarify_downloader import YarifyDownloader
 from cyberpedia.celery import app
 
 logger = logging.getLogger(__name__)
 
+@app.task
+def update_breaches():
+    breach_downloader = BreachDownloader()
+    breach_downloader.download_feed()
+    logger.info("Breaches update succesfully")
 
-@app.task()
-def update_yara():
-    yara = YaraDownloader()
-    yara.download_data()
 
-@app.task()
-def update_IP():
-    ip = IPDownloader()
-    ip.download_data()
-
-@app.task()
-def update_URL():
-    url_downloader = URLDownloader()
-    url_downloader.download_data()
+@app.task
+def update_valhalla():
+    valhalla = ValhallaDownloader()
+    valhalla.download_feed()
+    logger.info("Valhalla updates succesfully")
+    
+@app.task
+def update_yarify():
+    yarify = YarifyDownloader()
+    yarify.download_feed()
+    logger.info("Yarify updates succesfully")
 
 
 

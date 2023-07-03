@@ -31,9 +31,10 @@ services:
     volumes:
       - "mysql_data:/var/lib/mysql"
 
- # Snippet taken from https://github.com/coolacid/docker-misp
+ # Snippet code from https://github.com/coolacid/docker-misp
     misp:
       image: coolacid/misp-docker:core-latest
+      restart: always
       container_name: misp
       depends_on:
         - redis

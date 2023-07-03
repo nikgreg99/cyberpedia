@@ -27,7 +27,7 @@ class Feed(models.Model):
 
     @staticmethod
     def collector_names():
-        collector_list = Feed.objects.values('name').distinct()
+        collector_list = Feed.objects.values('name').distinct().values('name')
         return collector_list
     
 class Index(models.Model):

@@ -17,13 +17,17 @@ CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
 
 
 CELERY_BEAT_SCHEDULE = {
-   'add-every-minute': {
-    'task': 'cyberpedia.tasks.updateMa',
-    'schedule': crontab(),
+   'update_breaches': {
+    'task': 'cyberpedia.tasks.update_breaches',
+    'schedule': crontab(minute=0, hour=0),
    },
-   'add-every-midnight' : {
-       'task', 'cyberpedia.tasks.update_IP',
-       'schedule': crontab(minute= 0, hour=0),
+   'update-valhalla': {
+       'task': 'cyberpedia.tasks.update_valhalla',
+       'schedule': crontab(minute=0, hour=0),
+   },
+   'update-yarify': {
+        'task': 'cyberpedia.tasks.update_yarify',
+        'schedule': crontab(minute=0, hour=1)
    }
 }
 

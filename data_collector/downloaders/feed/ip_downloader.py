@@ -1,20 +1,19 @@
 import logging
-from .downloader import DataDownloader
-from data_collector.sources.apps import sources
+from .feed_downloader import Downloader
+from data_collector.apps import sources
 
 logger = logging.getLogger(__name__)
 
-SHODAN = 'Shodan'
-IP_INFO = 'IPInfo'
-ABUSE_IPDB = 'AbuseIPDB'
-HYBRID_ANALYSIS = 'HybridAnalysis'
-MALTIVERSE = 'Maltiverse'
 
-
-class IPDownloader(DataDownloader):
+class IPDownloader(Downloader):
 
     _self = None
     HONEY_DB = 'HoneyDB'
+    SHODAN = 'Shodan'
+    IP_INFO = 'IPInfo'
+    ABUSE_IPDB = 'AbuseIPDB'
+    HYBRID_ANALYSIS = 'HybridAnalysis'
+    MALTIVERSE = 'Maltiverse'
 
     @classmethod
     def init(cls):
@@ -37,11 +36,11 @@ class IPDownloader(DataDownloader):
         maltiverse = []
         for ip in IPs:
             remote_host = ip['remote_host']
-            self.add(shodan,SHODAN,remote_host)
-            self.add(ip_info,IP_INFO,remote_host)
-            self.add(abuse_ipdb,ABUSE_IPDB,remote_host)
-            self.add(hb_ip,HYBRID_ANALYSIS,remote_host)
-            self.add(maltiverse,MALTIVERSE,remote_host)
+            self.add(shodan,self.SHODAN,remote_host)
+            self.add(ip_info,self.IP_INFO,remote_host)
+            self.add(abuse_ipdb,self.ABUSE_IPDB,remote_host)
+            self.add(hb_ip,self.HYBRID_ANALYSIS,remote_host)
+            self.add(maltiverse,self.MALTIVERSE,remote_host)
 
     def download_IP(self):
         bad_id, twitter_feed = sources[self.HONEY_DB].collect()

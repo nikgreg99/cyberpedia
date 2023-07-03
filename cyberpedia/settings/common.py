@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "data_collector.sources",
     "cyberpedia_api",
     'django_bootstrap5',
-    'django_celery_beat',
     'rest_framework'
 ]
 
@@ -101,9 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ENVIRONMENT = {
-    "development": '.env',
-}
+
 
 dotenv_path = os.path.join(CONFIG_DIR,"development.env")
 load_dotenv(dotenv_path)
