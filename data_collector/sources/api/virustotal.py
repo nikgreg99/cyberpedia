@@ -23,14 +23,14 @@ class VirusTotal(TargetCollector):
         
     def ip_report(self,ip):
         try:
-            response =  self.vt_instance.request(f"/ip_address/{ip}")
+            response =  self.vt_instance.request(resource=f"/ip_addresses/{ip}")
         except VirustotalError as ex:
             logger.exception(ex)
-        return response.json()
+        return response.json();
     
     def domain_report(self,ip):
         try:
-            response =  self.vt_instance.request(f"/domain/{ip}")
+            response =  self.vt_instance.request(resource=f"/domain/{ip}")
         except VirustotalError as ex:
             logger.exception(ex)
         return response.json()
@@ -40,4 +40,5 @@ class VirusTotal(TargetCollector):
 
     def collect_target(self,target):
         if validate_ip_address(target):
-            return self.ip_report()
+            return self.ip_report(target)
+        

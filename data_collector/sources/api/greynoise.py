@@ -17,20 +17,20 @@ class Greynoise(TargetCollector):
         super().__init__(self.__class__.__name__)
 
     def init_collector(self):
-        self.headers = {
+        self.greynoise.headers = {
             'Key': self.secrets["api_key"]
         }
         self.greynoise.proxies = settings.PROXIES
 
-    def make_request(self, final_url="", params=..., data=...):
+    def make_request(self, final_url="", params={}, data={}):
         pass
        
     
     def collect_target(self, target):
         if validate_ip_address(target):
-            final_url = self.base_url +  "/community/{}".format + target
+            final_url = self.base_url +  f"/community/{target}"
             try:
-                response = self.greynoise.get(final_url,headers=self.headers)
+                response = self.greynoise.get(final_url)
                 response.raise_for_status()
             except HTTPError as ex:
                 logger.exception(ex)

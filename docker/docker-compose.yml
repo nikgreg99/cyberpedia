@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mongo:
-    image: mongo:4.4.6
+    image: mongo:latest
     container_name: mongo
     restart: always
     ports:
@@ -64,7 +64,7 @@ services:
         - redis
         - mysql
 
-  elastisearch:
+  elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:latest
       restart: always
       container_name: elasticsearch

@@ -22,7 +22,7 @@ class ThreatFox(FeedCollector,TargetCollector):
         self.threat_fox.proxies = settings.PROXIES
 
 
-    def make_request(self, final_url="", params=..., data=...):
+    def make_request(self, final_url="", params={}, data={}):
         try:
             response = self.threat_fox.post(self.base_url,json=data)
             response.raise_for_status()

@@ -21,7 +21,7 @@ class CIRCLHashLookup(TargetCollector):
             'Accept': 'application/json'
         }
 
-    def make_request(self,final_url,headers=None,data=None):
+    def make_request(self,final_url,data={}):
         try:
             response = self.circl_hash_lookup.get(final_url,headers=headers,data=data)
             response.raise_for_status()
@@ -36,6 +36,6 @@ class CIRCLHashLookup(TargetCollector):
         return self.make_request(final_url,data=data)
 
     def bulk_SHA1(self,hashes):
-        data = {'hashesh:', hashes}
+        data = {'hashes:', hashes}
         final_url = self.base_url  + "/bulk/sha1"
         return self.make_request(final_url,data=data)
