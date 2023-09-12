@@ -1,8 +1,8 @@
-from abc import abstractmethod
+from abc import ABC,abstractmethod
 from data_collector.dataclasses import CollectorConfig
 from functools import cached_property
 
-class Collector(object):
+class Collector(ABC):
 
     name: str
     enabled: bool
@@ -16,6 +16,10 @@ class Collector(object):
     def init_collector(self):
         raise NotImplementedError()
     
+    
+    def make_request(self, final_url="",params={},data={}):
+        raise NotImplementedError()
+
 
     @cached_property
     def secrets(self) -> dict:

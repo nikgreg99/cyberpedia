@@ -10,17 +10,8 @@ logger = logging.getLogger(__name__)
 MAX_AGE_IN_DAYS = 90
 
 class AbuseIPDB(TargetCollector):
-
-    _self = None
     base_url : str = "https://api.abuseipdb.com/api/v2"
     abuseipdb = requests.Session()
-
-
-    @classmethod
-    def init(cls):
-        if cls._self is None:
-            cls._self = super().__init__(cls)
-        return cls._self
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
@@ -32,7 +23,7 @@ class AbuseIPDB(TargetCollector):
         }
         self.abuseipdb.proxies = settings.PROXIES
 
-    def request(self,final_url,params):
+    def make_request(self, final_url="", params=..., data=...):
         try:
             response = self.abuseipdb.get(final_url,params=params,headers=self.headers)
             response.raise_for_status()
@@ -43,11 +34,11 @@ class AbuseIPDB(TargetCollector):
     def check_ip(self,ip):
         if validate_ip_address(ip):
             final_url = self.base_url + "/check"
-            parameters = {
+            params = {
                 "ipAddress": ip,
                 "maxAgeInDays": MAX_AGE_IN_DAYS
             }
-            return self.request(final_url,parameters)
+            return self.make_request(final_url=final_url,params=params)
         
     def collect_target(self, target):
         return self.check_ip(target)

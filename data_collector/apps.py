@@ -19,10 +19,11 @@ class DataCollectorConfig(AppConfig):
         for collector_name in collector_names:
             name = collector_name["name"]
             api_module = importlib.import_module('data_collector.sources.api.{}'.format(name.lower()))
-            klass = getattr(api_module,name)
-            api_instance = klass()
-            sources[name] = api_instance
-            api_instance.init_collector()
+            if api_module is not None:
+                klass = getattr(api_module,name)
+                api_instance = klass()
+                sources[name] = api_instance
+                api_instance.init_collector()
 
 
 

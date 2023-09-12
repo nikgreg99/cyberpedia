@@ -16,15 +16,15 @@ class ThreatJammer(FeedCollector):
 
     def init_collector(self):
         api_key = self.secrets["api_key"]
-        self.headers = {
+        self.threat_jammer.headers = {
             'Accept': "application/json",
             "Authorization": "Bearer {}".format(api_key)
         }
         self.threat_jammer.proxies = settings.PROXIES
 
-    def request_threat_jammer(self,final_url,parameters = None):
+    def make_request(self, final_url="", params=..., data=...):
         try:
-            response = self.threat_jammer.get(final_url,params=parameters,headers=self.headers)
+            response = self.threat_jammer.get(final_url,params=params)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
@@ -33,7 +33,5 @@ class ThreatJammer(FeedCollector):
 
     def collect(self):
          final_url = self.base_url + "/source/ip"
-         return self.request_threat_jammer(final_url)
+         return self.request_threat_jammer(final=final_url)
     
-    def collect_target(self, target):
-        pass

@@ -1,13 +1,13 @@
 import requests
 from requests import HTTPError
-from data_collector.classes import Collector
+from data_collector.classes import TargetCollector
 from django.conf import settings
 import logging
 
 
 logger = logging.getLogger(__name__)
 
-class CIRCLHashLookup(Collector):
+class CIRCLHashLookup(TargetCollector):
 
     base_url : str = "https://hashlookup.circl.lu"
     circl_hash_lookup = requests.Session()

@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 PROJECT_DIR = BASE_DIR / "cyberpedia"
 CONFIG_DIR = PROJECT_DIR / "configuration"
-TEST_DIR =  PROJECT_DIR/ "tests"
+TEST_DIR =  PROJECT_DIR/ "test"
+FIXTURE_DIR = PROJECT_DIR/ "fixtures"
 TEMPLATE_DIR = PROJECT_DIR / "templates"
 
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cyberpedia',
     "data_collector",
     "data_collector.sources",
     "cyberpedia_api",
@@ -126,6 +128,8 @@ STATIC_FILE_DIRS = [os.path.join('assets')]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
+
+
 
 
 # Default primary key field type

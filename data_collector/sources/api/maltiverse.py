@@ -22,7 +22,7 @@ class Maltiverse(TargetCollector):
            'bearer Auth': secret
        }
 
-    def make_request(self,final_url):
+    def make_request(self, final_url="", params=..., data=...):
         try:
             response = self.maltiverse.get(final_url)
             response.raise_for_status()

@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 
 class OpenCVE(FeedCollector,TargetCollector):
 
-    base_url : str = "http://localhost:8100/api"
+    _self = None
+    base_url : str = get_env_var('OPENCVE_URL')
     opencve = requests.Session()
 
     def __init__(self) -> None:
@@ -29,7 +30,7 @@ class OpenCVE(FeedCollector,TargetCollector):
         }
         self.opencve.proxies = settings.PROXIES
 
-    def make_requets_open_cve(self,final_url):
+    def make_requests_open_cve(self,final_url):
         try:
             response = self.opencve.get(final_url)
             response.raise_for_status()
@@ -39,30 +40,37 @@ class OpenCVE(FeedCollector,TargetCollector):
     
     def list_CVE(self):
         final_url = self.base_url + "/cve"
-        return self.make_requets_open_cve(final_url)
+        return self.make_requests_open_cve(final_url)
     
     def get_CVE_by_id(self,CVE):
         if validate_cve_format(CVE):
             final_url = self.base_url + f"/cve/{CVE}"
-            return self.make_requets_open_cve(final_url)
+            return self.make_requests_open_cve(final_url)
         
     def get_CWE_by_id(self,CWE):
-        final_url = self.base_url + f"/cwe{CWE}"
-        return self.make_requets_open_cve(final_url)
+        final_url = self.base_url + f"/cwe/{CWE}"
+        return self.make_requests_open_cve(final_url)
     
     def list_CWE(self):
         final_url = self.base_url + "/cwe"
-        return self.make_requets_open_cve(final_url)
+        return self.make_requests_open_cve(final_url)
     
     def list_vendors(self):
         final_url = self.base_url + "/vendors"
-        return self.make_requets_open_cve(final_url)
-    
+        return self.make_requests_open_cve(final_url)
 
-    def list_products(self):
-        final_url = self.base_url + "/products"
-        return self.make_requets_open_cve(final_url)
+    def list_vendors_by_name(self,name):
+        final_url = self.base_url + f"/vendors/{name}" 
+        return self.make_requests_open_cve(final_url)
     
+    def list_vendors_name_by_CVE(self,name):
+        final_url = self.base_url + f"/vendors/{name}/CVE"
+        return self.make_requests_open_cve(final_url)
+    
+    def list_products(self,vendor_name):
+        final_url = self.base_url + f"/vendors/{vendor_name}/products"
+        return self.make_requests_open_cve(final_url)
+ 
     def collect_target(self, target):
         return super().collect_target(target)
     

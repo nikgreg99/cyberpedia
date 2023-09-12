@@ -1,9 +1,9 @@
 import requests
 import logging
 from requests import HTTPError
+from django.conf import settings
 from data_collector.classes import FeedCollector
 from data_collector.helpers import csv_to_json
-from django.conf import settings
 
 logger = logging.Logger(__name__)
 
@@ -17,19 +17,21 @@ class Maldatabase(FeedCollector):
         
     
     def init_collector(self):
-          self.headers = {
+        self.maldatabase.headers = {
             "Authorization": self.secrets["api_key"],
             "Accept-Encoding": "gzip, deflate"
         }
-    
-    def collect(self):
-        try:
-            final_url = self.base_url + "/download"
-            response = self.maldatabase.get(final_url,headers=self.headers)
+        self.maldatabase.proxies = settings.PROXIES
+
+    def make_request(self, final_url, params=..., data=...):
+        try:         
+            response = self.maldatabase.get(final_url)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
+        return response
+
+    def collect(self):
+        final_url = self.base_url + "/download"
+        response = self.make_request(final_url)
         return csv_to_json(response.text)
-    
-    def collect_target(self, target):
-        pass

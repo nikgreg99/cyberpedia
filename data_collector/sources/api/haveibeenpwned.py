@@ -2,19 +2,18 @@ import requests
 from requests import HTTPError
 import requests
 import logging
-from data_collector.classes import FeedCollector
+from data_collector.classes import FeedCollector,TargetCollector
 from django.conf import settings
 
 
 logger = logging.getLogger()
 
 
-class HaveIBeenPwned(FeedCollector):
+class HaveIBeenPwned(FeedCollector,TargetCollector):
 
     base_url : str = "https://haveibeenpwned.com/api/v3"
     have_i_been_pwned = requests.Session()
 
-    
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)

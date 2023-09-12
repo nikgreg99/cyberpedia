@@ -7,7 +7,7 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
-class DNSDb(TargetCollector):
+class DNSDB(TargetCollector):
 
     base_url = "https://api.dnsdb.io/v1"
     dns_db = requests.Session()

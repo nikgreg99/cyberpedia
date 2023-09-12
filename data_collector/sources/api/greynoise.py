@@ -21,6 +21,9 @@ class Greynoise(TargetCollector):
             'Key': self.secrets["api_key"]
         }
         self.greynoise.proxies = settings.PROXIES
+
+    def make_request(self, final_url="", params=..., data=...):
+        pass
        
     
     def collect_target(self, target):

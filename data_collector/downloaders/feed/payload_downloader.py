@@ -1,12 +1,13 @@
 import logging
 from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
+logger = logging.getLogger(__name__)
 
-logging = logging.getLogger(__name__)
 
-class OpenCVEDownloader(FeedDownloader):
+class PayloadDownloader(FeedDownloader):
 
-    self = None
+    _self = None
+    URLHAUS = "UrlHaus"
 
     @classmethod
     def init(cls):
@@ -16,8 +17,9 @@ class OpenCVEDownloader(FeedDownloader):
     
     def __init__(self) -> None:
         super().__init__()
-    
+
+
     def download_feed(self):
-        pass
-      
-    
+        _,data_payload = sources[self.URLHAUS].collect()
+        self.elastic.insert_data_bulk('urlhaus-payload',data_payload)
+        self.mongo.save_data('urlhaus-payload',data_payload)

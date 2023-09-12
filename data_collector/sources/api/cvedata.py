@@ -24,16 +24,16 @@ class CVEData(TargetCollector):
     def init_collector(self):
         self.cve_data.proxies = settings.PROXIES
     
-    def collect(self):
-        pass
+    def make_request(self,final_url,params={}, data={}):
+        try:
+            response = self.cve_data.get(final_url)
+            response.raise_for_status()
+        except HTTPError as ex:
+                logger.exception(ex)
+        return response.json()
 
     def collect_target(self,target):
         if validate_cve_format(target):
-            final_url = self.base_url + "/{}".format(target)
-            try:
-                response = self.cve_data.get(final_url)
-                response.raise_for_status()
-            except HTTPError as ex:
-                logger.exception(ex)
-            return response.json()
+            final_url = self.base_url + f"/{target}"
+            self.make_request(final_url)
     

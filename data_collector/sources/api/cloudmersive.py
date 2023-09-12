@@ -48,6 +48,9 @@ class Cloudmersive(TargetCollector):
             logger.exception(ex)
         
         return api_response
+
+    def collect_target(self) -> dict:
+        pass
     
              
 

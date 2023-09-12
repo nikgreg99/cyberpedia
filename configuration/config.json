@@ -1,15 +1,5 @@
 [
     {
-        "name": "Auth0",
-        "secrets":{
-            "api_key": {
-                "env_var_key": "AUTH0_API_KEY",
-                "required": true
-            }          
-        },
-        "indexes": ["auth0"]
-    },
-    {
         "name": "AbuseIPDB",
         "secrets":{
             "api_key":{
@@ -20,7 +10,7 @@
         "indexes": ["abuseipdb"]
     },
     {
-        "name": "DNSDb",
+        "name": "DNSDB",
         "secrets": {
             "api_id": {
                 "env_var_key": "DNSDB_API_ID",
@@ -75,16 +65,6 @@
         "indexes": ["maldatabase"]
     },
     {
-        "name": "Malpedia",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "MALPEDIA_API_KEY",
-                "required": true
-            }
-        },
-        "indexes": ["malpedia"]
-    },
-    {
         "name": "Maltiverse",
         "secrets": {
             "api_key": {
@@ -128,7 +108,16 @@
         },
         "indexes": ["threat-jammmer"]
     },
-
+    {
+        "name": "MalwareBazaar",
+        "secrets": {
+            "api_key": {
+                "env_var_key" : "MALWARE_BAZAAR_KEY",
+                "required": true
+            }
+        },
+        "indexes": ["malware-bazaar"]
+    },
     {
         "name": "UrlScan",
         "secrets": {
@@ -277,16 +266,6 @@
         "indexes": ["pulsedive"]
     },
     {
-        "name": "Tranco",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "TRANCO_API_KEY",
-                "required": true
-            }
-        },
-        "indexes": ["tranco"]
-    },
-    {
         "name": "OpenCVE",
         "secrets" : {
             "username": {
@@ -299,16 +278,6 @@
             }
           },
           "indexes": ["opencve-cve","opencve-cwe", "opencve-vendors","opencve-products"]
-    },
-    {
-        "name": "Koodous",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "KOODOUS_API_KEY",
-                "required": true
-            }
-        },
-        "indexes": ["koodus-apk"]
     },
     {
         "name": "ExploitAlert",
@@ -368,16 +337,6 @@
             }
         },
         "indexes": ["vulners"]
-    },
-    {
-        "name": "Virushee",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "VIRUSHEE_API_KEY",
-                "required": true
-            }
-        },
-        "indexes":["virushee"]
     },
     {
         "name": "Valhalla",

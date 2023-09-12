@@ -14,20 +14,32 @@ CELERY_TASK_SERIALIZER = os.environ.get('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = os.environ.get('CELERY_RESULT_SERIALIZER')
 CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER')
 CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
-
+CELERY_TASK_TRACK_STARTED = os.environ.get('CELERY_TASK_TRACK_STARTED')
+CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
 
 CELERY_BEAT_SCHEDULE = {
    'update_breaches': {
     'task': 'cyberpedia.tasks.update_breaches',
-    'schedule': crontab(minute=0, hour=0),
+    'schedule': crontab(minute='*/1')
    },
    'update-valhalla': {
        'task': 'cyberpedia.tasks.update_valhalla',
-       'schedule': crontab(minute=0, hour=0),
+       'schedule': crontab(minute=0, hour=0)
    },
    'update-yarify': {
         'task': 'cyberpedia.tasks.update_yarify',
-        'schedule': crontab(minute=0, hour=1)
+        'schedule': crontab(minute = '*/4')
+   },
+   'update-payload': {
+       'task': 'cyberpedia.tasks.update_payload',
+       'schedule': crontab(minute='*/3')
+   },
+   'update-IOC': {
+       'task': 'cyberpedia.tasks.update_IOC',
+       'schedule': crontab(minute='*/5')
+   },
+   'update-IP': {
+       'task': 'cyber'
    }
 }
 

@@ -1,11 +1,10 @@
 import logging
-from .feed_downloader import Downloader
+from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
-
 logger = logging.getLogger(__name__)
 
 
-class IPDownloader(Downloader):
+class IPDownloader(FeedDownloader):
 
     _self = None
     HONEY_DB = 'HoneyDB'
@@ -48,5 +47,5 @@ class IPDownloader(Downloader):
         self.process_IP(twitter_feed)
         
 
-    def download_data(self):
+    def download_feed(self):
         self.download_IP()

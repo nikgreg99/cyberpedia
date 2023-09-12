@@ -53,3 +53,9 @@ class UrlScan(TargetCollector,FeedCollector):
                 logger.exception(ex)
         else:
             logger.error("Non field uuid present in submission_URL responsnse")
+
+    def collect(self) -> dict:
+        pass
+
+    def collect_target(self) -> dict:
+        pass
