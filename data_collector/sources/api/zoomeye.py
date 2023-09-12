@@ -17,15 +17,18 @@ class ZoomEye(TargetCollector):
 
     def init_collector(self):
         api_key = self.secrets["api_key"]
-        self.headers = {
+        self.zoomeye.headers = {
             "API-KEY" : api_key
         }
         self.zoomeye.proxies = settings.PROXIES
     
     def collect_target(self, target):
         try:
-            final_url = self.base_url + "/host/search"
-            response =  self.zoomeye.get(final_url,headers=self.headers)
+            final_url = self.base_url + "/host/searchs"
+            query = {
+                'query' : f'ip:{target}'
+            }
+            response =  self.zoomeye.get(final_url,params=query)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
