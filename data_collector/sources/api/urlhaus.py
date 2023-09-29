@@ -20,7 +20,7 @@ class UrlHaus(FeedCollector,TargetCollector):
         api_key = self.secrets["api_key"]
         self.urlhaus.proxies = settings.PROXIES
 
-    def _make_request(self,url):
+    def make_request(self,url,method="GET",params={},data={}):
         try:
             response = self.urlhaus.get(url)
             response.raise_for_status()
@@ -33,7 +33,7 @@ class UrlHaus(FeedCollector,TargetCollector):
         query_URL = self.base_url + basic_url
         if limit is not None:
             query_URL = query_URL + "/limit/{}".format(limit)
-        return self._make_request(query_URL)
+        return self.make_request(url=query_URL)
       
     
     def query_recent_payloads(self,limit = None):
@@ -41,7 +41,7 @@ class UrlHaus(FeedCollector,TargetCollector):
         query_URL = self.base_url + basic_url
         if limit is not  None:
             query_URL = query_URL + "/limit/{}".format(limit)
-        return self._make_request(query_URL)
+        return self.make_request(url= query_URL)
     
     def collect(self):
         return self.query_recent_urls(),self.query_recent_payloads()

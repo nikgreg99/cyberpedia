@@ -6,5 +6,6 @@ try:
     from .misp import *
     from .proxy import *
     from .open_cve import *
+    from .digitalside import *
 except:
     pass

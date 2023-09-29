@@ -7,8 +7,6 @@ from data_collector.utils import validate_ip_address,validate_domain
 logger = logging.getLogger(__name__)
 
 class Shodan(TargetCollector):
-
-
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
 
@@ -16,7 +14,7 @@ class Shodan(TargetCollector):
          self.api_key = self.secrets["api_key"]
          self.shodan = shodan.Shodan(self.api_key)
 
-    def make_request(self, final_url="", params=..., data=...):
+    def make_request(self, method="GET", final_url="", params={}, data={}):
         host = None
         target = data["target"]
         if validate_ip_address(target):

@@ -42,9 +42,11 @@ class IPDownloader(FeedDownloader):
             self.add(maltiverse,self.MALTIVERSE,remote_host)
 
     def download_IP(self):
-        bad_id, twitter_feed = sources[self.HONEY_DB].collect()
-        self.process_IP(bad_id)
-        self.process_IP(twitter_feed)
+        bad_ip, twitter_feed = sources[self.HONEY_DB].collect()
+        self.elastic.insert_data_bulk('honeydb-bad-ip',bad_ip)
+        self.elastic.insert_data_bulk('honeydb-twitter-feed',twitter_feed)
+        #self.process_IP(bad_id)
+        #self.process_IP(twitter_feed)
         
 
     def download_feed(self):

@@ -16,6 +16,7 @@ elastic = ElasticManager()
 class Command(BaseCommand):
 
     help = "Migrate secrets and indexes from .env file file to database"
+    elastic = ElasticManager()
 
     def load_MISP_feed(cls):
         path = os.path.join(settings.CONFIG_DIR,"misp_feeds.json")

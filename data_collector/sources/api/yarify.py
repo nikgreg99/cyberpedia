@@ -24,7 +24,7 @@ class Yarify(FeedCollector):
     def list_recent_rules(self):
         data = {"query" : "recent_yararules"}
         try:
-             response  = self.yarify.post(self.base_url,json=data)
+             response  = self.yarify.post(self.base_url,data=data)
              response.raise_for_status()
         except HTTPError as ex:
              logging.exception(ex)

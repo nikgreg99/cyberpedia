@@ -2,6 +2,8 @@ import logging
 from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
 
+logger = logging.getLogger(__name__)
+
 class ValhallaDownloader(FeedDownloader):
     _self = None
     VALHALLA = "Valhalla"

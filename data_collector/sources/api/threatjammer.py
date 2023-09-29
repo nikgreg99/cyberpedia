@@ -22,7 +22,7 @@ class ThreatJammer(FeedCollector):
         }
         self.threat_jammer.proxies = settings.PROXIES
 
-    def make_request(self, final_url="", params=..., data=...):
+    def make_request(self, final_url="", params={}, data={}):
         try:
             response = self.threat_jammer.get(final_url,params=params)
             response.raise_for_status()
@@ -33,5 +33,5 @@ class ThreatJammer(FeedCollector):
 
     def collect(self):
          final_url = self.base_url + "/source/ip"
-         return self.request_threat_jammer(final=final_url)
+         return self.make_request(final_url=final_url)
     

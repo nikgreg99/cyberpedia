@@ -1,9 +1,10 @@
 from abc import ABC
 import logging
-logger = logging.getLogger(__name__)
 from data_collector.managers.elastic_manager import ElasticManager
 from data_collector.managers.mongo_manager import MongoManager
 from data_collector.models import Index
+
+logger = logging.getLogger(__name__)
 
 class Downloader(ABC):
 

@@ -32,6 +32,8 @@ class CollectorConfig:
             secrets[config.type] = config.value
         return secrets
 
+    def read_paramters(self):
+        pass
 
 
 

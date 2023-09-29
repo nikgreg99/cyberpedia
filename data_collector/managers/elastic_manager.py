@@ -1,3 +1,4 @@
+import json
 import uuid
 import os
 import logging
@@ -27,17 +28,22 @@ class ElasticManager(Manager):
             self.elastic.indices.create(index=index_name,mappings=mappings)
 
 
-    def gen_index_data(self,index_name,data):
-        for chunck in data:
-         if chunck is not None:
-            yield {
-            "_id": uuid.uuid4(),
-            "_index": index_name,
-            "_source": chunck     
-            }
+    def gen_index_data(self,index_name,doc_type,data):
+        data_json = json.dumps(data,indent=4)
+        for doc in data:
+            # using a yield generator data are not loaded directly into memory
+            yield{
+                '_index': index_name,
+                '_id': uuid.uuid4(),
+                'doc_type': doc_type,
+                '_source': doc
+            }            
 
     def insert_data_bulk(self,index_name,data):
-     bulk(self.elastic, self.gen_index_data(index_name,data))
+     if isinstance(data,dict):
+         self.elastic.index(index=index_name,id=uuid.uuid4(),document=data)
+     else: 
+        bulk(self.elastic, self.gen_index_data(index_name,"CTI",data),chunk_size=4000)
      print("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
 
 

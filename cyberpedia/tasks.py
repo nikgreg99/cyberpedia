@@ -6,6 +6,7 @@ from data_collector.downloaders.feed.ioc_downloader import IOCDownloader
 from data_collector.downloaders.feed.payload_downloader import PayloadDownloader
 from data_collector.downloaders.feed.ip_downloader import IPDownloader
 from data_collector.downloaders.feed.url_downloader import URLDownloader
+from data_collector.downloaders.feed.malware_dowloader import MalwareDownloader
 from cyberpedia.celery import shared_task
 
 logger = logging.getLogger(__name__)
@@ -48,6 +49,12 @@ def update_IP():
     ip_downloader.download_feed()
     logger.info('IP data updated succesfully')
 
+
+@shared_task()
+def update_malware():
+    malware_downloader = MalwareDownloader()
+    malware_downloader.download_feed()
+    logger.info('Malware feeds update succesfully')
 
 @shared_task()
 def update_URL():

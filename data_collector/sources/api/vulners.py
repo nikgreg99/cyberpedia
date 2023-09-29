@@ -18,7 +18,6 @@ class Vulners(FeedCollector):
         self.vulners = vulners.VulnersApi(api_key = self.api_key, proxies = settings.PROXIES)
         
 
-
     def search_target(self,target):
         try:
             response = self.vulners.find_all(target, limit=1000, fields=['*'])

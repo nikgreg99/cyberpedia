@@ -60,7 +60,7 @@ def validate_host(host):
      match = re.match(host,HOST_REGEX)
      if match:
         return True
-     raise InvalidURLFormat(f"{host} is not a valid hostname")
+     raise InvalidHostFormat(f"{host} is not a valid hostname")
    
 
 def compute_md5(plaintext):
