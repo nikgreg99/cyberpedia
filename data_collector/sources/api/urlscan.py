@@ -16,28 +16,16 @@ class UrlScan(TargetCollector,FeedCollector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
-        self.headers: dict = {
+        self.err = {}
+        self.urlscan.headers: dict = {
             "Content-Type ": "application/json",
             "API-KEY" : self.secrets["api_key"]
         }
         self.urlscan.proxies = settings.PROXIES
-       
-
-    def submit_url(self,url):
-        data : dict = {
-            "visibility": "public",
-            "url": url
-        }
-        final_url = self.base_url + "/scan"
-        try:
-            response = self.urlscan.post(final_url,headers=self.headers,data=json.dumps(data))
-            response.raise_for_status()
-        except HTTPError as ex:
-            logger.exception(ex)
-        return response.json()
-        
+             
     def get_url_report(self,url,submission_response):
         if 'uuid' in submission_response:
             uuid = submission_response["uuid"]

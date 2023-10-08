@@ -14,6 +14,7 @@ class CIRCLHashLookup(TargetCollector):
 
     def __init__(self, name) -> None:
         super().__init__(self.__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
         self.circl_hash_lookup.proxies = settings.PROXIES
@@ -21,9 +22,9 @@ class CIRCLHashLookup(TargetCollector):
             'Accept': 'application/json'
         }
 
-    def make_request(self,final_url,data={}):
+    def make_request(self,final_url,params={},data={}):
         try:
-            response = self.circl_hash_lookup.get(final_url,headers=headers,data=data)
+            response = self.circl_hash_lookup.get(final_url,params=params,data=data)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)

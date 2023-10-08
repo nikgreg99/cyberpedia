@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 class Shodan(TargetCollector):
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
+       self.init_collector()
 
     def init_collector(self):
          self.api_key = self.secrets["api_key"]

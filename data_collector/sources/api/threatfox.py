@@ -8,7 +8,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class ThreatFox(FeedCollector,TargetCollector):
+class ThreatFox(FeedCollector):
 
     base_url = 'https://threatfox-api.abuse.ch/api/v1/'
     threat_fox = requests.Session() 
@@ -16,11 +16,12 @@ class ThreatFox(FeedCollector,TargetCollector):
 
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__) 
+       self.init_collector()
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
         self.threat_fox.proxies = settings.PROXIES
-
+        self.error = {}
 
     def make_request(self, final_url="", params={}, data={}):
         try:
@@ -28,47 +29,31 @@ class ThreatFox(FeedCollector,TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
+            self.error['threatfox'] = ex
         return response.json()
 
-    def query_recent_IOC(self):
+    def collect_recent_IOC(self):
         data = {
+
             "query": "get_iocs",
             "days": 7
         }
         return self.make_request(data=data)
-    
-    def search_IOC_by_target(self,target):
-        data = {
-            "query": "search_ioc",
-            "search_term": target
-        }
-        return self.make_request(data=data)
-    
-    def search_IOC_by_hash(self,hash):
-        data = {
-            "query": "search_by_hash",
-            "hash": hash
-        }
-        return self.make_request(data=data)
 
-    def query_malware(self,malware, limit=100): 
-        data = {
-            "query:": "malwareinfo",
-            "malware": malware,
-            "limit": limit
-        }      
-        return self._make_request(data=data)
     
-    def get_malware_list(self):
+    def collect_malware_info(self):
         data = {
             "query": "malware_list"
         }
         return self.make_request(data=data)
     
     def collect(self):
-        return self.query_recent_IOC(),self.get_malware_list()
-    
-    def collect_target(self, target):
-        return super().collect_target(target)
+        ioc = self.collect_recent_IOC()
+        malware = self.collect_malware_info()
+        return {
+            'ioc': ioc,
+            'malware-list': malware
+        }
+
 
 

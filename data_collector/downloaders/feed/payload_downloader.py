@@ -21,5 +21,5 @@ class PayloadDownloader(FeedDownloader):
 
     def download_feed(self):
         _,data_payload = sources[self.URLHAUS].collect()
-        self.elastic.insert_data_bulk('urlhaus-payload',data_payload)
+        self.elastic.insert('urlhaus-payload',data_payload)
         self.mongo.save_data('urlhaus-payload',data_payload)

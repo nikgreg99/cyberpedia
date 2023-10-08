@@ -1,4 +1,3 @@
-import os
 import logging
 import requests
 from requests import HTTPError
@@ -16,22 +15,26 @@ class Yarify(FeedCollector):
 
     def __init__(self):
        super().__init__(self.__class__.__name__)
+       self.init_collector()
 
     def init_collector(self):
+        self.error = {}
         self.yarify.proxies = settings.PROXIES
 
 
-    def list_recent_rules(self):
+    def collect_recent_rules(self):
         data = {"query" : "recent_yararules"}
         try:
-             response  = self.yarify.post(self.base_url,data=data)
+             response  = self.yarify.post(url= self.base_url,json=data)
              response.raise_for_status()
         except HTTPError as ex:
+             self.error['yaraify'] = ex
              logging.exception(ex)
         return response.json()
 
      
     def collect(self):
-        return self.list_recent_rules()
+        rules = self.collect_recent_rules()
+        return rules
 
 

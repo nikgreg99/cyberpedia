@@ -5,6 +5,7 @@ import logging
 from .manager import Manager
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -39,12 +40,14 @@ class ElasticManager(Manager):
                 '_source': doc
             }            
 
-    def insert_data_bulk(self,index_name,data):
+    def insert(self,index_name,data):
      if isinstance(data,dict):
          self.elastic.index(index=index_name,id=uuid.uuid4(),document=data)
      else: 
         bulk(self.elastic, self.gen_index_data(index_name,"CTI",data),chunk_size=4000)
-     print("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
+    
+     if settings.DEBUG:  
+        logger.info("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
 
 
     def create_index(self,name_index):

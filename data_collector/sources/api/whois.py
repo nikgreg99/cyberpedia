@@ -14,8 +14,10 @@ class Whois(TargetCollector):
 
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
+       self.init_collector()
     
     def init_collector(self):
+        self.err = {}
         self.api_key = self.secrets["api_key"]
         self.params = {
             "apiKey": self.api_key,
@@ -32,7 +34,8 @@ class Whois(TargetCollector):
             response =  self.session.get(self.base_url,params=self.params)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.error(ex)
+            logger.exception(ex)
+            self.err['whois']= ex
         return response.json()
 
     

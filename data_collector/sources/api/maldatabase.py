@@ -14,21 +14,23 @@ class Maldatabase(FeedCollector):
 
     def __init__(self):
        super().__init__(self.__class__.__name__)
+       self.init_collector()
         
     
     def init_collector(self):
+        self.error = {}
         self.maldatabase.headers = {
             "Authorization": self.secrets["api_key"],
             "Accept-Encoding": "gzip, deflate"
         }
         self.maldatabase.proxies = settings.PROXIES
 
-    def make_request(self, final_url, params=..., data=...):
+    def make_request(self, final_url, params={}, data={}):
         try:         
             response = self.maldatabase.get(final_url)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.exception(ex)
+            logger.error(ex)
         return response
 
     def collect(self):

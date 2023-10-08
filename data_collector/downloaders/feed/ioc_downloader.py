@@ -25,5 +25,5 @@ class IOCDownloader(FeedDownloader):
 
     def download_feed(self):
          data_ioc,_= sources[self.THREAT_FOX].collect()
-         self.elastic.insert_data_bulk(self.THREAT_FOX_MALWARE_LIST,data_ioc)
+         self.elastic.insert(self.THREAT_FOX_MALWARE_LIST,data_ioc)
          self.mongo.save_data(self.THREAT_FOX_MALWARE_LIST,data_ioc) 

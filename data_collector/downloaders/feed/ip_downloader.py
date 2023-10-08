@@ -1,6 +1,10 @@
 import logging
 from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
+from django.conf import settings
+
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -12,7 +16,7 @@ class IPDownloader(FeedDownloader):
     IP_INFO = 'IPInfo'
     ABUSE_IPDB = 'AbuseIPDB'
     HYBRID_ANALYSIS = 'HybridAnalysis'
-    MALTIVERSE = 'Maltiverse'
+    WHOIS = 'Whois'
 
     @classmethod
     def init(cls):
@@ -28,25 +32,21 @@ class IPDownloader(FeedDownloader):
         list.append(result)
     
     def process_IP(self,IPs):
-        shodan =  []
         ip_info = []
-        abuse_ipdb = []
-        hb_ip = []
-        maltiverse = []
+       
         for ip in IPs:
             remote_host = ip['remote_host']
-            self.add(shodan,self.SHODAN,remote_host)
             self.add(ip_info,self.IP_INFO,remote_host)
-            self.add(abuse_ipdb,self.ABUSE_IPDB,remote_host)
-            self.add(hb_ip,self.HYBRID_ANALYSIS,remote_host)
-            self.add(maltiverse,self.MALTIVERSE,remote_host)
+        return ip_info,
+        
 
     def download_IP(self):
-        bad_ip, twitter_feed = sources[self.HONEY_DB].collect()
-        self.elastic.insert_data_bulk('honeydb-bad-ip',bad_ip)
-        self.elastic.insert_data_bulk('honeydb-twitter-feed',twitter_feed)
-        #self.process_IP(bad_id)
-        #self.process_IP(twitter_feed)
+        data = sources[self.HONEY_DB].collect()
+        if settings.DEBUG:
+            logger.info(data['bad-ip'])
+            logger.info(data['twitter-ip'])
+        self.elastic.insert('honeydb-bad-ip',data['bad-ip'])
+        self.elastic.insert('honeydb-twitter-feed',data['twitter-ip'])
         
 
     def download_feed(self):

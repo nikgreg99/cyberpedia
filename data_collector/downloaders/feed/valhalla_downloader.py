@@ -22,8 +22,8 @@ class ValhallaDownloader(FeedDownloader):
     
     def download_feed(self):
         yara_json, sigma_json = sources[self.VALHALLA].collect()
-        self.elastic.insert_data_bulk(self.VALHALLA_YARA.lower(),yara_json)
-        self.elastic.insert_data_bulk(self.VALHALLA_SIGMA.lower(),sigma_json)
+        self.elastic.insert(self.VALHALLA_YARA.lower(),yara_json)
+        self.elastic.insert(self.VALHALLA_SIGMA.lower(),sigma_json)
         self.mongo.save_data(self.VALHALLA_YARA.lower(),yara_json)
         self.mongo.save_data(self.VALHALLA_SIGMA.lower(),sigma_json)
         

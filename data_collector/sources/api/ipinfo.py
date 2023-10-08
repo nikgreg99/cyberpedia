@@ -16,7 +16,7 @@ class IPInfo(TargetCollector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
-        self.ipinfo.proxies = settings.PROXIES
+        self.init_collector()
 
 
     def init_collector(self):
@@ -24,6 +24,7 @@ class IPInfo(TargetCollector):
             "Accept": "application/json",
             "Authorization": "Bearer {}".format(self.secrets["api_key"])
         }
+        self.ipinfo.proxies = settings.PROXIES
         
 
     def ip_info(self,ip):

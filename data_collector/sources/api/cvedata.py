@@ -20,8 +20,10 @@ class CVEData(TargetCollector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
+        self.error = {}
         self.cve_data.proxies = settings.PROXIES
     
     def make_request(self,final_url,params={}, data={}):
@@ -30,10 +32,12 @@ class CVEData(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
                 logger.exception(ex)
+                self.error['cvedata'] = ex
         return response.json()
 
     def collect_target(self,target):
         if validate_cve_format(target):
             final_url = self.base_url + f"/{target}"
             self.make_request(final_url)
+
     

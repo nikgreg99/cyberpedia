@@ -5,6 +5,7 @@ import hashlib
 import pyssdeep
 import pefile
 import re
+import concurrent
 
 def validate_ip_address(ip: str):
     ip_checker = ip_address(ip)
@@ -77,6 +78,20 @@ def compute_ssdeep(plaintext):
 
 def compute_imphash(file_path):
     return pefile.PE(file_path).get_imphash()
+
+def process_data(f,data):
+    parallel_data = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+        future_to_url = {executor.submit(f,url): url for url in data}
+        for future in concurrent.futures.as_completed(future_to_url):
+            url = future_to_url[future]
+            try:
+                response = future.result()
+                parallel_data.append(response)
+            except Exception as ex:
+                pass
+
+
 
 
 

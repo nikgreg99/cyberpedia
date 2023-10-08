@@ -8,23 +8,24 @@ logger = logging.getLogger(__name__)
 
 class UrlHaus(FeedCollector,TargetCollector):
     base_url : str = 'https://urlhaus-api.abuse.ch/v1/'
-    api_key = None
     urlhaus = requests.Session()
-
 
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
+       self.init_collector()
 
 
     def init_collector(self):
-        api_key = self.secrets["api_key"]
+        self.error = {}
+        self.api_key = self.secrets["api_key"]
         self.urlhaus.proxies = settings.PROXIES
 
-    def make_request(self,url,method="GET",params={},data={}):
+    def make_request(self,final_url,params={},data={}):
         try:
-            response = self.urlhaus.get(url)
+            response = self.urlhaus.get(final_url,params=params,data=data)
             response.raise_for_status()
         except HTTPError as ex:
+            self.error["urlhaus"] = ex
             logger.exception(ex)
         return response.json()
 
@@ -33,7 +34,7 @@ class UrlHaus(FeedCollector,TargetCollector):
         query_URL = self.base_url + basic_url
         if limit is not None:
             query_URL = query_URL + "/limit/{}".format(limit)
-        return self.make_request(url=query_URL)
+        return self.make_request(final_url=query_URL)
       
     
     def query_recent_payloads(self,limit = None):
@@ -41,10 +42,15 @@ class UrlHaus(FeedCollector,TargetCollector):
         query_URL = self.base_url + basic_url
         if limit is not  None:
             query_URL = query_URL + "/limit/{}".format(limit)
-        return self.make_request(url= query_URL)
+        return self.make_request(final_url= query_URL)
     
     def collect(self):
-        return self.query_recent_urls(),self.query_recent_payloads()
+        urls = self.query_recent_urls()
+        payloads = self.query_recent_payloads()
+        return {
+            'url': urls,
+            'payload': payloads
+        }
     
     def collect_target(self, target):
         return super().collect_target(target)

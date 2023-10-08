@@ -20,6 +20,6 @@ class BreachDownloader(FeedDownloader):
 
     def download_feed(self):
         data = sources[self.HAVE_I_BEEN_PWNED].collect()
-        self.elastic.insert_data_bulk('have-i-been-pwned',data)
+        self.elastic.insert('have-i-been-pwned',data)
         self.mongo.save_data('have-i-been-pwned',data)
 

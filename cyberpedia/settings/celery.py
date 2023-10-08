@@ -18,25 +18,25 @@ CELERY_TASK_TRACK_STARTED = os.environ.get('CELERY_TASK_TRACK_STARTED')
 CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
 
 CELERY_BEAT_SCHEDULE = {
-    'update-yarify': {
-        'task': 'cyberpedia.tasks.update_yarify',
-        'schedule': crontab(minute = '*/2')
-   },
-   'update-IOC': {
-       'task': 'cyberpedia.tasks.update_IOC',
-       'schedule': crontab(minute="*/2")
-   },
-   'update-payload': {
-       'task': 'cyberpedia.tasks.update_payload',
-       'schedule': crontab(minute='*/2')
-   },
    'update-IP': {
        'task': 'cyberpedia.tasks.update_IP',
-       'schedule': crontab(minute="*/2")
+       'schedule': crontab(minute="*/1")
    },
-   'upload-valhalla':{
-       'task': 'cyberpedia.tasks.update_valhalla',
-       'schedule': crontab(minute = '*/3')
+   'update-threatfox': {
+        'task': 'cyberpedia.tasks.update_threatfox',
+        'schedule': crontab(minute="*/1")
+   },
+   'update-yara': {
+       'task': 'cyberpedia.tasks.update_yara',
+       'schedule': crontab(minute="*/1")
+   },
+   'update-URLHaus': {
+       'task': 'cyberpedia.tasks.update_URLHaus',
+       'schedule': crontab(minute="*/1")
+   },
+   "update-vulns": {
+       'task': 'cyberpedia.tasks.update_vulns',
+       'schedule': crontab(minute="*/1")
    }
 }
 

@@ -15,20 +15,24 @@ class AbuseIPDB(TargetCollector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
+        self.init_collector()
+
 
     def init_collector(self):
-        self.headers = {
+        self.error = {}
+        self.abuseipdb.headers = {
             "Accept": 'application/json',
             "Key": self.secrets["api_key"],
         }
         self.abuseipdb.proxies = settings.PROXIES
 
-    def make_request(self, final_url="", params=..., data=...):
+    def make_request(self, final_url="", params={}, data={}):
         try:
             response = self.abuseipdb.get(final_url,params=params,headers=self.headers)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
+            ex["abuseipdb"] = ex
         return response.json()
 
     def check_ip(self,ip):

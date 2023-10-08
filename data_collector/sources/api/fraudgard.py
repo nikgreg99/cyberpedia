@@ -14,9 +14,10 @@ class Fraudgard(Collector):
 
      def __init__(self):
        super().__init__(self.__class__.__name__)
+       self.init_collector()
 
      def init_collector(self):
-          self.headers = {
+          self.fraudgard.headers = {
 
           }
           self.fraudgard.proxies = settings.PROXIES
@@ -39,9 +40,7 @@ class Fraudgard(Collector):
           final_url = self.base_url + "/hostname/{}".format(hostname)
           return self.make_request_fraudgard(final_url)
 
-     def init_collector(self):
-          pass
-     
+  
      def collect(self):
           return super().collect()
      

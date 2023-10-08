@@ -38,7 +38,7 @@
                 }
                
             },
-            "indexes" : ["honeydb-bad-ip","honey-db-twitter-feed"]
+            "indexes" : ["honeydb-bad-ip","honeydb-twitter-feed","honeydb-asn"]
     },
     {
         "name": "HybridAnalysis",
@@ -92,7 +92,7 @@
                 "required": true
              }
         },
-        "indexes": ["threat-fox-ioc","threat-fox-malware-list"]
+        "indexes": ["threatfox-ioc","threatfox-malware-list"]
     },
     {
         "name": "ThreatJammer",
@@ -267,6 +267,7 @@
     },
     {
         "name": "OpenCVE",
+
         "secrets" : {
             "username": {
                 "env_var_key": "OPENCVE_USERNAME",

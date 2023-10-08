@@ -16,6 +16,8 @@ class Collector(ABC):
     def init_collector(self):
         raise NotImplementedError()
     
+    def create_collector(self):
+        pass
     
     def make_request(self, final_url="",params={},data={}):
         raise NotImplementedError()

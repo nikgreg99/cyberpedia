@@ -13,16 +13,26 @@ class EmailRep(TargetCollector):
 
     def __init__(self) -> None:
         super().__init__(__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
-        
+        self.emailrep.headers = {
+            'Key': self.secrets["api_key"],
+            'User-Agent': 'cyberpedia'
+        }
+        self.error = {}
         self.emailrep.proxies = settings.PROXIES
 
-    def collect_target(self, target):
-        final_url = self.base_url + "/{}".format(target)
+    def make_request(self, final_url="", params={}, data={}):
         try:
-            response = self.emailrep.get(final_url)
+            response = self.emailrep.get(final_url,headers=self.emailrep.headers)
             response.ror_status()
         except HTTPError as ex:
             logger.exception(ex)
+            self.error["emailrep"] = ex
         return response.json()
+
+    def collect_target(self, target):
+        final_url = self.base_url + f"/email/{target}"
+        return self.make_request(final_url=final_url)
+       

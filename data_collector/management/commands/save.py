@@ -6,9 +6,7 @@ from data_collector.sources.connectors.taxi import TaXXIConnector
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        connector = TaXXIConnector()
-        connector.init_connector()
-        collections = connector.get_collections()
-        print(connector.filter_IPs("c1f43330-103b-11ee-9ee3-4b022e286589"))
-
+        valhalla = ValhallaDownloader()
+        valhalla.download_feed()
+        
         

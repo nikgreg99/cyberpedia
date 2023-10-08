@@ -23,7 +23,7 @@ class SynchManager(Manager):
     def sync_index(self,collection_name):
         collection = self.mongo.get_db[collection_name]
         cursor = collection.find()
-        self.elastic.insert_data_bulk(collection_name,cursor)
+        self.elastic.insert(collection_name,cursor)
 
     def sync(self,indexes):
         for index in indexes:

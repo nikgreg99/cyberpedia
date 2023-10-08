@@ -10,6 +10,7 @@ class Valhalla(FeedCollector):
 
     def __init__(self):
         super().__init__(self.__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
@@ -23,15 +24,3 @@ class Valhalla(FeedCollector):
         except ApiError as ex:
             logger.exception(ex)
         return yara_json ,sigma_json
-    
-    def download_public_yara_rules(self):
-        try:
-            return self.valhalla.get_sigma_rules_zip()
-        except ApiError as ex:
-            logger.exception(ex)
-    
-    def download_public_sigma_rules(self):
-        try:
-            return self.valhalla.get_sigma_rules_zip()
-        except ApiError as ex:
-            logger.exception(ex)

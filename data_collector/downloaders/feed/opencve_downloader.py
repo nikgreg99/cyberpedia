@@ -1,6 +1,8 @@
 import logging
 from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
+from django.conf import settings
+
 
 logging = logging.getLogger(__name__)
 
@@ -18,6 +20,6 @@ class OpenCVEDownloader(FeedDownloader):
         super().__init__()
     
     def download_feed(self):
-        pass
-      
+        data = sources['OpenCVE'].collect()
+        self.elastic.insert('opencve-cve',data['cve'])
     

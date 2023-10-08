@@ -14,7 +14,8 @@ class InQuest(TargetCollector):
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
-        self.inquest.proxies = settings.PROXIES
+        self.init_collector()
+        
 
     def make_inquest_request(self,final_url,paramters):
         try:
@@ -27,6 +28,7 @@ class InQuest(TargetCollector):
 
     def init_collector(self):
         self.headers = {'Accept': 'application/json'}
+        self.inquest.proxies = settings.PROXIES
     
     def collect(self):
         return super().collect()
