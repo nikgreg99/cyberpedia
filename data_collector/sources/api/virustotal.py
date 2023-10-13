@@ -21,12 +21,14 @@ class VirusTotal(TargetCollector):
             API_KEY=api_key, 
             API_VERSION=3,
             PROXIES = settings.PROXIES)
+        self.err = {}
         
     def ip_report(self,ip):
         try:
             response =  self.vt_instance.request(resource=f"/ip_addresses/{ip}")
         except VirustotalError as ex:
             logger.exception(ex)
+            self.err['vt'] = ex
         return response.json();
     
     def domain_report(self,ip):
@@ -34,6 +36,7 @@ class VirusTotal(TargetCollector):
             response =  self.vt_instance.request(resource=f"/domain/{ip}")
         except VirustotalError as ex:
             logger.exception(ex)
+            self.err['vt'] = ex
         return response.json()
 
     def collect(self): 

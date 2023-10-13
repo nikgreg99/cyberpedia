@@ -8,7 +8,6 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-
 class HaveIBeenPwned(FeedCollector):
 
     base_url : str = "https://haveibeenpwned.com/api/v3"
@@ -22,7 +21,7 @@ class HaveIBeenPwned(FeedCollector):
         self.error = {}
         self.have_i_been_pwned.proxies= settings.PROXIES
 
-    def make_request_(self,final_url,paramters={},data={}):
+    def make_request(self,final_url,paramters={},data={}):
         try:
             response = self.have_i_been_pwned.get(final_url,params=paramters)
             response.raise_for_status()
@@ -33,7 +32,7 @@ class HaveIBeenPwned(FeedCollector):
 
     def collect(self):
         final_url = self.base_url + "/breaches"
-        breaches =  self.make_request_pwned(final_url)
+        breaches =  self.make_request(final_url)
         return {
             'breaches': breaches
         }

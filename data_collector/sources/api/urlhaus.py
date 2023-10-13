@@ -33,7 +33,7 @@ class UrlHaus(FeedCollector,TargetCollector):
         basic_url = "urls/recent"
         query_URL = self.base_url + basic_url
         if limit is not None:
-            query_URL = query_URL + "/limit/{}".format(limit)
+            query_URL = query_URL + f"/limit/{limit}"
         return self.make_request(final_url=query_URL)
       
     
@@ -41,7 +41,7 @@ class UrlHaus(FeedCollector,TargetCollector):
         basic_url = "payloads/recent"
         query_URL = self.base_url + basic_url
         if limit is not  None:
-            query_URL = query_URL + "/limit/{}".format(limit)
+            query_URL = query_URL + f"/limit/{limit}"
         return self.make_request(final_url= query_URL)
     
     def collect(self):

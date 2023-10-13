@@ -81,7 +81,7 @@ def compute_imphash(file_path):
 
 def process_data(f,data):
     parallel_data = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         future_to_url = {executor.submit(f,url): url for url in data}
         for future in concurrent.futures.as_completed(future_to_url):
             url = future_to_url[future]
@@ -90,8 +90,7 @@ def process_data(f,data):
                 parallel_data.append(response)
             except Exception as ex:
                 pass
-
-
+    return parallel_data
 
 
 

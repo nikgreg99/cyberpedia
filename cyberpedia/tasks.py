@@ -15,22 +15,25 @@ logger = logging.getLogger(__name__)
 
 @shared_task()
 def update_URLHaus():
-    urlhaus = URLHausDownloader
+    urlhaus = URLHausDownloader()
     urlhaus.download_feed()
-    logger.info("UrlHaus feeds updated succesfully")
+    if settings.DEBUG:
+        logger.info("UrlHaus feeds updated succesfully")
 
 @shared_task()
 def update_breaches():
     breach_downloader = BreachDownloader()
     breach_downloader.download_feed()
-    logger.info("Breaches updated succesfully")
+    if settings.DEBUG:
+        logger.info("Breaches updated succesfully")
 
 
 @shared_task()
 def update_valhalla():
     valhalla = ValhallaDownloader()
     valhalla.download_feed()
-    logger.info("Valhalla updated succesfully")
+    if settings.DEBUG:
+        logger.info("Valhalla updated succesfully")
 
 @shared_task()
 def update_yara():
@@ -43,13 +46,15 @@ def update_yara():
 def update_IOC():
     ioc_downloader = IOCDownloader()
     ioc_downloader.download_feed()
-    logger.info("IOC updated succesfully")
+    if settings.DEBUG:
+        logger.info("IOC updated succesfully")
 
 @shared_task()
 def update_payload():
     payload_downloader = PayloadDownloader()
     payload_downloader.download_feed()
-    logger.info('Payloads updated succesfully')
+    if settings.DEBUG:
+        logger.info('Payloads updated succesfully')
 
 
 @shared_task()

@@ -39,6 +39,7 @@ class UrlScan(TargetCollector,FeedCollector):
                 response.raise_for_status()
             except HTTPError as ex:
                 logger.exception(ex)
+                self.err['vt'] = ex  
         else:
             logger.error("Non field uuid present in submission_URL responsnse")
 

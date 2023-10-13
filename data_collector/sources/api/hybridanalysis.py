@@ -26,6 +26,7 @@ class HybridAnalysis(TargetCollector):
             'accept': 'application/json'
         }
         self.hybrid_analysis.proxies = settings.PROXIES
+        self.error = {}
 
     def collect_target(self, target):
         
@@ -47,4 +48,5 @@ class HybridAnalysis(TargetCollector):
             respose.raise_for_status()
         except HTTPError as ex:
                 logger.exception(ex)
+                self.error['vt'] = ex
         return respose.json()

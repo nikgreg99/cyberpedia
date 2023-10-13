@@ -18,22 +18,6 @@ CELERY_TASK_TRACK_STARTED = os.environ.get('CELERY_TASK_TRACK_STARTED')
 CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
 
 CELERY_BEAT_SCHEDULE = {
-   'update-IP': {
-       'task': 'cyberpedia.tasks.update_IP',
-       'schedule': crontab(minute="*/1")
-   },
-   'update-threatfox': {
-        'task': 'cyberpedia.tasks.update_threatfox',
-        'schedule': crontab(minute="*/1")
-   },
-   'update-yara': {
-       'task': 'cyberpedia.tasks.update_yara',
-       'schedule': crontab(minute="*/1")
-   },
-   'update-URLHaus': {
-       'task': 'cyberpedia.tasks.update_URLHaus',
-       'schedule': crontab(minute="*/1")
-   },
    "update-vulns": {
        'task': 'cyberpedia.tasks.update_vulns',
        'schedule': crontab(minute="*/1")

@@ -16,6 +16,7 @@ class Valhalla(FeedCollector):
         self.api_key = self.secrets["api_key"]
         self.valhalla = ValhallaAPI(api_key=self.api_key)
         self.valhalla.proxies = settings.PROXIES
+        self.error = {}
 
     def collect(self):
         try:
@@ -23,4 +24,5 @@ class Valhalla(FeedCollector):
             sigma_json = self.valhalla.get_sigma_rules_json()
         except ApiError as ex:
             logger.exception(ex)
+            self.error["valhalla"] = ex
         return yara_json ,sigma_json

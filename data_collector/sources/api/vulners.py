@@ -17,13 +17,14 @@ class Vulners(FeedCollector):
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
         self.vulners = vulners.VulnersApi(api_key = self.api_key, proxies = settings.PROXIES)
-        
+        self.error = {}
 
     def search_target(self,target):
         try:
             response = self.vulners.find_all(target, limit=1000, fields=['*'])
         except VulnersApiError as ex:
             logger.exception(ex)
+            self.error["vulners"] =  ex
         return response
 
     def CVE_by_id(self,CVE):
@@ -31,6 +32,7 @@ class Vulners(FeedCollector):
             CVE_response = self.vulners.get_bulletin(CVE, fields=["*"])
         except VulnersApiError as ex:
             logger.exception(ex)
+            self.error["vulners"] =  ex
         return CVE_response
     
     def CVE_references(self,CVE):
@@ -38,11 +40,13 @@ class Vulners(FeedCollector):
             cve_references = self.vulners.get_bulletin_references(cve_references)
         except VulnersApiError as ex:
             logger.error(ex)
+            self.error["vulners"] =  ex
         return cve_references
     
     def CVEs_by_ids(self,CVEs: list):
         try:
             CVE_responses = self.vulners.get_bulletins(CVEs, fields=["*"])
+            self.error["vulners"] =  ex
         except VulnersApiError as ex:
              logger.error(ex)
         return CVE_responses
@@ -54,6 +58,7 @@ class Vulners(FeedCollector):
             cpe_vulnerabilities_list = [cpe_results.get(key) for key in cpe_results if key not in ['info', 'blog', 'bugbounty']]
         except VulnersApiError as ex:
              logger.error(ex)
+             self.error["vulners"] =  ex
         return cpe_exploit_list,cpe_vulnerabilities_list
     
     def collect(self):

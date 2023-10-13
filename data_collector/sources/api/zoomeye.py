@@ -21,19 +21,26 @@ class ZoomEye(TargetCollector):
         self.zoomeye.headers = {
             "API-KEY" : api_key
         }
+        self.error = {}
         self.zoomeye.proxies = settings.PROXIES
-    
-    def collect_target(self, target):
+
+    def make_request(self, final_url="", params={},data={}):
         try:
-            final_url = self.base_url + "/host/searchs"
-            query = {
-                'query' : f'ip:{target}'
-            }
-            response =  self.zoomeye.get(final_url,params=query)
+            response =  self.zoomeye.get(final_url,params=params)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
+            self.error['zoomeye'] = ex
         return response.json()
+    
+
+    def collect_target(self, target):
+        final_url = self.base_url + "/host/searchs"
+        query = {
+                'query' : f'ip:{target}'
+            }
+        return self.make_request(final_url,params=query)
+          
 
 
     

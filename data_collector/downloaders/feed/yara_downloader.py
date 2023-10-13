@@ -23,5 +23,5 @@ class YaraDownloader(FeedDownloader):
         data = sources[self.YARIFY].collect()
         if settings.DEBUG:
             logger.info(data)
-        self.elastic.insert(self.YARIFY.lower(),data)
+        self.elastic.insert(self.YARIFY.lower(),data['data'])
 

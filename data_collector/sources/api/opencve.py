@@ -26,12 +26,6 @@ class OpenCVE(FeedCollector,TargetCollector):
     base_url : str = get_env_var('OPENCVE_URL')
     opencve = requests.Session()
 
-    CVE_PAGES = 1000
-
-    vendor_params = {
-        "page": 1
-    }
-
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
@@ -49,7 +43,7 @@ class OpenCVE(FeedCollector,TargetCollector):
         self.opencve.proxies = settings.PROXIES
 
    
-    def make_requests_open_cve(self,final_url,params={}):
+    def make_request(self,final_url,params={}):
         try:
             response = self.opencve.get(final_url,params=params)
             response.raise_for_status()
@@ -58,43 +52,41 @@ class OpenCVE(FeedCollector,TargetCollector):
             self.err["opencve"] = ex
         return response.json()
     
-    def list_CVE_URL(self):
+    def list_CVE(self):
         url_paged = []
-        for i in range(3000):
-            final_url = self.base_url + f"/cve?page={str(i)}"
+        for i in range(20):
+            final_url = self.base_url + f"/cve?page={str(i+1)}"
             url_paged.append(final_url)
-            page +=1
-        data = process_data(self.make_requests_open_cve,url_paged)
+        data = process_data(self.make_request,url_paged)
+        
         return data
 
-    def CVE_details(self,CVE):
-        if validate_cve_format(CVE):
-            final_url = self.base_url + f"/cve/{CVE}"
-            return self.make_requests_open_cve(final_url)
-        
-    def CWE_details(self,CWE):
-        final_url = self.base_url + f"/cwe/{CWE}"
-        return self.make_requests_open_cve(final_url)
     
     def list_CWE(self):
-        CWE_params = {
-        "page": 1
-        }  
-        final_url = self.base_url + "/cwe"
-        return self.make_requests_open_cve(final_url)
+        url_paged = []
+        for i in range(68):
+            final_url = self.base_url + f"/cwe?page={str(i+1)}"
+            url_paged.append(final_url)
+        data = process_data(self.make_request,url_paged)
+        return data
     
     def list_vendors(self):
-        final_url = self.base_url + "/vendors"
-        return self.make_requests_open_cve(final_url)
+        url_paged = []
+        for i in range(40):
+            final_url = self.base_url + f"/vendors?page={str(i+1)}"
+            url_paged.append(final_url)
+        data = process_data(self.make_request,url_paged)
+        return data
 
     def collect_target(self, target):
         return super().collect_target(target)
     
     def collect(self):
-        CVE = self.list_CVE()
-        vendors = self.list_vendors()
+        cve = self.list_CVE()[0]
+        cwe = self.list_CWE()[0]
+        vendors = self.list_vendors()[0]
         return {
-            'cve': CVE,
-            'cwe': [],
-            'vendors': []
+            'cve': cve,
+            'cwe': cwe,
+            'vendors': vendors
         }
