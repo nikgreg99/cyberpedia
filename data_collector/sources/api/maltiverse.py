@@ -18,7 +18,7 @@ class Maltiverse(TargetCollector):
 
     def init_collector(self):
        self.maltiverse.proxies = settings.PROXIES
-       secret = self.secrets["api_key"]
+       secret = ''
        self.maltiverse.headers = {
            'bearer Auth': secret
        }

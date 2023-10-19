@@ -1,6 +1,4 @@
 from django.apps import AppConfig
-import importlib
-
 
 
 class SourcesConfig(AppConfig):

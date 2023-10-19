@@ -17,7 +17,7 @@ class EmailRep(TargetCollector):
 
     def init_collector(self):
         self.emailrep.headers = {
-            'Key': self.secrets["api_key"],
+            'Key': "",
             'User-Agent': 'cyberpedia'
         }
         self.error = {}

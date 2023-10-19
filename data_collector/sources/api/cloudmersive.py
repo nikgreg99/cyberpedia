@@ -20,6 +20,7 @@ class Cloudmersive(TargetCollector):
         self.config = cloudmersive_validate_api_client.Configuration()
         self.config.api_key["Apikey"] = self.api_key
         self.config.proxy = settings.PROXIES
+        self.error = {}
        
     
     def check_ip(self,ip):

@@ -29,7 +29,7 @@ class Command(BaseCommand):
     @classmethod
     def migrate(cls,collector_list):
         for collector in collector_list:
-            feed_instance,created = Feed.objects.get_or_create(
+            feed,created = Feed.objects.get_or_create(
                 name = collector["name"]
             )
 
@@ -37,32 +37,33 @@ class Command(BaseCommand):
                 secret = collector['secrets'][secret_key]
                 key = get_env_var(secret["env_var_key"])
 
-                conf_instance, created = APIConfig.objects.get_or_create(
-                        name = collector["name"],
-                        type = secret_key,
+                conf, created = APIConfig.objects.get_or_create(
+                        collector = feed,
+                        name = secret_key,
                         value = key,
                         required = secret['required']
                 )
+
+                print(secret,key)
             
-                if conf_instance.value != key:
-                    conf_instance.update_key()
+                if conf.value != key:
+                    conf.update_key()
                 
             if "indexes" in collector:
                 for index in collector["indexes"]:
                     _, created = Index.objects.get_or_create(
                             name=index,
-                            collector = feed_instance
+                            collector = feed
                         )
                     elastic.create_index(index)
                    
                     
-        logger.info("All API Key and index are  migrated succesfully")
+        logger.info("All API Key and index are migrated succesfully")
                         
 
     def handle(self, *args, **options):
         collectors_list = CollectorSerializer.read_and_verify_config()
         self.migrate(collectors_list)
-        self.load_MISP_feed()
 
         
         

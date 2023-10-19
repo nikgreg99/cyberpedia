@@ -20,7 +20,7 @@ class ThreatJammer(FeedCollector):
         self.error = {}
         self.threat_jammer.headers = {
             'Accept': "application/json",
-            "Authorization": "Bearer {}".format(api_key)
+            "Authorization": f"Bearer {api_key}"
         }
         self.error = {}
         self.threat_jammer.proxies = settings.PROXIES

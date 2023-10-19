@@ -15,6 +15,14 @@ class InQuest(TargetCollector):
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
+
+    def init_collector(self):
+        self.headers = {
+            'Accept': 'application/json',
+            'Authorization': ''
+            }
+        self.error = {}
+        self.inquest.proxies = settings.PROXIES
         
 
     def make_inquest_request(self,final_url,paramters):
@@ -23,12 +31,8 @@ class InQuest(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
+            self.error['inquest'] = ex
         return response.json()
-
-
-    def init_collector(self):
-        self.headers = {'Accept': 'application/json'}
-        self.inquest.proxies = settings.PROXIES
     
     def collect(self):
         return super().collect()

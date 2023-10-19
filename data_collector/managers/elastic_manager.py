@@ -30,7 +30,6 @@ class ElasticManager(Manager):
 
 
     def gen_index_data(self,index_name,doc_type,data):
-        data_json = json.dumps(data,indent=4)
         for doc in data:
             # using a yield generator data are not loaded directly into memory
             yield{

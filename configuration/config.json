@@ -217,25 +217,6 @@
         "indexes": ["ip-info"]
     },
     {
-        "name": "Neutrino",
-        "secrets": {
-            "user_id": {
-                "env_var_key": "NEUTRINO_USER_ID",
-                "required": true
-            },
-            "api_key_test": {
-                "env_var_key": "NEUTRINO_TEST_API_KEY",
-                "required": true
-            },
-
-            "api_key_production" : {
-                "env_var_key": "NEUTRINO_PROD_API_KEY",
-                "required": true
-            }
-        },
-        "indexes": ["neutrino"]
-    },
-    {
         "name": "Yarify",
         "secrets" : {
             "api_key" :{
@@ -267,7 +248,6 @@
     },
     {
         "name": "OpenCVE",
-
         "secrets" : {
             "username": {
                 "env_var_key": "OPENCVE_USERNAME",
@@ -328,16 +308,6 @@
             }
         },
         "indexes": ["virus-total-url"]
-    },
-    {
-        "name": "Vulners",
-        "secrets": {
-            "api_key": {
-                "env_var_key": "VULNERS_API_KEY",
-                "required": true
-            }
-        },
-        "indexes": ["vulners"]
     },
     {
         "name": "Valhalla",

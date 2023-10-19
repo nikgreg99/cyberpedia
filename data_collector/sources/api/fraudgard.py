@@ -15,12 +15,14 @@ class Fraudgard(Collector):
      def __init__(self):
        super().__init__(self.__class__.__name__)
        self.init_collector()
+       self.error = {}
 
      def init_collector(self):
           self.fraudgard.headers = {
-
+          
           }
           self.fraudgard.proxies = settings.PROXIES
+
 
      def make_request_fraudgard(self,final_url):
           try:

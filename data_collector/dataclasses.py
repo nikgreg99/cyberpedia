@@ -1,6 +1,7 @@
 import dataclasses
 import typing
-from .models import APIConfig
+from .models import APIConfig,Feed
+from django.conf import settings
 
 @dataclasses.dataclass
 class _Param:
@@ -27,9 +28,10 @@ class CollectorConfig:
 
     def read_secrets(self ) -> dict:
         secrets = {}
-        configs = APIConfig.objects.filter(name = self.name)
+        feed = Feed.objects.get(name = self.name)
+        configs = APIConfig.objects.filter(collector__pk=feed.pk)
         for config in configs:
-            secrets[config.type] = config.value
+            secrets[config.name] = config.value
         return secrets
 
     def read_paramters(self):

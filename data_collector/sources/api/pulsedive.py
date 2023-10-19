@@ -17,7 +17,6 @@ class Pulsedive(TargetCollector):
        self.init_collector()
 
     def init_collector(self):
-        self.api_key = self.secrets["api_key"]
         self.pulsidive.proxies = settings.PROXIES
        
     def make_pulsidve_request(self,final_url,parameters):

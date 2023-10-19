@@ -38,6 +38,7 @@ class CVEData(TargetCollector):
     def collect_target(self,target):
         if validate_cve_format(target):
             final_url = self.base_url + f"/{target}"
-            self.make_request(final_url)
+            data = self.make_request(final_url)
+        return data
 
     

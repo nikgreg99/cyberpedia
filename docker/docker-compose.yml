@@ -1,17 +1,19 @@
 version: "3.8"
 
+
 services:
   mongo:
-    image: mongo:latest
+    image: mongo:4.4
+    env_file: mongo.env
     container_name: mongo
     restart: always
     ports:
       - "27017:27017"
     environment:
-      - "MONGO_INIT_DB_ROOT_USERNAME=${MONGO_INIT_DB_ROOT}"
-      - "MONGO_INIT_DB_ROOT_PASSWORD=${MONGO_INIT__DB_ROOT_PASSWORD}"
+      - "MONGODB_INITDB_ROOT_USERNAME=MONGO_DB_ROOT_USERNAME"
+      - "MONGODB_INITDB_ROOT_PASSWORD=MONGO_DB_ROOT_PASSWORD"
     volumes:
-      - "./mongo-data/mongo/db"
+      - "/mongo-data/mongo/db"
 
   redis:
     image: redis:latest
@@ -20,49 +22,53 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysql
+    env_file: mysql.env
     restart: always
     ports:
       - "3306:3306"
     environment:
-      - "MYSQL_USER=${MYSQL_USER}"
-      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
-      - "MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD}"
-      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+      - "MYSQL_USER=USER"
+      - "MYSQL_PASSWORD=PASSWORD"
+      - "MYSQL_ROOT_PASSWORD=ROOT_PASSWORD"
+      - "MYSQL_DATABASE=DATABASE"
     volumes:
       - "mysql_data:/var/lib/mysql"
 
  # Snippet code from https://github.com/coolacid/docker-misp
-    misp:
-      image: coolacid/misp-docker:core-latest
-      restart: always
-      container_name: misp
-      depends_on:
-        - redis
-        - mysql
-      ports:
-        - "80:80"
-        - "443:443"
-      environment:
-        - "HOSTNAME=${MISP_HOSTNAME}"
-        - "INIT=true"
-        - "CRON_USER_ID=1"
-        - "MYSQL_USER=${MYSQL_USER}"
-        - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
-        - "MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD}"
-        - "MYSQL_DATABASE=${MYSQL_DATABASE}"
-      volumes:
-       - "./misp-conf/var/www/MISP/app/Config/"
-       - "./misp-logs/var/www/MISP/app/tmp/logs"
-       - "./files/:var/www/MISP/app/files"
+  misp:
+    image: coolacid/misp-docker:core-latest
+    restart: always
+    env_file: 
+      - misp.env
+      - mysql.env
+    container_name: misp
+    depends_on:
+      - redis
+      - mysql
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - "HOSTNAME=MISP_HOSTNAME"
+      - "INIT=true"
+      - "CRON_USER_ID=1"
+      - "MYSQL_USER=USER"
+      - "MYSQL_PASSWORD=PASSWORD"
+      - "MYSQL_ROOT_PASSWORD=ROOT_PASSWORD"
+      - "MYSQL_DATABASE=DATABASE"
+    volumes:
+     - "./misp-conf/var/www/MISP/app/Config/"
+     - "./misp-logs/var/www/MISP/app/tmp/logs"
+     - "./files/:var/www/MISP/app/files"
 
-    misp-modules:
-      image: coolacid/misp-docker:modules-latest
-      container_name: misp-modules
-      environment:
-        - "REDIS_BACKEND=redis"
-      depends_on:
-        - redis
-        - mysql
+  misp-modules:
+    image: coolacid/misp-docker:modules-latest
+    container_name: misp-modules
+    environment:
+       - "REDIS_BACKEND=redis"
+    depends_on:
+      - redis
+      - mysql
 
   elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:latest
@@ -80,11 +86,11 @@ services:
   kibana:
     image: docker.elastic.co/elasticsearch/kibana:latest
     restart: always
-    container_name: kibana
+    env_file: elastic.env
     ports:
       - "5601:5601"
     environment:
-      - "ELASTICSEARCH_URL=${ELASTICSEARCH_URL}"
+      - "ELASTICSEARCH_URL=ELASTIC_URL"
       - "ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}"
     depends_on:
       - elasticsearch
