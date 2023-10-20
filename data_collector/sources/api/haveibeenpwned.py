@@ -13,6 +13,11 @@ class HaveIBeenPwned(FeedCollector):
     base_url : str = "https://haveibeenpwned.com/api/v3"
     have_i_been_pwned = requests.Session()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(HaveIBeenPwned, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
@@ -33,9 +38,7 @@ class HaveIBeenPwned(FeedCollector):
     def collect(self):
         final_url = self.base_url + "/breaches"
         breaches =  self.make_request(final_url)
-        return {
-            'breaches': breaches
-        }
+        return breaches
 
 
         

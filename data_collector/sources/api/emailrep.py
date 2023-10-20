@@ -11,13 +11,18 @@ class EmailRep(TargetCollector):
     base_url: str = "'https://emailrep.io"
     emailrep = requests.Session()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(EmailRep, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self) -> None:
         super().__init__(__class__.__name__)
         self.init_collector()
 
     def init_collector(self):
         self.emailrep.headers = {
-            'Key': "",
+            'Key': self.secrets["api_key"],
             'User-Agent': 'cyberpedia'
         }
         self.error = {}

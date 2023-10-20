@@ -2,7 +2,7 @@ import virustotal_python
 from virustotal_python.virustotal import VirustotalError
 import logging
 from data_collector.classes import TargetCollector
-from data_collector.utils import validate_ip_address
+from data_collector.utils import is_ip
 from django.conf import settings
 
 logger = logging.getLogger(__name__ )
@@ -10,6 +10,11 @@ logger = logging.getLogger(__name__ )
 class VirusTotal(TargetCollector):
 
     vt_instance = None
+
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(VirusTotal, cls).__new__(cls)
+        return cls.instance
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
@@ -43,6 +48,6 @@ class VirusTotal(TargetCollector):
         pass
 
     def collect_target(self,target):
-        if validate_ip_address(target):
+        if is_ip(target):
             return self.ip_report(target)
         

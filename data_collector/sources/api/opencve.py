@@ -22,9 +22,14 @@ class CVSSSeverity(enum.Enum):
 
 class OpenCVE(FeedCollector,TargetCollector):
 
-    _self = None
     base_url : str = get_env_var('OPENCVE_URL')
     opencve = requests.Session()
+
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(OpenCVE, cls).__new__(cls)
+        return cls.instance
+
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)

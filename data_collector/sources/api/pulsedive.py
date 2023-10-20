@@ -12,6 +12,8 @@ class Pulsedive(TargetCollector):
     base_url_info : str = base_url + "/info.php"
     pulsidive = requests.Session()
 
+    
+
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
        self.init_collector()

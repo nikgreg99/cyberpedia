@@ -35,8 +35,11 @@
                 {
                     "env_var_key": "X-HONEYDB_API_ID",
                     "required": true
-                }
-               
+                },
+               "agent" : {
+                    "env_var_key": "X-HONEYDB_AGENT",
+                    "required": true
+               }
             },
             "indexes" : ["honeydb-bad-ip","honeydb-twitter-feed","honeydb-asn"]
     },

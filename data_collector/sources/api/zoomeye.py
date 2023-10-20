@@ -16,6 +16,11 @@ class ZoomEye(TargetCollector):
        super().__init__(self.__class__.__name__)
        self.init_collector()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(ZoomEye, cls).__new__(cls)
+        return cls.instance
+
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.zoomeye.headers = {

@@ -8,6 +8,12 @@ logger = logging.getLogger(__name__)
 
 class Valhalla(FeedCollector):
 
+
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Valhalla, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self):
         super().__init__(self.__class__.__name__)
         self.init_collector()

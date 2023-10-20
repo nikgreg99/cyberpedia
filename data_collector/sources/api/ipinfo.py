@@ -2,7 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import validate_ip_address
+from data_collector.utils import is_ip
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -12,6 +12,12 @@ class IPInfo(TargetCollector):
     api_key = None
     base_url = "https://ipinfo.io"
     ipinfo = requests.Session()
+
+    def __new__(cls):
+        if not hasattr(cls,'instance'):
+            cls.instance = super(IPInfo,cls).__new__(cls)
+        return cls.instance
+
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
@@ -38,7 +44,7 @@ class IPInfo(TargetCollector):
         return response.json()
         
     def collect_target(self, target):
-        if validate_ip_address(target):
+        if is_ip(target):
             data = self.make_request(target)
         return data
 

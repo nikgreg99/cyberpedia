@@ -3,7 +3,7 @@ import cloudmersive_validate_api_client
 import cloudmersive_virus_api_client
 from cloudmersive_validate_api_client.rest import ApiException
 from data_collector.classes import TargetCollector
-from data_collector.utils import validate_ip_address
+from data_collector.utils import is_ip
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ class Cloudmersive(TargetCollector):
        
     
     def check_ip(self,ip):
-        if validate_ip_address(ip):
+        if is_ip(ip):
             cloudmersive_ip_address = cloudmersive_validate_api_client.AddressApi(self.config)
             try:
                 api_response = cloudmersive_ip_address.i_p_address_ip_intelligence(ip)

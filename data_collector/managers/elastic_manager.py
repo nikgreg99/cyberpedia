@@ -1,9 +1,9 @@
-import json
 import uuid
 import os
 import logging
 from .manager import Manager
 from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search
 from elasticsearch.helpers import bulk
 from django.conf import settings
 
@@ -49,16 +49,25 @@ class ElasticManager(Manager):
         logger.info("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
 
 
-    def create_index(self,name_index):
-     if not self.elastic.indices.exists(index=name_index):
-            self.elastic.indices.create(index=name_index)
+    def create_index(self,index_name):
+     if not self.elastic.indices.exists(index=index_name):
+            self.elastic.indices.create(index=index_name)
 
-    def delete_index(self,name_index):
-        if not self.elastic.indices.exists(index=name_index):
-            self.elastic.indices.delete(index=name_index)
+     if settings.DEBUG:
+         logger.info(f"{index_name} is created succesfully")
 
+    def delete_index(self,index_name):
+        if self.elastic.indices.exists(index=index_name):
+          self.elastic.indices.delete(index=index_name)
+
+        if settings.DEBUG:
+            logger.info(f"{index_name} has been deleted succesfully")
 
     def create_data_indexes(self,indexes):
         for index in indexes:
             self.create_index(index)
        
+    def all_data_index(self,index_name):
+         search = Search(using=self.elastic,index=index_name)
+         response = search.execute()
+         return response.to_dict()

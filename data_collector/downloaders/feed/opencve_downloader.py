@@ -26,6 +26,7 @@ class OpenCVEDownloader(FeedDownloader):
         self.elastic.insert('exploit-alert',data)
         return filtered_vendors
     
+    
   
     def download_feed(self):
         data = sources['OpenCVE'].collect()

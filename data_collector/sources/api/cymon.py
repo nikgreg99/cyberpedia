@@ -2,7 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import validate_ip_address
+from data_collector.utils import is_ip
 from django.conf import settings
 
 logging = logging.getLogger(__name__)
@@ -15,6 +15,11 @@ class Cymon(TargetCollector):
 
     base_url : str = "https://api.cymon.io/v2"
     cymon = requests.Session()
+
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Cymon, cls).__new__(cls)
+        return cls.instance
    
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
@@ -64,7 +69,7 @@ class Cymon(TargetCollector):
         return feeds_id
     
     def searcy_by_IP(self,ip):
-        if validate_ip_address(ip):
+        if is_ip(ip):
             final_url = self.base_url + "/ioc/search/ip/{}".format(ip)
             response = self.make_cymon_request(final_url)
             return response.json()

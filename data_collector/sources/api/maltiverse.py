@@ -2,7 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import TargetCollector
-from data_collector.utils import validate_ip_address, validate_host,validate_url
+from data_collector.utils import is_ip, validate_host,validate_url
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -49,7 +49,7 @@ class Maltiverse(TargetCollector):
         pass
     
     def collect_target(self, target):
-        if validate_ip_address(target):
+        if is_ip(target):
             return self.ip(target)
         elif validate_host(target):
             return self.host(target)

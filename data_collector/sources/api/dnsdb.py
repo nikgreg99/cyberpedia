@@ -12,6 +12,11 @@ class DNSDB(TargetCollector):
     base_url = "https://api.dnsdb.io/v1"
     dns_db = requests.Session()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(DNSDB, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
@@ -29,7 +34,8 @@ class DNSDB(TargetCollector):
         final_url = self.base_url + "/search"
         param = {'domain': target}
         try:
-            response = self.dns_db.get(final_url,headers=self.headers,params=param)
+            response = self.dns_db.get(
+                final_url, headers=self.headers, params=param)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)

@@ -2,7 +2,7 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import Collector
-from data_collector.utils import validate_ip_address
+from data_collector.utils import is_ip
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ class Fraudgard(Collector):
 
 
      def _ip_information(self,ip):
-          if validate_ip_address(ip):
+          if is_ip(ip):
                final_url = self.base_url + "/ip/{}".format(ip)
                return self.make_request_fraudgard(final_url)
           

@@ -37,8 +37,8 @@ def update_valhalla():
 
 @shared_task()
 def update_yara():
-    yarify = YaraDownloader()
-    yarify.download_feed()
+    yaraify = YaraDownloader()
+    yaraify.download_feed()
     if settings.DEBUG:
         logger.info("Yarify rules updated succesfully")
 

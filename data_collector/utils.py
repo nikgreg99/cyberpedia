@@ -7,7 +7,7 @@ import pefile
 import re
 import concurrent
 
-def validate_ip_address(ip: str):
+def is_ip(ip: str):
     ip_checker = ip_address(ip)
     if type(ip_checker) is IPv4Address or type(ip_checker) is IPv6Address:
         return True

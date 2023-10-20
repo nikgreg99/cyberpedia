@@ -10,6 +10,11 @@ class Censys(TargetCollector):
     censys_host_client = None
     censys_certificates_client = None
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Censys, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()

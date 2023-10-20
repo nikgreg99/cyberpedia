@@ -11,6 +11,12 @@ class ThreatJammer(FeedCollector):
     base_url : str = "https://dublin.api.threatjammer.com/v1"
     threat_jammer = requests.Session()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(ThreatJammer, cls).__new__(cls)
+        return cls.instance
+
+
     def __init__(self):
        super().__init__(self.__class__.__name__)
        self.init_collector()

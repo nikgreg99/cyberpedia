@@ -12,6 +12,11 @@ class CIRCLHashLookup(TargetCollector):
     base_url : str = "https://hashlookup.circl.lu"
     circl_hash_lookup = requests.Session()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(CIRCLHashLookup, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self, name) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()

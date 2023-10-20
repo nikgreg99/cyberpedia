@@ -8,15 +8,13 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 class CVEData(TargetCollector):
-    _self = None
     base_url : str = "https://v1.cveapi.com"
     cve_data = requests.Session()
 
-    @classmethod
-    def init(cls):
-        if cls._self is None:
-            cls._self = super().__init__(cls)
-        return cls._self
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(CVEData, cls).__new__(cls)
+        return cls.instance
 
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)

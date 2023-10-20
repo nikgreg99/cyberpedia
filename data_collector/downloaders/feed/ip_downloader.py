@@ -33,20 +33,37 @@ class IPDownloader(FeedDownloader):
     
     def process_IP(self,IPs):
         ip_info = []
-       
-        for ip in IPs:
+        abuse = []
+        hybrid_analysis = []
+        sample = IPs[0:100]
+        logger.log(sample)
+        for ip in sample:
             remote_host = ip['remote_host']
             self.add(ip_info,self.IP_INFO,remote_host)
-        return ip_info,
+            self.add(abuse,self.ABUSE_IPDB,abuse)
+            self.add(hybrid_analysis,self.HYBRID_ANALYSIS,hybrid_analysis)
+        logger.info(ip_info)
+        logger.info(abuse)
+        logger.info(hybrid_analysis)
+        return {
+            'ipinfo': ip_info,
+            'abuse': abuse,
+            'hybrid-analysis': hybrid_analysis
+        }
         
 
     def download_IP(self):
         data = sources[self.HONEY_DB].collect()
+        process_data = self.process_IP(data)
         if settings.DEBUG:
             logger.info(data['bad-ip'])
             logger.info(data['twitter-ip'])
         self.elastic.insert('honeydb-bad-ip',data['bad-ip'])
         self.elastic.insert('honeydb-twitter-feed',data['twitter-ip'])
+        self.elastic.insert('ip-info',process_data['ipinfo'])
+        self.elastic.insert('abuseipdb',process_data['abuse'])
+        self.elastic.insert('hybrid-analysis-host',process_data['hybrid-analysis'])
+
         
 
     def download_feed(self):

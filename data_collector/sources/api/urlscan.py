@@ -1,6 +1,6 @@
+import logging
 import json
 import requests
-import logging
 from requests import HTTPError
 from data_collector.classes import TargetCollector,FeedCollector
 from django.conf import settings
@@ -12,6 +12,11 @@ class UrlScan(TargetCollector,FeedCollector):
     base_url : str = "https://urlscan.io/api/v1"
     urlscan = requests.Session()
     api_key = None
+
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(UrlScan, cls).__new__(cls)
+        return cls.instance
 
 
     def __init__(self) -> None:

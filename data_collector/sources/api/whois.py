@@ -12,6 +12,11 @@ class Whois(TargetCollector):
     base_url : str = "https://www.whoisxmlapi.com/whoisserver/WhoisService"
     session = requests.Session()
 
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Whois, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
        self.init_collector()
