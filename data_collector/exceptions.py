@@ -7,8 +7,6 @@ class InvalidIPAddressFormat(Exception):
 class InvalidCVEFormat(Exception):
     pass
 
-class InvalidEmailFormat(Exception):
-    pass
 
 class InvalidURLFormat(Exception):
     pass

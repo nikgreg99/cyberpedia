@@ -2,7 +2,6 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import FeedCollector
-from data_collector.utils import validate_hash
 from django.conf import settings
 
 
@@ -38,7 +37,6 @@ class ThreatFox(FeedCollector):
 
     def collect_recent_IOC(self):
         data = {
-
             "query": "get_iocs",
             "days": 7
         }
@@ -56,7 +54,7 @@ class ThreatFox(FeedCollector):
         malware = self.collect_malware_info()
         return {
             'ioc': ioc,
-            'malware-list': malware
+            'malware-list': malware['data']
         }
 
 

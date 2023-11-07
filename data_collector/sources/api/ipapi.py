@@ -2,15 +2,14 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import is_ip
-from data_collector.exceptions import InvalidIPAddressFormat
+from data_collector.utils import is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
 class IPApi(TargetCollector):
 
-    base_url : str = "https://ipapi.co/api" 
+    base_url : str = "https://ipapi.co/" 
     ipapi = requests.Session()
 
     def __new__(cls):
@@ -24,10 +23,11 @@ class IPApi(TargetCollector):
         
 
     def init_collector(self):
+        self.ipapi.headers = {}
         self.ipapi.proxies = settings.PROXIES
         self.error = {}
     
-    def make_requests(self,final_url):
+    def make_request(self,final_url):
         try:
             response = self.ipapi.get(final_url)
             response.raise_for_status()
@@ -38,8 +38,8 @@ class IPApi(TargetCollector):
 
 
     def collect_target(self,target) -> dict:
-        if is_ip(target):
-            final_url = self.base_url + f"/{target}/json"
+        if is_IP_adress(target):
+            final_url = self.base_url + f"/{target}/json/"
             data = self.make_request(final_url=final_url)
             return data   
 

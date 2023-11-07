@@ -2,6 +2,7 @@ from censys.search import CensysHosts
 from censys.search import CensysCertificates
 from data_collector.classes import TargetCollector
 import logging
+from django.conf import settings
 
 logger = logging.getLogger()
 
@@ -18,7 +19,7 @@ class Censys(TargetCollector):
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
-        
+        self.error = {}        
 
     def init_collector(self):
         secret = self.secrets["secret"]
@@ -30,7 +31,7 @@ class Censys(TargetCollector):
        # try:
         response =  self.censys_certificates_client.bulk()
         #except APIError as ex:
-        return response
+        return response.json()
 
 
     def collect_target(self, target):

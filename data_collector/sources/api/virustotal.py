@@ -1,13 +1,17 @@
 import virustotal_python
-from virustotal_python.virustotal import VirustotalError
 import logging
-from data_collector.classes import TargetCollector
-from data_collector.utils import is_ip
+from enum import Enum
+from virustotal_python.virustotal import VirustotalError
+from data_collector.classes import FeedCollector, TargetCollector
+from data_collector.utils import is_IP_adress,is_domain
 from django.conf import settings
 
 logger = logging.getLogger(__name__ )
 
-class VirusTotal(TargetCollector):
+class VirusTotalFeedType(Enum):
+    YARA_RULES = "Yara Rules"
+
+class VirusTotal(FeedCollector,TargetCollector):
 
     vt_instance = None
 
@@ -28,26 +32,30 @@ class VirusTotal(TargetCollector):
             PROXIES = settings.PROXIES)
         self.err = {}
         
-    def ip_report(self,ip):
+    def make_request(self,partial_url,method="GET"):
         try:
-            response =  self.vt_instance.request(resource=f"/ip_addresses/{ip}")
-        except VirustotalError as ex:
-            logger.exception(ex)
-            self.err['vt'] = ex
-        return response.json();
-    
-    def domain_report(self,ip):
-        try:
-            response =  self.vt_instance.request(resource=f"/domain/{ip}")
+            response =  self.vt_instance.request(resource=partial_url)
         except VirustotalError as ex:
             logger.exception(ex)
             self.err['vt'] = ex
         return response.json()
+    
+    def collect(self,collector: VirusTotalFeedType) -> dict:
+        partial_url = None
+        if collector == VirusTotalFeedType.YARA_RULES:
+            partial_url =  "/yara_rules"
 
-    def collect(self): 
-        pass
+        return  self.make_request(partial_url)
+
+   
 
     def collect_target(self,target):
-        if is_ip(target):
-            return self.ip_report(target)
+        partial_url = None
+        if is_IP_adress(target):
+            partial_url = f"/ip_addresses/{target}"
+        elif is_domain(target):
+            partial_url = f"/domain/{target}"
+        
+        return self.make_request(partial_url)
+
         

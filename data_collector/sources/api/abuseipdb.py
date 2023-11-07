@@ -2,7 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import is_ip
+from data_collector.utils import is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -11,6 +11,7 @@ MAX_AGE_IN_DAYS = 90
 
 
 class AbuseIPDB(TargetCollector):
+
     base_url: str = "https://api.abuseipdb.com/api/v2"
     abuseipdb = requests.Session()
 
@@ -38,11 +39,11 @@ class AbuseIPDB(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            ex["abuseipdb"] = ex
+            self.error["abuseipdb"] = ex
         return response.json()
 
     def check_ip(self, ip):
-        if is_ip(ip):
+        if is_IP_adress(ip):
             final_url = self.base_url + "/check"
             params = {
                 "ipAddress": ip,

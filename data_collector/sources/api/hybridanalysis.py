@@ -3,7 +3,7 @@ from requests import HTTPError
 import logging
 from data_collector.classes import TargetCollector
 from data_collector.exceptions import UnsupportedTarget
-from data_collector.utils import validate_domain, validate_hash, validate_url, is_ip
+from data_collector.utils import is_domain, validate_hash, is_url, is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class HybridAnalysis(TargetCollector):
 
-    base_url: str = "https://www.hybrid-analysis.com"
+    base_url: str = "https://www.hybrid-analysis.com/api/v2"
     api_url: str = f"{base_url}/api/v2"
     hybrid_analysis = requests.Session()
 
@@ -36,13 +36,13 @@ class HybridAnalysis(TargetCollector):
 
     def collect_target(self, target):
 
-        if is_ip(target):
+        if is_IP_adress(target):
             data = {"host": target}
             uri = "/search/terms"
-        elif validate_domain(target):
+        elif is_domain(target):
             data = {'domain': target}
             uri = "/search/terms"
-        elif validate_url(target):
+        elif is_url(target):
             data = {"url": target}
             uri = "/search/terms"
         else:

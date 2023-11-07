@@ -1,17 +1,14 @@
-from .exceptions import InvalidCVEFormat, InvalidHashFormat, InvalidIPAddressFormat, InvalidEmailFormat, InvalidURLFormat, InvalidDomainFormat, InvalidHostFormat
-from .constants import HashType, CVE_REGEX, MD5_HASH_REGEX, SHA1_HASH_REGEX, SHA_256_REGEX, SSDEEP_REGEX, EMAIL_ADDRESS_REGEX, URL_REGEX, DOMAIN_REGEX, HOST_REGEX
+from .exceptions import InvalidHashFormat
+from .constants import HashType, CVE_REGEX, MD5_HASH_REGEX, SHA1_HASH_REGEX, SHA_256_REGEX, SSDEEP_REGEX, URL_REGEX, DOMAIN_REGEX, HOST_REGEX
 from ipaddress import ip_address, IPv4Address,IPv6Address
-import hashlib
-import pyssdeep
-import pefile
 import re
 import concurrent
 
-def is_ip(ip: str):
+def is_IP_adress(ip: str):
     ip_checker = ip_address(ip)
     if type(ip_checker) is IPv4Address or type(ip_checker) is IPv6Address:
         return True
-    raise InvalidIPAddressFormat(f"{ip} is not in a valid format")
+    return False
     
 def validate_hash(content,regexp):
     return re.match(content,regexp)
@@ -32,52 +29,23 @@ def get_hash_type(hash):
     raise InvalidHashFormat(f"{hash} is not of the types available")
   
 
-def validate_cve_format(cve):
+def is_cve(cve):
     match = re.match(cve,CVE_REGEX)
-    if match:
-        return True
-    raise InvalidCVEFormat(f"{cve} is not in a valid CVE format")
+    return True if match is not None else False
+ 
 
-
-def validate_email_adddress(email):
-    match = re.match(email,EMAIL_ADDRESS_REGEX)
-    if match:
-        return True
-    raise InvalidEmailFormat (f"{email} is not a valid email-address")
-    
-def validate_url(url):
+def is_url(url):
     match = re.match(url,URL_REGEX)
-    if match:
-        return True
-    raise InvalidURLFormat(f"{url} is not a valid url")
+    return True if match is not None else False
 
-def validate_domain(domain):
+def is_domain(domain):
     match = re.match(domain,DOMAIN_REGEX)
-    if match:
-        return True
-    raise InvalidDomainFormat(f"{domain} is not valid domain")
+    return True if match is not None else False 
    
-def validate_host(host):
+def is_host(host):
      match = re.match(host,HOST_REGEX)
-     if match:
-        return True
-     raise InvalidHostFormat(f"{host} is not a valid hostname")
+     return True if match is not None else False
    
-
-def compute_md5(plaintext):
-     hashlib.md5(plaintext).digest()
-
-def computer_sha1(plaintext):
-    return hashlib.sha1(plaintext).digest()
-
-def compute_sha256(plaintext):
-    return hashlib.sha256(plaintext).digest()
-
-def compute_ssdeep(plaintext):
-    return pyssdeep.get_hash_buffer(plaintext)
-
-def compute_imphash(file_path):
-    return pefile.PE(file_path).get_imphash()
 
 def process_data(f,data):
     parallel_data = []
@@ -91,6 +59,8 @@ def process_data(f,data):
             except Exception as ex:
                 pass
     return parallel_data
+
+
 
 
 

@@ -2,7 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import is_ip
+from data_collector.utils import is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -44,7 +44,7 @@ class IPInfo(TargetCollector):
         return response.json()
         
     def collect_target(self, target):
-        if is_ip(target):
+        if is_IP_adress(target):
             data = self.make_request(target)
         return data
 

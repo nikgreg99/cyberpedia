@@ -5,7 +5,7 @@ import logging
 import enum
 from data_collector.classes import  FeedCollector,TargetCollector
 from django.conf import settings
-from data_collector.utils import validate_cve_format, process_data
+from data_collector.utils import is_cve, process_data
 from data_collector.helpers import get_env_var
 
 logger = logging.getLogger(__name__)

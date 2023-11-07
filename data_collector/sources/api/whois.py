@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class Whois(TargetCollector):
 
     base_url : str = "https://www.whoisxmlapi.com/whoisserver/WhoisService"
-    session = requests.Session()
+    whois = requests.Session()
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -31,12 +31,12 @@ class Whois(TargetCollector):
             "ip": 1,
             "ipWhois": 1
         }
-        self.session.proxies = settings.PROXIES
+        self.whois.proxies = settings.PROXIES
       
     def collect_target(self,target: str):
         self.params["domainName"] = target
         try:
-            response =  self.session.get(self.base_url,params=self.params)
+            response =  self.whois.get(self.base_url,params=self.params)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)

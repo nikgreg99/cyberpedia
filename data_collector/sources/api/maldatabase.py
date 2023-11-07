@@ -20,7 +20,7 @@ class Maldatabase(FeedCollector):
     def __init__(self):
        super().__init__(self.__class__.__name__)
        self.init_collector()
-        
+       self.error = {}
     
     def init_collector(self):
         self.error = {}
@@ -36,6 +36,7 @@ class Maldatabase(FeedCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.error(ex)
+            self.error["maldb"] = ex
         return response
 
     def collect(self):

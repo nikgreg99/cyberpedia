@@ -4,8 +4,6 @@ from data_collector.apps import sources
 
 logging = logging.getLogger(__name__)
 
-
-
 class IOCDownloader(FeedDownloader):
 
     _self = None

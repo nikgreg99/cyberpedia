@@ -1,20 +1,20 @@
-import logging
 import requests
+import logging
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import is_cve
+from data_collector.utils import is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+class IPApiCom(TargetCollector):
 
-class CVEData(TargetCollector):
-    base_url: str = "https://v1.cveapi.com"
-    cve_data = requests.Session()
+    base_url: str = "https://api.ipapi.com"
+    ipapi_com = requests.Session()
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
-            cls.instance = super(CVEData, cls).__new__(cls)
+            cls.instance = super(IPApiCom, cls).__new__(cls)
         return cls.instance
 
     def __init__(self) -> None:
@@ -23,19 +23,24 @@ class CVEData(TargetCollector):
 
     def init_collector(self):
         self.error = {}
-        self.cve_data.proxies = settings.PROXIES
+        self.ipapi_com.params = {
+            "access_key": ""
+        }
+        self.ipapi_comp.roxies = settings.PROXIES
 
-    def make_request(self, final_url, params={}, data={}):
+    def make_request(self, final_url="", params={}, data={}):
         try:
-            response = self.cve_data.get(final_url)
+            response = self.ipapi_com.get(final_url,params=params)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            self.error['cvedata'] = ex
+            self.error["ipapi.com"] = ex
         return response.json()
+    
 
-    def collect_target(self, target):
-        if is_cve(target):
+    def collect_target(self,target) -> dict:
+        if is_IP_adress(target):
             final_url = self.base_url + f"/{target}"
             data = self.make_request(final_url)
         return data
+

@@ -31,7 +31,7 @@ class EmailRep(TargetCollector):
     def make_request(self, final_url="", params={}, data={}):
         try:
             response = self.emailrep.get(final_url,headers=self.emailrep.headers)
-            response.ror_status()
+            response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
             self.error["emailrep"] = ex

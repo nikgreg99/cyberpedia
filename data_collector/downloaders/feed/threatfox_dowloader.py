@@ -25,6 +25,7 @@ class ThreatFoxDownloader(FeedDownloader):
         if settings.DEBUG:
             logger.info(data['ioc'])
             logger.info(data['malware-list'])
+
         self.elastic.insert('threatfox-ioc',data['ioc'])
        
       

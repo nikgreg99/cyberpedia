@@ -8,6 +8,8 @@ from data_collector.downloaders.feed.ip_downloader import IPDownloader
 from data_collector.downloaders.feed.urlhaus_downloader import URLHausDownloader
 from data_collector.downloaders.feed.threatfox_dowloader import ThreatFoxDownloader
 from data_collector.downloaders.feed.opencve_downloader import OpenCVEDownloader
+from data_collector.downloaders.feed.malware_downloader import MalwareDownloader
+
 from django.conf import settings
 from cyberpedia.celery import shared_task
 
@@ -85,6 +87,14 @@ def update_vulns():
     opencve.download_feed()
     if settings.DEBUG:
         logger.info('Vulnerability records updated successfully')
+
+@shared_task()
+def update_malware():
+    malware = MalwareDownloader()
+    malware.download_feed()
+    if settings.DEBUG:
+        logger.info("Malware data updatetd succesfully")
+
 
 
 

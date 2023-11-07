@@ -41,7 +41,7 @@
                     "required": true
                }
             },
-            "indexes" : ["honeydb-bad-ip","honeydb-twitter-feed","honeydb-asn"]
+            "indexes" : ["honeydb"]
     },
     {
         "name": "HybridAnalysis",
@@ -163,14 +163,18 @@
                 "required": true
             }
         },
-        "indexes":[ "cymon"]
+        "indexes":["cymon"]
     },
     {
      "name": "Fraudgard",
         "secrets":{
-             "api_key":{
-                    "env_var_key": "FRAUDGARD_API_KEY",
+             "username":{
+                    "env_var_key": "FRAUDGARD_USERNAME",
                     "required": true
+             },
+             "password": {
+                "env_var_key": "FRAUDGARD_PASSWORD",
+                "required": true
              }
         },
         "indexes": ["fraudgard"]
@@ -261,7 +265,7 @@
                 "required": true
             }
           },
-          "indexes": ["opencve-cve","opencve-cwe", "opencve-vendors","opencve-products"]
+          "indexes": ["opencve-cve","opencve-cwe", "opencve-vendors"]
     },
     {
         "name": "ExploitAlert",
@@ -321,6 +325,16 @@
             }
         },
         "indexes": ["valhalla-yara","valhalla-sigma"]
+    },
+    {
+        "name": "IPApi",
+        "secrets":{
+            "api_key": {
+                "env_var_key": "IPAPI_KEY",
+                "required": true
+            }       
+        },
+        "indexes": ["ipapi"]
     }
 ]
     

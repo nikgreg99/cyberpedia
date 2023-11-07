@@ -2,7 +2,7 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
-from data_collector.utils import is_ip
+from data_collector.utils import is_IP_adress
 from django.conf import settings
 
 logging = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ class Cymon(TargetCollector):
         return feeds_id
     
     def searcy_by_IP(self,ip):
-        if is_ip(ip):
+        if is_IP_adress(ip):
             final_url = self.base_url + "/ioc/search/ip/{}".format(ip)
             response = self.make_cymon_request(final_url)
             return response.json()
@@ -101,5 +101,4 @@ class Cymon(TargetCollector):
     
 
     def collect_target(self, target):
-        return super().collect_target(target)
-    
+        pass

@@ -1,7 +1,6 @@
 import dataclasses
 import typing
 from .models import APIConfig,Feed
-from django.conf import settings
 
 @dataclasses.dataclass
 class _Param:
