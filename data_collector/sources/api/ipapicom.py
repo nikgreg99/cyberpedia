@@ -26,7 +26,7 @@ class IPApiCom(TargetCollector):
         self.ipapi_com.params = {
             "access_key": self.secrets["api_key"]
         }
-        self.ipapi_comp.roxies = settings.PROXIES
+        self.ipapi_com.proxies = settings.PROXIES
 
     def make_request(self, final_url="", params={}, data={}):
         try:

@@ -10,10 +10,10 @@ logger = logging.getLogger(__name__)
 class NIST(FeedCollector,TargetCollector):
 
     START_INDEX_DEFAULT = 0
-    RESULT_PER_PAGE_DEFAULT =
+    RESULT_PER_PAGE_DEFAULT = 2000
 
-    cve_url : str = *https://services.nvd.nist.gov/rest/json/cve/.2.0"
-    cve_history_url = *https://services.nvd.nist.gov/rest/json/cvehistory/.2.0"
+    cve_url : str = "https://services.nvd.nist.gov/rest/json/cve/.2.0"
+    cve_history_url = "https://services.nvd.nist.gov/rest/json/cvehistory/.2.0"
     nist = requests.Session()
 
 
@@ -28,7 +28,7 @@ class NIST(FeedCollector,TargetCollector):
 
     def init_collector(self):
         self.nist.headers = {
-            'apikey': ''
+            'apikey':  self.secrets["api_key"]
         }
         self.error = {}
         self.nist.proxies = settings.PROXIES
