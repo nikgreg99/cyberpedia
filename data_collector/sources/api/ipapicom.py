@@ -24,7 +24,7 @@ class IPApiCom(TargetCollector):
     def init_collector(self):
         self.error = {}
         self.ipapi_com.params = {
-            "access_key": ""
+            "access_key": self.secrets["api_key"]
         }
         self.ipapi_comp.roxies = settings.PROXIES
 

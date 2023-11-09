@@ -330,11 +330,31 @@
         "name": "IPApi",
         "secrets":{
             "api_key": {
-                "env_var_key": "IPAPI_KEY",
+                "env_var_key": "IPAPI_API_ KEY",
                 "required": true
             }       
         },
         "indexes": ["ipapi"]
+    },
+    {
+        "name": "IPApiCom",
+        "secrets": {
+            "api_key": {
+                "env_var_key": "IPAPI_COM_API_KEY",
+                "required": true
+            }
+        },
+        "indexes": ["ipapicom"]
+    },
+    {
+        "name": "Nist",
+        "secrets"{
+            "api_key": {
+                "env_var_key": "NIST_API_KEY",
+                "required": true
+            }
+        },
+        "indexes": ["nist-cve"]
     }
 ]
     
