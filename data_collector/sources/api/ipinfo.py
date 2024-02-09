@@ -26,17 +26,16 @@ class IPInfo(TargetCollector):
 
 
     def init_collector(self):
-        self.headers = {
+        self.ipinfo.headers = {
             "Accept": "application/json",
             "Authorization": "Bearer {}".format(self.secrets["api_key"])
         }
         self.ipinfo.proxies = settings.PROXIES
         
 
-    def ip_info(self,ip):
-        final_url = self.base_url + f"/{ip}"
+    def make_request(self, final_url="", params={},data={}):
         try:
-            response = self.ipinfo.get(final_url,headers=self.headers)
+            response = self.ipinfo.get(final_url,headers=self.ipinfo.headers)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
@@ -45,7 +44,8 @@ class IPInfo(TargetCollector):
         
     def collect_target(self, target):
         if is_IP_adress(target):
-            data = self.make_request(target)
+            final_url = self.base_url + f"/{target}"
+            data = self.make_request(final_url)
         return data
 
       

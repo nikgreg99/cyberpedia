@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class IPApiCom(TargetCollector):
 
-    base_url: str = "https://api.ipapi.com"
+    base_url: str = "https://api.ipapi.com/api"
     ipapi_com = requests.Session()
 
     def __new__(cls):
@@ -30,7 +30,7 @@ class IPApiCom(TargetCollector):
 
     def make_request(self, final_url="", params={}, data={}):
         try:
-            response = self.ipapi_com.get(final_url,params=params)
+            response = self.ipapi_com.get(final_url)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)

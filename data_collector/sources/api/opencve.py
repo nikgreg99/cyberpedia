@@ -19,7 +19,7 @@ class CVSSSeverity(enum.Enum):
     CRITICAL = "CRITICAL"
 
 
-
+# TO DO: Class to be discarded
 class OpenCVE(FeedCollector,TargetCollector):
 
     base_url : str = get_env_var('OPENCVE_URL')

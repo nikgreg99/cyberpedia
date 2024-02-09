@@ -40,7 +40,10 @@ class UrlHaus(FeedCollector,TargetCollector):
         if limit is not None:
             query_URL = query_URL + f"/limit/{limit}"
         return self.make_request(final_url=query_URL)
-      
+    
+    def query_urls(self):
+        url = "https://urlhaus.abuse.ch/downloads/json_recent"
+        return self.make_request(url)
     
     def query_recent_payloads(self,limit = None):
         basic_url = "payloads/recent"
@@ -52,9 +55,11 @@ class UrlHaus(FeedCollector,TargetCollector):
     def collect(self):
         urls = self.query_recent_urls()
         payloads = self.query_recent_payloads()
+        malicious =self.query_urls()
         return {
             'url': urls,
-            'payload': payloads
+            'payload': payloads,
+            'malicious': malicious
         }
     
     def collect_target(self, target):

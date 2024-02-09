@@ -33,7 +33,6 @@ class Shodan(TargetCollector):
             except APIError as ex:
                 logger.exception(ex)
                 self.error["shodan"] = ex
-                host = {'error': 'No IP information available'}
         return host
 
     def collect_target(self, target):

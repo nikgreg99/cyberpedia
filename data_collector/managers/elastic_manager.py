@@ -69,7 +69,7 @@ class ElasticManager(Manager):
          logger.info(f"{index_name} is created succesfully")
 
 
-     def create_index_mapping(self,index_name,mappings={}):
+    def create_index_mapping(self,index_name,mappings={}):
         if not self.elastic.indices.exists(index_name):
             self.elastic.indices.create(index=index_name,mappings=mappings)
 
@@ -84,6 +84,12 @@ class ElasticManager(Manager):
         if settings.DEBUG:
             logger.info(f"{index_name} has been deleted succesfully")
 
+    def count_doc_index(self,index_name):
+        if self.elastic.indices.exists(index=index_name):
+           data =  self.elastic.cat.count(index_name,params={'format': 'json'})
+           print(data)
+           return int(data[0]['count'])
+        
     def create_data_indexes(self,indexes):
         for index in indexes:
             self.create_index(index)

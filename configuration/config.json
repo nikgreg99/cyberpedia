@@ -348,7 +348,7 @@
     },
     {
         "name": "Nist",
-        "secrets"{
+        "secrets":{
             "api_key": {
                 "env_var_key": "NIST_API_KEY",
                 "required": true

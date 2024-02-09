@@ -4,7 +4,7 @@ from rest_framework import serializers as rfs
 from django.conf import settings
 from .classes import Collector
 from cache_memoize import cache_memoize
-from .utils import compute_md5
+
 
 
 class _SecretSerializer(rfs.Serializer):
@@ -45,19 +45,10 @@ class CollectorSerializer(rfs.ModelSerializer):
               config_dict = json.load(f)
          return config_dict
     
-    @classmethod
-    def compute_md5_config_hash(cls):
-          path = cls._get_config_path()
-          with open(path,"r") as fp:
-               content = fp.read().encode('utf-8')
-               md5_hash = compute_md5(content)
-          return md5_hash
     
     @classmethod
     @cache_memoize(
-         timeout= 60 * 60 * 24 * 365,
-         args_rewrite= lambda cls, user= None:  f"{cls.__name__}-"
-         f"{cls.compute_md5_config_hash()}",
+         timeout= 60 * 60 * 24 * 365
     ) 
     def read_and_verify_config(cls):
           return cls.read_json_file()

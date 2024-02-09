@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class HybridAnalysis(TargetCollector):
 
-    base_url: str = "https://www.hybrid-analysis.com/api/v2"
+    base_url: str = "https://www.hybrid-analysis.com"
     api_url: str = f"{base_url}/api/v2"
     hybrid_analysis = requests.Session()
 

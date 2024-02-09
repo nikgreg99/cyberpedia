@@ -20,7 +20,7 @@ CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
 CELERY_BEAT_SCHEDULE = {
     'update-IP': {
         'task': 'cyberpedia.tasks.update_IP',
-        'schedule': crontab(hour="0",minute="0")
+        'schedule': crontab(hour=0,minute="30")
     },
     'update-malware': {
         'task': 'cyberpedia.tasks.update_malware',
@@ -31,7 +31,7 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour='0', minute='30')
     },
     'update-IOC': {
-        'task': 'cyberperdia.tasks.update_IOC',
+        'task': 'cyberpedia.tasks.update_IOC',
         'schedule': crontab(minute="*/30")
     },
     'update-yara': {
@@ -47,8 +47,12 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour='*/1')
     },
     'update-payload': {
-        'task': 'cyberpedia-tasks,update_payload',
+        'task': 'cyberpedia.tasks,update_payload',
         'schedule': crontab(hour='0',minute='45')
+    },
+    'update-CVE': {
+        'task': 'cyberpedia.tasks.update_CVE',
+        'schedule': crontab(hour='0',minute='30')
     }
 }
 

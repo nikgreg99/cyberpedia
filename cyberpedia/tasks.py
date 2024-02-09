@@ -7,7 +7,7 @@ from data_collector.downloaders.feed.payload_downloader import PayloadDownloader
 from data_collector.downloaders.feed.ip_downloader import IPDownloader
 from data_collector.downloaders.feed.urlhaus_downloader import URLHausDownloader
 from data_collector.downloaders.feed.threatfox_dowloader import ThreatFoxDownloader
-from data_collector.downloaders.feed.opencve_downloader import OpenCVEDownloader
+from data_collector.downloaders.feed.nve import NVECollector
 from data_collector.downloaders.feed.malware_downloader import MalwareDownloader
 
 from django.conf import settings
@@ -82,11 +82,11 @@ def update_URL():
         logger.info('URL data updated succesfully')
 
 @shared_task()
-def update_vulns():
-    opencve = OpenCVEDownloader()
-    opencve.download_feed()
+def update_CVE():
+    nve = NVECollector()
+    nve.download_feed()
     if settings.DEBUG:
-        logger.info('Vulnerability records updated successfully')
+        logger.info('CVE records updated successfully')
 
 @shared_task()
 def update_malware():
@@ -94,8 +94,6 @@ def update_malware():
     malware.download_feed()
     if settings.DEBUG:
         logger.info("Malware data updatetd succesfully")
-
-
 
 
 

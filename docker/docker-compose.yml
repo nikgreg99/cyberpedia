@@ -1,6 +1,5 @@
 version: "3.8"
 
-
 services:
   mongo:
     image: mongo:4.4
@@ -71,7 +70,7 @@ services:
       - mysql
 
   elasticsearch:
-      image: docker.elastic.co/elasticsearch/elasticsearch:latest
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
       restart: always
       container_name: elasticsearch
       ports:
@@ -80,11 +79,15 @@ services:
       environment: 
         - "xpack.security.enabled=false"
         - "discovery.type=single-node"
+        - "ES_JAVA_OPTS=Xms512m -Xmx512m"
+        - "bootstrap.memory_lock=true"
       volumes:
         - "esdata:/usr/share/elasticsearch/data"
+      networks: 
+        - elastic
  
   kibana:
-    image: docker.elastic.co/elasticsearch/kibana:latest
+    image: docker.elastic.co/elasticsearch/kibana:8.2.2
     restart: always
     container_name: kibana
     env_file: elastic.env
@@ -92,25 +95,12 @@ services:
       - "5601:5601"
     environment:
       - "ELASTICSEARCH_URL=ELASTIC_URL"
-      - "ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}"
+      - "ELASTICSEARCH_HOSTS=ELASTIC_URL"
     depends_on:
       - elasticsearch
+    networks:
+      - elastic
     
-    logstash:
-     image: docker.elastic.co/logstash/logstash:latest
-     restart: always
-     container_name: logstash
-     volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
-      - /var/log/GDPR/myapplication:/var/log/GDPR/myapplication:ro
-     ports:
-      - "5000:5000"
-     environment:
-        -LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-     depends_on:
-      - elasticsearch
-
-
   squid:
     image: ubuntu/squid:latest
     ports:
@@ -140,5 +130,9 @@ volumes:
   mysql_data:
   esdata:
     driver: local
+
+  network:
+    elastic:
+      driver: bridge
 
           

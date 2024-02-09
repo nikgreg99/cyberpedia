@@ -7,7 +7,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-
+# TO DO: Class to be discarded
 class CVEData(TargetCollector):
     base_url: str = "https://v1.cveapi.com"
     cve_data = requests.Session()
