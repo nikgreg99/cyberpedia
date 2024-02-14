@@ -1,12 +1,12 @@
 import logging
 from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
+from django.conf import settings
 
-logging = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 class IOCDownloader(FeedDownloader):
 
-    _self = None
     THREAT_FOX = 'ThreatFox'
     THREAT_FOX_MALWARE_LIST = "threat-fox-ioc"
 
@@ -22,6 +22,7 @@ class IOCDownloader(FeedDownloader):
     
 
     def download_feed(self):
-         data_ioc,_= sources[self.THREAT_FOX].collect()
+         data_ioc = sources[self.THREAT_FOX].collect()
+         if settings.DEBUG:
+             logger.info(data_ioc)
          self.elastic.insert(self.THREAT_FOX_MALWARE_LIST,data_ioc)
-         self.mongo.save_data(self.THREAT_FOX_MALWARE_LIST,data_ioc) 

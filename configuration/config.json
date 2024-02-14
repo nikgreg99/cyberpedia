@@ -7,7 +7,11 @@
               "required": true
             }
         },
-        "indexes": ["abuseipdb"]
+        "indexes": ["abuseipdb"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 1000
+        }
     },
     {
         "name": "DNSDB",
@@ -55,7 +59,15 @@
                 "required": true
             }
         },
-        "indexes": ["hybrid-analysis-domain","hybrid-analysis-url","hybrid-analysis-host"]
+        "indexes": ["hybrid-analysis-domain",
+                    "hybrid-analysis-url",
+                    "hybrid-analysis-host",
+                    "hybrid-analysis-ip",
+                    "hybrid-analysis"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 2000
+        }
     },
     {
         "name": "Maldatabase",
@@ -95,7 +107,10 @@
                 "required": true
              }
         },
-        "indexes": ["threatfox-ioc","threatfox-malware-list"]
+        "indexes": ["threatfox-ioc","threatfox-malware-list"],
+        "quota_limit": {
+            "limited": false
+        }
     },
     {
         "name": "ThreatJammer",
@@ -139,7 +154,10 @@
                 "required": true
             }          
         },
-        "indexes": ["urlhaus-urls","urlhaus-payloads"]        
+        "indexes": ["urlhaus-urls","urlhaus-payloads"],
+        "quota_limit": {
+            "limited": false
+        }     
     },
     {
         "name": "Whois",
@@ -221,7 +239,11 @@
                 "required": true
             }
         },
-        "indexes": ["ip-info"]
+        "indexes": ["ip-info"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 1000
+        }
     },
     {
         "name": "Yarify",
@@ -231,7 +253,10 @@
                 "required": true
             }
         },
-        "indexes": ["yarify"]
+        "indexes": ["yarify"],
+        "quota_limit": {
+            "limited": false
+        }
     },
     {
         "name": "ZoomEye",
@@ -324,7 +349,10 @@
                 "required": true
             }
         },
-        "indexes": ["valhalla-yara","valhalla-sigma"]
+        "indexes": ["valhalla-yara","valhalla-sigma"],
+        "quota_limit": {
+            "limited": false
+        }
     },
     {
         "name": "IPApi",
@@ -334,7 +362,11 @@
                 "required": true
             }       
         },
-        "indexes": ["ipapi"]
+        "indexes": ["ipapi"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 1650
+        }
     },
     {
         "name": "IPApiCom",
@@ -344,7 +376,11 @@
                 "required": true
             }
         },
-        "indexes": ["ipapicom"]
+        "indexes": ["ipapicom"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 100
+        }
     },
     {
         "name": "Nist",

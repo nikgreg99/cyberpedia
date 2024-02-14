@@ -1,0 +1,144 @@
+version: "3.8"
+
+services:
+
+  mail:
+    image: namshi/smtp
+    container_name: misp_smtp_server
+
+  mongo:
+    image: mongo:4.4
+    env_file: mongo.env
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - "MONGODB_INITDB_ROOT_USERNAME=MONGO_DB_ROOT_USERNAME"
+      - "MONGODB_INITDB_ROOT_PASSWORD=MONGO_DB_ROOT_PASSWORD"
+    volumes:
+      - "/mongo-data/mongo/db"
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mysql
+    env_file: mysql.env
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_USER=MYSQL_USER"
+      - "MYSQL_PASSWORD=MYSQL_PASSWORD"
+      - "MYSQL_ROOT_USER=MYSQL_ROOT_USER"
+      - "MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD"
+      - "MYSQL_DATABASE=MYSQL_DATABASE"
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+    cap_add:
+      - SYS_NICE
+
+  misp-modules:
+    image: coolacid/misp-docker:modules-latest
+    container_name: misp-modules
+    env_file: misp.env
+    environment:
+       - "REDIS_BACKEND=REDIS_BACKEND"
+    depends_on:
+      - redis
+      - mysql
+      - mail
+
+ # Snippet code from https://github.com/coolacid/docker-misp
+  misp:
+    image: coolacid/misp-docker:core-latest
+    restart: always
+    env_file: 
+      - misp.env
+      - mysql.env
+    container_name: misp
+    depends_on:
+      - redis
+      - mysql
+      - mail
+      - misp-modules
+      
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - "MISP_BASEURL=MISP_BASEURL"
+      - "REDIS_FQDN=REDIS_FQDN"
+      - "INIT=true"
+      - "CRON_USER_ID=1"
+      - "MYSQL_HOST=MYSQL_HOST"
+      - "MYSQL_USER=MYSQL_USER"
+      - "MYSQL_PASSWORD=MYSQL_PASSWORD"
+      - "MYSQL_ROOT_USER=MYSQL_ROOT_USER"
+      - "MYSQL_ROOT_PASSWORD=MYSQL_ROOT_PASSWORD"
+      - "MYSQL_DATABASE=MYSQL_DATABASE"
+      - "MYSQL_MISP_USER=MYSQL_USER"
+      - "MYSQL_MISP_PASSWORD=MYSQL_PASSWORD"
+    volumes:
+     - "./server-configs:/var/www/MISP/app/Config/"
+     - "./logs:/var/www/MISP/app/tmp/logs"
+     - "./files/:/var/www/MISP/app/files"
+     - "./ssl:/etc/nginx/certs"
+
+  elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+      restart: always
+      container_name: elasticsearch
+      ports:
+       - "9200:9200"
+       - "9300:9300"
+      environment: 
+        - cluster.name= cti-dev
+        - xpack.security.enabled=false
+        - discovery.type= single-node
+      volumes:
+        - "esdata:/usr/share/elasticsearch/data"
+      networks: 
+        - elastic
+ 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.2.2
+    restart: always
+    container_name: kibana
+    env_file: elastic.env
+    ports:
+      - "5601:5601"
+    environment:
+      - "ELASTICSEARCH_URL=ELASTIC_URL"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic
+    
+  squid:
+    image: ubuntu/squid:latest
+    container_name: squid_proxy
+    ports:
+      - "3128:3128"
+    volumes:
+      - ./squid/squid.conf:/etc/squid/squid.conf
+      - ./squid/passwords:/etc/squid/passwords
+    restart: always
+
+volumes:
+  mysql_data:
+  esdata:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
+
+          

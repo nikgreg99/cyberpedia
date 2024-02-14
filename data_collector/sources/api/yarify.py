@@ -7,6 +7,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+#STATUS OK
 class Yarify(FeedCollector):
 
     base_url : str = "https://yaraify-api.abuse.ch/api/v1/"

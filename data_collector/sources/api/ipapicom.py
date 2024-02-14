@@ -7,9 +7,11 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+#STATUS: OK
 class IPApiCom(TargetCollector):
 
-    base_url: str = "https://api.ipapi.com/api"
+    # The base_url for free subscription plans does not support HTTPS encryption
+    base_url: str = "http://api.ipapi.com/api"
     ipapi_com = requests.Session()
 
     def __new__(cls):
@@ -28,7 +30,7 @@ class IPApiCom(TargetCollector):
         }
         self.ipapi_com.proxies = settings.PROXIES
 
-    def make_request(self, final_url="", params={}, data={}):
+    def make_request(self, final_url=""):
         try:
             response = self.ipapi_com.get(final_url)
             response.raise_for_status()

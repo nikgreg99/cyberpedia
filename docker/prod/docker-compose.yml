@@ -1,6 +1,11 @@
 version: "3.8"
 
 services:
+
+  mail:
+    image: namshi/smtp
+    container_name: misp_smtp_server
+
   mongo:
     image: mongo:4.4
     env_file: mongo.env
@@ -44,16 +49,16 @@ services:
     depends_on:
       - redis
       - mysql
+      - mail
     ports:
       - "80:80"
       - "443:443"
     environment:
-      - "HOSTNAME=MISP_HOSTNAME"
+      - "MISP_BASEURL=MISP_HOSTNAME"
       - "INIT=true"
       - "CRON_USER_ID=1"
       - "MYSQL_USER=USER"
       - "MYSQL_PASSWORD=PASSWORD"
-      - "MYSQL_ROOT_PASSWORD=ROOT_PASSWORD"
       - "MYSQL_DATABASE=DATABASE"
     volumes:
      - "./misp-conf/var/www/MISP/app/Config/"
@@ -63,31 +68,83 @@ services:
   misp-modules:
     image: coolacid/misp-docker:modules-latest
     container_name: misp-modules
+    env_file: misp.env
     environment:
-       - "REDIS_BACKEND=redis"
+       - "REDIS_BACKEND=REDIS_BACKEND"
     depends_on:
       - redis
       - mysql
 
-  elasticsearch:
+  esnode1:
       image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
       restart: always
-      container_name: elasticsearch
+      container_name: elastic-cti-node01
       ports:
        - "9200:9200"
        - "9300:9300"
       environment: 
-        - "xpack.security.enabled=false"
-        - "discovery.type=single-node"
+        - "cluster.name=cti-data-prod"
+        - "node.name=cti-node01"
+        - "discovery.seed_hosts=cti-node01,cti-node02"
+        - "xpack.security.enabled=true"
+        - "xpack.monitoring.collection.enabled=true"
         - "ES_JAVA_OPTS=Xms512m -Xmx512m"
         - "bootstrap.memory_lock=true"
+      ulimitis:
+        memlock:
+          soft: -1
+          hard: -1
       volumes:
-        - "esdata:/usr/share/elasticsearch/data"
+        - "esdata1:/usr/share/elasticsearch/data"
+      networks: 
+        - elastic
+
+  esnode2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+    restart: always
+    container_name: elastic-cti-node02
+    environment: 
+      - "cluster.name=cti-data-prod"
+      - "cluster.initial_master_nodes=cti-node01,cti-node02,cti-node03"
+      - "node.name=cti-node02"
+      - "discovery.seed_hosts=cti-node01,cti-node02"
+      - "xpack.security.enabled=true"
+      - "xpack.monitoring.collection.enabled=true"
+      - "ES_JAVA_OPTS=Xms512m -Xmx512m"
+      - "bootstrap.memory_lock=true"
+      ulimitis:
+        memlock:
+          soft: -1
+          hard: -1
+      volumes:
+        - "esdata2:/usr/share/elasticsearch/data"
+      networks: 
+        - elastic
+
+ esnode3:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
+    restart: always
+    container_name: elastic-cti-node03
+    environment: 
+      - "cluster.name=cti-data-prod"
+      - "node.name=cti-node03"
+      - "discovery.seed_hosts=cti-node01,cti-node02"
+      - "cluster.initial_master_nodes=cti-node01,cti-node02,cti-node03"
+      - "xpack.security.enabled=true"
+      - "xpack.monitoring.collection.enabled=true"
+      - "ES_JAVA_OPTS=Xms512m -Xmx512m"
+      - "bootstrap.memory_lock=true"
+      ulimitis:
+        memlock:
+          soft: -1
+          hard: -1
+      volumes:
+        - "esdata3:/usr/share/elasticsearch/data"
       networks: 
         - elastic
  
   kibana:
-    image: docker.elastic.co/elasticsearch/kibana:8.2.2
+    image: docker.elastic.co/kibana/kibana:8.2.2
     restart: always
     container_name: kibana
     env_file: elastic.env
@@ -95,7 +152,7 @@ services:
       - "5601:5601"
     environment:
       - "ELASTICSEARCH_URL=ELASTIC_URL"
-      - "ELASTICSEARCH_HOSTS=ELASTIC_URL"
+      - "ELASTICSEARCH_HOSTS=[http://cti-node01:9200,http://cti-node02:9200,http://cti-node03:9200]"
     depends_on:
       - elasticsearch
     networks:
@@ -128,7 +185,11 @@ services:
 
 volumes:
   mysql_data:
-  esdata:
+  esnode1:
+    driver: local
+  esnode2:
+    driver: local
+  esnode3:
     driver: local
 
   network:

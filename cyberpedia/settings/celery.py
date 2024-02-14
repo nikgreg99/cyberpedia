@@ -20,39 +20,55 @@ CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
 CELERY_BEAT_SCHEDULE = {
     'update-IP': {
         'task': 'cyberpedia.tasks.update_IP',
-        'schedule': crontab(hour=0,minute="30")
-    },
-    'update-malware': {
-        'task': 'cyberpedia.tasks.update_malware',
-        'schedule': crontab(hour='0', minute='15')
-    },
-    'update-breaches': {
-        'task': 'cyberpedia.tasks.update_breaches',
-        'schedule': crontab(hour='0', minute='30')
-    },
-    'update-IOC': {
-        'task': 'cyberpedia.tasks.update_IOC',
-        'schedule': crontab(minute="*/30")
-    },
-    'update-yara': {
-        'task': 'cyberpedia.tasks.update_yara',
-        'schedule': crontab(minute="*/15")
-    },
-    'update-valhalla': {
-        'task': 'cyberpedia.tasks.update_valhalla',
-        'schedule': crontab(hour="1",minute="30")
-    },
-    "update-URL": {
-        'task': 'cyberpedia.tasks.update_URLHaus',
-        'schedule': crontab(hour='*/1')
-    },
-    'update-payload': {
-        'task': 'cyberpedia.tasks,update_payload',
-        'schedule': crontab(hour='0',minute='45')
+        'schedule': crontab(minute=0,hour='*/12')
     },
     'update-CVE': {
         'task': 'cyberpedia.tasks.update_CVE',
-        'schedule': crontab(hour='0',minute='30')
+        'schedule': crontab(hour=0,minute=30)
+    },
+    'update-breaches': {
+        'task': 'cyberpedia.tasks.update_breaches',
+        'schedule': crontab(hour=0, minute=20)
+    },
+    'update-IOC': {
+        'task': 'cyberpedia.tasks.update_IOC',
+        'schedule': crontab(minute=0,hour='*/1')
+    },
+     "update-URL": {
+        'task': 'cyberpedia.tasks.update_URLHaus',
+        'schedule': crontab(minute=0,hour='*/2')
+    },
+    'update-yara': {
+        'task': 'cyberpedia.tasks.update_yara',
+        'schedule': crontab(minute='*/15')
+    },
+    'update-valhalla': {
+        'task': 'cyberpedia.tasks.update_valhalla',
+        'schedule': crontab(hour=0,minute=40)
+    },
+    'update_HybridAnalysis': {
+        'task': 'cyberpedia.tasks.update_HybridAnalysis',
+        'schedule': crontab(minute=0,hour='*/1')
+    },
+    'process_IPInfo': {
+        'task' :'cyberpedia.tasks.process_IPInfo',
+        'schedule': crontab(minute=20,hour=0)
+    },
+    'process_IPApi': {
+        'task': 'cyberpedia.tasks.process_IPApi',
+        'schedule': crontab(minute=0,hour='*/6')
+    },
+    'process_IPApiCom': {
+        'task': 'cyberpedia.tasks.process_IPApiCom',
+        'schedule': crontab(hour=18,minute=25)
+    },
+    'process_AbuseIPDB': {
+        'task': 'cyberpedia.tasks.process_AbuseIPDB',
+        'schedule': crontab(hour=0,minute=40)
+    },
+    'process_HybridAnalysis': {
+        'task': 'cyberpedia.tasks.process_HybridAnalysis',
+        'schedule': crontab(minute=0,hour='*/4')
     }
 }
 

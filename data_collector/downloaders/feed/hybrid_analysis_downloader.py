@@ -1,13 +1,15 @@
 import logging
 from .feed_downloader import FeedDownloader
 from data_collector.apps import sources
+from django.conf import settings
+
 logger = logging.getLogger(__name__)
 
 
-class PayloadDownloader(FeedDownloader):
+class HybridAnalysisDownloader(FeedDownloader):
 
     _self = None
-    URLHAUS = "UrlHaus"
+    HYBRID_ANALYSIS = 'HybridAnalysis'
 
     @classmethod
     def init(cls):
@@ -17,9 +19,14 @@ class PayloadDownloader(FeedDownloader):
     
     def __init__(self) -> None:
         super().__init__()
+    
 
+    def download_reports(self):
+        data = sources[self.HY].collect()
+        if settings.DEBUG:
+            logger.info(data['data'])
+        self.elastic.insert(self.HYBRID_ANALYSIS,data['data'])
 
+        
     def download_feed(self):
-        _,data_payload = sources[self.URLHAUS].collect()
-        self.elastic.insert('urlhaus-payload',data_payload)
-        self.mongo.save_data('urlhaus-payload',data_payload)
+        self.download_reports

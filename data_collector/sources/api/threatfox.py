@@ -26,7 +26,7 @@ class ThreatFox(FeedCollector):
         self.threat_fox.proxies = settings.PROXIES
         self.error = {}
 
-    def make_request(self, final_url="", params={}, data={}):
+    def make_request(self, data={}):
         try:
             response = self.threat_fox.post(self.base_url,json=data)
             response.raise_for_status()
@@ -52,10 +52,7 @@ class ThreatFox(FeedCollector):
     def collect(self):
         ioc = self.collect_recent_IOC()
         malware = self.collect_malware_info()
-        return {
-            'ioc': ioc,
-            'malware-list': malware['data']
-        }
+        return ioc['data']
 
 
 

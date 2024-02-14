@@ -2,16 +2,18 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
+from data_collector.exceptions import UnsupportedTarget
 from data_collector.utils import is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-MAX_AGE_IN_DAYS = 90
 
 
+# STATUS: OK
 class AbuseIPDB(TargetCollector):
 
+    MAX_AGE_IN_DAYS = 90
     base_url: str = "https://api.abuseipdb.com/api/v2"
     abuseipdb = requests.Session()
 
@@ -42,14 +44,15 @@ class AbuseIPDB(TargetCollector):
             self.error["abuseipdb"] = ex
         return response.json()
 
-    def check_ip(self, ip):
-        if is_IP_adress(ip):
+     
+    def collect_target(self, target):
+        if is_IP_adress(target):
             final_url = self.base_url + "/check"
             params = {
-                "ipAddress": ip,
-                "maxAgeInDays": MAX_AGE_IN_DAYS
+                "ipAddress": target,
+                "maxAgeInDays": self.MAX_AGE_IN_DAYS
             }
             return self.make_request(final_url=final_url, params=params)
+        else:
+            raise UnsupportedTarget('Target is nont valid to be analzyed')
 
-    def collect_target(self, target):
-        return self.check_ip(target)

@@ -3,11 +3,12 @@ import shodan
 from shodan.exception import APIError
 from data_collector.classes import TargetCollector
 from data_collector.utils import is_IP_adress, is_domain
+from data_collector.exceptions import UnsupportedTarget
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-
+# STATUS: OK
 class Shodan(TargetCollector):
 
     def __new__(cls):
@@ -33,6 +34,8 @@ class Shodan(TargetCollector):
             except APIError as ex:
                 logger.exception(ex)
                 self.error["shodan"] = ex
+        else:
+            raise UnsupportedTarget("Target is not supported for analysis")
         return host
 
     def collect_target(self, target):

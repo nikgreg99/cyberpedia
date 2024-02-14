@@ -128,6 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+cyberpedia/bin/*
+cyberpedia/lib/*
+cyberpedia/lib64/*
+
 
 /test/fixtures/
 /cyberpedia/data
@@ -137,5 +141,7 @@ lib/
 bin/
 lib64
 pyvenv.cfg
+
+*.env
 
 celerybeat-schedule.*

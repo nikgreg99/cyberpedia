@@ -1,10 +1,10 @@
 import hashlib
+import datetime
 import os
 import logging
-import json
+from datetime import datetime
 from .manager import Manager
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search
 from elasticsearch.helpers import bulk
 from django.conf import settings
 
@@ -12,18 +12,16 @@ logger = logging.getLogger(__name__)
 
 class ElasticManager(Manager):
 
-    _self = None
-    TIMESTAMP_PIPELINE = "timestamp_pipeline"
-
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(ElasticManager, cls).__new__(cls)
         return cls.instance
 
-    
     def __init__(self) -> None:
-            self.elastic = Elasticsearch(os.environ.get('ELASTIC_HOST'),timeout=120)
-            self.elastic.info()
+            timeout = os.environ.get('ELASTIC_TIMEOUT')
+            self.elastic = Elasticsearch(os.environ.get('ELASTIC_HOST'),timeout=int(timeout))
+            if settings.DEBUG:
+                logger.info(self.elastic.info())
 
     @classmethod
     def init(cls):
@@ -41,12 +39,13 @@ class ElasticManager(Manager):
     def gen_index_data(self,index_name,doc_type,data):
         for doc in data:
             doc_id = self.compute_doc_id(doc)
+            doc["timestamp"] = datetime.now()
             # using a yield generator data are not loaded directly into memory
             yield{
                 '_index': index_name,
                 '_id': doc_id,
                 'doc_type': doc_type,
-                '_source': doc
+                '_source': doc,
             }            
 
     def insert(self,index_name: str ,data):
@@ -90,11 +89,24 @@ class ElasticManager(Manager):
            print(data)
            return int(data[0]['count'])
         
+    def get_index_metadata_stats(self,index_name):
+        index_metadata = self.elastic.indices.stats(index=index_name)["indices"]
+        index_size = index_metadata[index_name]["total"]["store"]["size_in_bytes"]
+        index_size_gb = index_size / (1024 ** 3)
+        return {
+            'index': {
+                'name': index_name,
+                'size_in_gigabytes': index_size_gb
+            }
+        }
+        
     def create_data_indexes(self,indexes):
         for index in indexes:
             self.create_index(index)
        
-    def all_data_index(self,index_name):
-         search = Search(using=self.elastic,index=index_name)
-         response = search.execute()
-         return response.to_dict()
+    def query_data(self,index_name,query):
+         response = self.elastic.search(index=index_name,body=query)
+         documents = [doc["_source"] for doc in response["hits"]["hits"]]
+         if settings.DEBUG:
+             logger.info(documents)
+         return documents

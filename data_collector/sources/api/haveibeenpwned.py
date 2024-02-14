@@ -8,6 +8,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+# STATUS: OK
 class HaveIBeenPwned(FeedCollector):
 
     base_url : str = "https://haveibeenpwned.com/api/v3"
