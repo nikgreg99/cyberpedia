@@ -43,8 +43,8 @@ class IPApi(TargetCollector):
         if is_IP_adress(target):
             final_url = self.base_url + f"/{target}/json/"
             data = self.make_request(final_url=final_url)
-        else:
-            raise
             return data   
-
+        else:
+            raise UnsupportedTarget(f'{target} is not valid')
+            
 

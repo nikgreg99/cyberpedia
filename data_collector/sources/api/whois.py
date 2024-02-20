@@ -6,7 +6,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-
+#Maybe class to be discarded (not enough quota available) 
 class Whois(TargetCollector):
 
     base_url : str = "https://www.whoisxmlapi.com/whoisserver/WhoisService"

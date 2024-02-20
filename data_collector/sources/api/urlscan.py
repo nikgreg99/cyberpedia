@@ -2,12 +2,14 @@ import logging
 import json
 import requests
 from requests import HTTPError
-from data_collector.classes import TargetCollector,FeedCollector
+from data_collector.classes import TargetCollector
+from data_collector.utils import is_url
+from data_collector.exceptions import UnsupportedTarget
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-class UrlScan(TargetCollector,FeedCollector):
+class UrlScan(TargetCollector):
 
     base_url : str = "https://urlscan.io/api/v1"
     urlscan = requests.Session()
@@ -25,16 +27,33 @@ class UrlScan(TargetCollector,FeedCollector):
 
     def init_collector(self):
         self.err = {}
-        self.urlscan.headers: dict = {
+        self.urlscan.headers = {
             "Content-Type ": "application/json",
             "API-KEY" : self.secrets["api_key"]
         }
         self.urlscan.proxies = settings.PROXIES
+
+    def submit_url(self,target):
+        if is_url(target):
+            data = {
+                'url':target,
+                'visibility': 'public'
+            }
+
+            try:
+                final_url = self.base_url + "/scan"
+                response = self.urlscan.post(final_url,data=json.dumps(data))
+                response.raise_for_status
+            except HTTPError as ex:
+                logger.exception(ex)
+            return response.json()
+        else:
+            raise UnsupportedTarget(f"The {target} cannot be analyzed")
              
-    def get_url_report(self,url,submission_response):
+    def get_url_report(self,submission_response):
         if 'uuid' in submission_response:
             uuid = submission_response["uuid"]
-            final_url = self.base_url + "/result/{}".format(uuid)
+            final_url = self.base_url + f"/result/{uuid}"
             data : dict = {
                 "visibility": "public",
                 "uuid": uuid
@@ -44,12 +63,12 @@ class UrlScan(TargetCollector,FeedCollector):
                 response.raise_for_status()
             except HTTPError as ex:
                 logger.exception(ex)
-                self.err['vt'] = ex  
+                self.err['urlscan'] = ex  
+            return response.json()
         else:
             logger.error("Non field uuid present in submission_URL responsnse")
 
-    def collect(self) -> dict:
-        pass
-
-    def collect_target(self) -> dict:
-        pass
+    def collect_target(self,target) -> dict:
+        response = self.submit_url(target)
+        report = self.get_url_report(response)
+        return report

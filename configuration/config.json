@@ -45,7 +45,11 @@
                     "required": true
                }
             },
-            "indexes" : ["honeydb"]
+            "indexes" : ["honeydb"],
+            "quota_limit": {
+                "limited": false,
+                "treshold": 1500
+            }
     },
     {
         "name": "HybridAnalysis",
@@ -77,7 +81,10 @@
                     "required": true
                 }
             },
-        "indexes": ["maldatabase"]
+        "indexes": ["maldatabase"],
+        "quota_limit": {
+            "limited": false
+        }
     },
     {
         "name": "Maltiverse",
@@ -87,7 +94,11 @@
                 "required": true
             }
         },
-        "indexes": ["maltiverse"]
+        "indexes": ["maltiverse"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 100
+        }
     },
     {
         "name": "Shodan",
@@ -134,7 +145,10 @@
                 "required": true
             }
         },
-        "indexes": ["malware-bazaar"]
+        "indexes": ["malware-bazaar"],
+        "quota_limit": {
+            "limited": false
+        }
     },
     {
         "name": "UrlScan",
@@ -205,7 +219,11 @@
                 "required":true
             }       
         },
-        "indexes": ["greynoise"]
+        "indexes": ["greynoise"],
+        "quota_limit": {
+            "limited": true,
+            "treshold": 50
+        }
     },
     {
         "name": "CVEData",
@@ -390,7 +408,10 @@
                 "required": true
             }
         },
-        "indexes": ["nist-cve"]
+        "indexes": ["nist-cve"],
+        "quota_limit": {
+            "limited": false
+        }
     }
 ]
     

@@ -5,6 +5,7 @@ from data_collector.apps import sources
 logger = logging.getLogger(__name__)
 
 class ValhallaDownloader(FeedDownloader):
+    
     _self = None
     VALHALLA = "Valhalla"
     VALHALLA_YARA = "Valhalla-Yara"

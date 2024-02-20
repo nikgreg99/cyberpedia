@@ -37,7 +37,7 @@ class Cloudmersive(TargetCollector):
                 logger.exception(ex)
             return api_response
         
-    def check_domanin(self,domain):
+    def check_domain(self,domain):
         cloudmersive_domain = cloudmersive_validate_api_client.DomainApi(self.config)
         try:
             api_response = cloudmersive_domain.domain_check(domain)

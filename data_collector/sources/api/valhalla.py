@@ -6,6 +6,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+#STATUS: OK
 class Valhalla(FeedCollector):
 
     def __new__(cls):

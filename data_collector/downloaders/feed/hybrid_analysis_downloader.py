@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class HybridAnalysisDownloader(FeedDownloader):
 
     _self = None
-    HYBRID_ANALYSIS = 'HybridAnalysis'
+    HYBRID_ANALYSIS = 'hybrid-analysis'
 
     @classmethod
     def init(cls):
@@ -22,11 +22,11 @@ class HybridAnalysisDownloader(FeedDownloader):
     
 
     def download_reports(self):
-        data = sources[self.HY].collect()
+        data = sources['HybridAnalysis'].collect()
         if settings.DEBUG:
-            logger.info(data['data'])
-        self.elastic.insert(self.HYBRID_ANALYSIS,data['data'])
+            logger.info(data)
+        self.elastic.insert(self.HYBRID_ANALYSIS,data)
 
         
     def download_feed(self):
-        self.download_reports
+        self.download_reports()

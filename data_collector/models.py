@@ -54,7 +54,7 @@ class Index(models.Model):
 
 class DailyIndexMetadata(models.Model):
 
-    index = models.ForeignKey(Feed,on_delete=models.CASCADE,null=False)
+    index = models.ForeignKey(Index,on_delete=models.CASCADE,null=False)
     timestamp = models.DateTimeField(auto_now_add=True,null=False)
     index_size = models.DecimalField(max_digits=5,decimal_places=5,default=0,null=False)    
 

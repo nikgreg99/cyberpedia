@@ -4,6 +4,7 @@ from requests import HTTPError
 from data_collector.classes import FeedCollector
 from django.conf import settings
 
+# Probably to discard
 logger = logging.getLogger(__name__)
 
 class ThreatJammer(FeedCollector):
@@ -23,7 +24,6 @@ class ThreatJammer(FeedCollector):
 
     def init_collector(self):
         api_key = self.secrets["api_key"]
-        self.error = {}
         self.threat_jammer.headers = {
             'Accept': "application/json",
             "Authorization": f"Bearer {api_key}"

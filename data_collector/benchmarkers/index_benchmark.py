@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from django.conf import settings
 from .benckmark import Benchmark
 from ..models import DailyIndexMetadata,Index
 from ..managers.elastic_manager import ElasticManager
@@ -21,10 +22,10 @@ class IndexStorageGrowthBenchmark(Benchmark):
             index_name = index.name
             timestamp = datetime.now()
             index_metadata = self.elasitc.get_index_metadata_stats(index_name)
-            statistic_data = DailyIndexMetadata.objects.create()
-            statistic_data.index = index
-            statistic_data.timestamp = timestamp
-            statistic_data.index_size = index_metadata['index']['size_in_gigabytes']
+            index_size = index_metadata['index']['size_in_gigabytes']
+            statistic_data = DailyIndexMetadata.objects.create(index=index,timestamp=timestamp,index_size=index_size)
+            if settings.DEBUG:
+                logger.info(statistic_data)
             statistic_data.save()
 
 

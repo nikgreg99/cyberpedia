@@ -2,6 +2,8 @@ import logging
 import requests
 from requests import HTTPError
 from data_collector.classes import TargetCollector
+from data_collector.utils import is_IP_adress
+from data_collector.exceptions import UnsupportedTarget
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -40,11 +42,15 @@ class ZoomEye(TargetCollector):
     
 
     def collect_target(self, target):
-        final_url = self.base_url + "/host/searchs"
-        query = {
+        if is_IP_adress(target): 
+             final_url = self.base_url + "/host/searchs"
+             query = {
                 'query' : f'ip:{target}'
-            }
-        return self.make_request(final_url,params=query)
+              }
+             return self.make_request(final_url,params=query)
+        else:
+            raise UnsupportedTarget(f'{target} is not valid')
+
           
 
 

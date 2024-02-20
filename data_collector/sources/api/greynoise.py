@@ -2,12 +2,14 @@ import requests
 from requests import HTTPError
 import logging
 from data_collector.classes import TargetCollector
+from data_collector.exceptions import UnsupportedTarget
 from data_collector.utils import is_IP_adress
-from data_collector.exceptions import InvalidIPAddressFormat
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+
+# STATUS: OK
 class Greynoise(TargetCollector):
 
     base_url : str = "https://api.greynoise.io/v3"
@@ -25,7 +27,8 @@ class Greynoise(TargetCollector):
     def init_collector(self):
         self.err = {}
         self.greynoise.headers = {
-            'Key': self.secrets["api_key"]
+            'Key': self.secrets["api_key"],
+            'accept': "application/json"
         }
         self.greynoise.proxies = settings.PROXIES
 
@@ -42,5 +45,8 @@ class Greynoise(TargetCollector):
         if is_IP_adress(target):
             final_url = self.base_url +  f"/community/{target}"
             response = self.make_request(final_url=final_url)
-        return response
+            return response
+        else:
+            raise UnsupportedTarget(f"{target} target is not supported")
+
             

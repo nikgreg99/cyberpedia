@@ -68,11 +68,10 @@ class Cymon(TargetCollector):
         
         return feeds_id
     
-    def searcy_by_IP(self,ip):
-        if is_IP_adress(ip):
-            final_url = self.base_url + "/ioc/search/ip/{}".format(ip)
-            response = self.make_cymon_request(final_url)
-            return response.json()
+    def search_by_IP(self,ip):
+        final_url = self.base_url + "/ioc/search/ip/{}".format(ip)
+        response = self.make_cymon_request(final_url)
+        return response.json()
         
     def search_by_domain(self,domain):
         final_url = self.base_url + "/ioc/search/domain/{}".format(domain)
@@ -101,4 +100,5 @@ class Cymon(TargetCollector):
     
 
     def collect_target(self, target):
-        pass
+        if is_IP_adress(target):
+            return self.search_by_IP(target)

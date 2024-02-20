@@ -8,8 +8,6 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-
-
 # STATUS: OK
 class AbuseIPDB(TargetCollector):
 

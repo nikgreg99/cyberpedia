@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__ )
 class VirusTotalFeedType(Enum):
     YARA_RULES = "Yara Rules"
 
+#STATUS: OK
 class VirusTotal(FeedCollector,TargetCollector):
 
     vt_instance = None
@@ -46,8 +47,7 @@ class VirusTotal(FeedCollector,TargetCollector):
             partial_url =  "/yara_rules"
 
         return  self.make_request(partial_url)
-
-   
+    
 
     def collect_target(self,target):
         partial_url = None

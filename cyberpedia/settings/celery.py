@@ -18,6 +18,10 @@ CELERY_TASK_TRACK_STARTED = os.environ.get('CELERY_TASK_TRACK_STARTED')
 CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
 
 CELERY_BEAT_SCHEDULE = {
+    'montitor_indexes': {
+        'task': 'cyberpedia.tasks.monitor_indexes',
+        'schedule': crontab(hour=0,minute=5)
+    },
     'update-IP': {
         'task': 'cyberpedia.tasks.update_IP',
         'schedule': crontab(minute=0,hour='*/12')
@@ -48,15 +52,19 @@ CELERY_BEAT_SCHEDULE = {
     },
     'update_HybridAnalysis': {
         'task': 'cyberpedia.tasks.update_HybridAnalysis',
-        'schedule': crontab(minute=0,hour='*/1')
+        'schedule': crontab(minute='0',hour=1)
+    },
+    'update_MalwareBaazar': {
+        'task': 'cyberpedia.tasks.update_MalwareBaazar',
+        'schedule': crontab(minute='*/1')
     },
     'process_IPInfo': {
         'task' :'cyberpedia.tasks.process_IPInfo',
-        'schedule': crontab(minute=20,hour=0)
+        'schedule': crontab(minute=0,hour=1)
     },
     'process_IPApi': {
         'task': 'cyberpedia.tasks.process_IPApi',
-        'schedule': crontab(minute=0,hour='*/6')
+        'schedule': crontab(minute=0,hour=2)
     },
     'process_IPApiCom': {
         'task': 'cyberpedia.tasks.process_IPApiCom',
@@ -66,9 +74,21 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'cyberpedia.tasks.process_AbuseIPDB',
         'schedule': crontab(hour=0,minute=40)
     },
+    'process_Shodan': {
+        'task': 'cyberpedia.tasks.process_Shodan',
+        'schedule': crontab(minute=0,hour='*/1')
+    },
     'process_HybridAnalysis': {
         'task': 'cyberpedia.tasks.process_HybridAnalysis',
-        'schedule': crontab(minute=0,hour='*/4')
+        'schedule': crontab(minute=0,hour='*/3')
+    },
+    'process_Greynoise': {
+        'task': 'cyberpedia.tasks.process_GreyNoise',
+        'schedule': crontab(minute=30,hour=11)
+    },
+    'process_Maltiverse_IP': {
+        'task': 'cyberpedia.tasks.process_Maltiverse_IP',
+        'schedule': crontab(hour=1,minute=40)
     }
 }
 

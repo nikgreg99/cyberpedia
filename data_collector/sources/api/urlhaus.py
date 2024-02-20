@@ -1,7 +1,7 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import FeedCollector,TargetCollector
+from data_collector.classes import TargetCollector,FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -62,5 +62,6 @@ class UrlHaus(FeedCollector,TargetCollector):
             'malicious': malicious
         }
     
-    def collect_target(self, target):
-        return super().collect_target(target)
+    def collect_target(self) -> dict:
+        return super().collect_target()
+    

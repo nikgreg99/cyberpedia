@@ -12,10 +12,19 @@ from data_collector.downloaders.feed.hybrid_analysis_downloader import HybridAna
 
 from data_collector.processors.ip_processor import IPProcessor
 
+from data_collector.benchmarkers.index_benchmark import IndexStorageGrowthBenchmark
+
+
 from django.conf import settings
 from cyberpedia.celery import shared_task
 
 logger = logging.getLogger(__name__)
+
+
+@shared_task()
+def monitor_indexes():
+    monitor = IndexStorageGrowthBenchmark()
+    monitor.monitor_benchmark()
 
 @shared_task()
 def update_URLHaus():
@@ -45,6 +54,13 @@ def update_yara():
     yaraify.download_feed()
     if settings.DEBUG:
         logger.info("Yarify rules updated succesfully")
+
+@shared_task()
+def update_MalwareBaazar():
+    malware_baazar = MalwareDownloader()
+    malware_baazar.download_feed()
+    if settings.DEBUG:
+        logger.info("Malware Feed downloaded")
 
 @shared_task()
 def update_IOC():
@@ -98,12 +114,14 @@ def update_malware():
 
 @shared_task()
 def process_IPInfo():
-    processor = IPProcessor("IPInfo",600)
+    processor = IPProcessor("IPInfo",1500)
     processor.process_data()
+    if settings.DEBUG:
+        logger.info('IPInfo data processed')
 
 @shared_task()
 def process_IPApi():
-    processor = IPProcessor("IPApi",900)
+    processor = IPProcessor("IPApi",100)
     processor.process_data()
 
 @shared_task()
@@ -121,10 +139,19 @@ def process_HybridAnalysis():
     processor=  IPProcessor('HybridAnalysis',2000)
     processor.process_data()
 
-
 @shared_task()
 def process_Shodan():
-    processor = IPProcessor('Shodan',600)
+    processor = IPProcessor('Shodan',100)
+    processor.process_data()
+
+@shared_task()
+def process_GreyNoise():
+    processor = IPProcessor('Greynoise',16)
+    processor.process_data()
+
+@shared_task()
+def process_Maltiverse_IP():
+    processor = IPProcessor('Maltiverse',100)
     processor.process_data()
 
 

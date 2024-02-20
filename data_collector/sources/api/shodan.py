@@ -1,5 +1,6 @@
 import logging
 import shodan
+import time 
 from shodan.exception import APIError
 from data_collector.classes import TargetCollector
 from data_collector.utils import is_IP_adress, is_domain
@@ -26,17 +27,18 @@ class Shodan(TargetCollector):
         self.error = {}
 
     def make_request(self, method="GET", final_url="", params={}, data={}):
-        host = None
         target = data["target"]
         if is_IP_adress(target):
             try:
                 host = self.shodan.host(target)
+                print(host)
+                time.sleep(1)
+                return host
             except APIError as ex:
                 logger.exception(ex)
                 self.error["shodan"] = ex
         else:
             raise UnsupportedTarget("Target is not supported for analysis")
-        return host
 
     def collect_target(self, target):
         data = {'target': target}

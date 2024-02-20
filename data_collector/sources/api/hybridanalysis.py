@@ -9,6 +9,7 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+# STATUS: OK
 class HybridAnalysis(FeedCollector,TargetCollector):
 
     base_url: str = "https://www.hybrid-analysis.com"
@@ -34,7 +35,7 @@ class HybridAnalysis(FeedCollector,TargetCollector):
         self.hybrid_analysis.proxies = settings.PROXIES
         self.error = {}
 
-    def make_get_request(self, final_url="", params=..., data=...):
+    def make_get_request(self, final_url="", params={}, data={}):
         try:
             response = self.hybrid_analysis.get(final_url)
             response.raise_for_status()
@@ -47,7 +48,7 @@ class HybridAnalysis(FeedCollector,TargetCollector):
     def collect(self) -> dict:
         final_url = self.api_url + "/feed/latest"
         response = self.make_get_request(final_url=final_url)
-        return response
+        return response['data']
 
     def collect_target(self, target):
 
