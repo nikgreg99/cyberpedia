@@ -34,6 +34,15 @@ class ThreatFox(FeedCollector):
             logger.exception(ex)
             self.error['threatfox'] = ex
         return response.json()
+    
+    def make_request_get(self,final_url):
+         try:
+            response = self.threat_fox.get(final_url)
+            response.raise_for_status()
+         except HTTPError as ex:
+            logger.exception(ex)
+            self.error['threatfox'] = ex
+         return response.json()
 
     def collect_recent_IOC(self):
         data = {
@@ -51,8 +60,15 @@ class ThreatFox(FeedCollector):
     
     def collect(self):
         ioc = self.collect_recent_IOC()
-        malware = self.collect_malware_info()
-        return ioc['data']
+        recent_IOC_url = self.base_url + "/export/json/recent"
+        recent_IP_url = self.base_url + "/export/json/ip-ports/recent"
+        recent_domain_url = self.base_url + "/export/json/domains/recent"
+
+        recent_IOC = self.make_request_get(recent_IOC_url)
+        recent_IP = self.make_request.get(recent_IP_url)
+        recent_domain = self.make_request.get(recent_domain_url)
+        
+        return ioc ['data']
 
 
 

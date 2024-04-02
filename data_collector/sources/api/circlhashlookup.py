@@ -36,12 +36,17 @@ class CIRCLHashLookup(TargetCollector):
         return response.json()
 
 
-    def bulk_md5(self,hashes: list):
-        data= {'hashes': hashes}
-        final_url = self.base_url + "/bulk/md5"
-        return self.make_request(final_url,data=data)
+    def lookup_md5(self,md5 : str):
+        final_url = self.base_url + f"/lookup/md5/{md5}"
+        return self.make_request(final_url)
 
-    def bulk_SHA1(self,hashes):
-        data = {'hashes:', hashes}
-        final_url = self.base_url  + "/bulk/sha1"
-        return self.make_request(final_url,data=data)
+    def lookuo_SHA1(self, sha1: str):
+        final_url = self.base_url  + f"/lookup/sha1/{sha1}"
+        return self.make_request(final_url)
+    
+    def lookuo_SHA256(self,sha256: str):
+        final_url = self.base_url + f"/lookup/sha256/{sha256}"
+        return self.make_request(final_url)
+    
+    def collect_target(self) -> dict:
+        return super().collect_target()

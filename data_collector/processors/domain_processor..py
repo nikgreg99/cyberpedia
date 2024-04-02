@@ -4,6 +4,7 @@ from data_collector.models import Index
 from django.conf import settings
 from data_collector.apps import sources
 
+logger = logging.getLogger(__name__)
 
 class DomainProcessor(Processor):
 

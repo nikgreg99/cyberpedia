@@ -1,7 +1,8 @@
-
+import logging
+import importlib
 from django.apps import AppConfig
 
-import importlib
+logger = logging.getLogger(__name__)
 
 sources = {}
 
@@ -18,12 +19,14 @@ class DataCollectorConfig(AppConfig):
         
         for collector_name in collector_names:
             name = collector_name["name"]
-            api_module = importlib.import_module('data_collector.sources.api.{}'.format(name.lower()))
-            if api_module is not None:
-                klass = getattr(api_module,name)
-                api_instance = klass()
-                sources[name] = api_instance
-                
+            try:
+                api_module = importlib.import_module('data_collector.sources.api.{}'.format(name.lower()))
+                if api_module is not None:
+                    klass = getattr(api_module,name)
+                    api_instance = klass()
+                    sources[name] = api_instance
+            except ModuleNotFoundError as ex:
+                    logger.exception(f"{collector_name} cannot be found or doesn't exists")
 
 
 

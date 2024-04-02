@@ -233,7 +233,7 @@
                 "required": true
             }
         },
-        "indexes": ["cve-data"]
+        "indexes": []
     },
     {
         "name": "Censys",
@@ -308,7 +308,7 @@
                 "required": true
             }
           },
-          "indexes": ["opencve-cve","opencve-cwe", "opencve-vendors"]
+          "indexes": []
     },
     {
         "name": "ExploitAlert",
@@ -357,7 +357,7 @@
                 "required": true
             }
         },
-        "indexes": ["virus-total-url"]
+        "indexes": ["virus-total-ip","virus-total-url"]
     },
     {
         "name": "Valhalla",
@@ -412,6 +412,16 @@
         "quota_limit": {
             "limited": false
         }
+    },
+    {
+        "name": "FeodoTracker",
+        "secrets":{
+            "api_key": {
+                "env_var_key": "FEODO_API_KEY",
+                "required": true
+                }
+            },
+            "indexes": ["feodo-ip"]
     }
 ]
     

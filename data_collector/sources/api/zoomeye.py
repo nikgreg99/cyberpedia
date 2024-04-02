@@ -1,5 +1,6 @@
 import logging
 import requests
+from enum import Enum
 from requests import HTTPError
 from data_collector.classes import TargetCollector
 from data_collector.utils import is_IP_adress
@@ -9,9 +10,14 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+class ZoomeEyeParameter(Enum):
+    IP = "ip"
+    PORT = "port"
+
+
 class ZoomEye(TargetCollector):
     
-    base_url : str = "'https://api.zoomeye.org"
+    base_url : str = "https://api.zoomeye.org"
     zoomeye = requests.Session()
 
     def __init__(self) -> None:
@@ -26,12 +32,12 @@ class ZoomEye(TargetCollector):
     def init_collector(self):
         api_key = self.secrets["api_key"]
         self.zoomeye.headers = {
-            "API-KEY" : api_key
+            "API-KEY": f"{api_key}"
         }
         self.error = {}
         self.zoomeye.proxies = settings.PROXIES
 
-    def make_request(self, final_url="", params={},data={}):
+    def make_request(self, final_url="", params={}):
         try:
             response =  self.zoomeye.get(final_url,params=params)
             response.raise_for_status()
@@ -40,10 +46,9 @@ class ZoomEye(TargetCollector):
             self.error['zoomeye'] = ex
         return response.json()
     
-
     def collect_target(self, target):
         if is_IP_adress(target): 
-             final_url = self.base_url + "/host/searchs"
+             final_url = self.base_url + "/host/search"
              query = {
                 'query' : f'ip:{target}'
               }

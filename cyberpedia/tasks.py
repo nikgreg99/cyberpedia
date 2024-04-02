@@ -9,8 +9,11 @@ from data_collector.downloaders.feed.threatfox_dowloader import ThreatFoxDownloa
 from data_collector.downloaders.feed.nve import NVECollector
 from data_collector.downloaders.feed.malware_downloader import MalwareDownloader
 from data_collector.downloaders.feed.hybrid_analysis_downloader import HybridAnalysisDownloader
+from data_collector.downloaders.feed.feodo_downloader import FeodoDownloader
+
 
 from data_collector.processors.ip_processor import IPProcessor
+from data_collector.processors.url_processor import URLProcessor
 
 from data_collector.benchmarkers.index_benchmark import IndexStorageGrowthBenchmark
 
@@ -111,17 +114,24 @@ def update_malware():
     if settings.DEBUG:
         logger.info("Malware data updatetd succesfully")
 
+@shared_task()
+def update_FeodoTracker():
+    downloader = FeodoDownloader()
+    downloader.download_feed()
+    if settings.DEBUG:
+        logger.info("FeodoTracker updated successfully")
+
 
 @shared_task()
 def process_IPInfo():
-    processor = IPProcessor("IPInfo",1500)
+    processor = IPProcessor("IPInfo",1665)
     processor.process_data()
     if settings.DEBUG:
         logger.info('IPInfo data processed')
 
 @shared_task()
 def process_IPApi():
-    processor = IPProcessor("IPApi",100)
+    processor = IPProcessor("IPApi",1000)
     processor.process_data()
 
 @shared_task()
@@ -131,7 +141,7 @@ def process_IPApiCom():
 
 @shared_task()
 def process_AbuseIPDB():
-    processor = IPProcessor('AbuseIPDB',950)
+    processor = IPProcessor('AbuseIPDB',1000)
     processor.process_data()
 
 @shared_task()
@@ -150,10 +160,39 @@ def process_GreyNoise():
     processor.process_data()
 
 @shared_task()
+def process_ZoomEye():
+    processor = IPProcessor('ZoomEye',300)
+    processor.process_data()
+
+@shared_task()
 def process_Maltiverse_IP():
     processor = IPProcessor('Maltiverse',100)
     processor.process_data()
 
+@shared_task()
+def process_VirusTotal_IP():
+    processor = IPProcessor('VirusTotal',4)
+    processor.process_data()
+
+@shared_task()
+def process_VirusTotal_URL():
+    processor = URLProcessor('VirusTotal',4)
+    processor.process_data()
+
+@shared_task()
+def process_HybridAnalysis_URL():
+    processor = URLProcessor('HybridAnalysis',200)
+    processor.process_data()
+
+@shared_task()
+def process_UrlScan():
+    processor = URLProcessor('UrlScan',1)
+    processor.process_data()
+
+@shared_task
+def process_Censys():
+    processor = IPProcessor('Censys',60)
+    processor.process_data()
 
 
 

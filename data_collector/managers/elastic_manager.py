@@ -39,11 +39,11 @@ class ElasticManager(Manager):
     def gen_index_data(self,index_name,doc_type,data):
         for doc in data:
             doc_id = self.compute_doc_id(doc)
-            # doc["timestamp"] = datetime.now()
             # using a yield generator data are not loaded directly into memory
             yield{
                 '_index': index_name,
                 '_id': doc_id,
+                "timestamp": datetime.now(),
                 'doc_type': doc_type,
                 '_source': doc,
             }            

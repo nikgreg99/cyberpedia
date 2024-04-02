@@ -1,6 +1,8 @@
 import logging
 import json
 import requests
+import time
+from ratelimit import limits
 from requests import HTTPError
 from data_collector.classes import TargetCollector
 from data_collector.utils import is_url
@@ -33,13 +35,13 @@ class UrlScan(TargetCollector):
         }
         self.urlscan.proxies = settings.PROXIES
 
+    @limits(calls=60,period=60)
     def submit_url(self,target):
         if is_url(target):
             data = {
                 'url':target,
                 'visibility': 'public'
             }
-
             try:
                 final_url = self.base_url + "/scan"
                 response = self.urlscan.post(final_url,data=json.dumps(data))
@@ -49,7 +51,8 @@ class UrlScan(TargetCollector):
             return response.json()
         else:
             raise UnsupportedTarget(f"The {target} cannot be analyzed")
-             
+
+    @limits(calls=60,period=60)
     def get_url_report(self,submission_response):
         if 'uuid' in submission_response:
             uuid = submission_response["uuid"]
@@ -58,13 +61,18 @@ class UrlScan(TargetCollector):
                 "visibility": "public",
                 "uuid": uuid
             }
-            try:
+            max_tries = 10
+            poll_distance = 2
+            time.sleep(10)
+            for chanche in range(max_tries):
+                if chanche:
+                    time.sleep(poll_distance)
                 response = self.urlscan.get(final_url,headers=self.headers,data=json.dumps(data))
-                response.raise_for_status()
-            except HTTPError as ex:
-                logger.exception(ex)
-                self.err['urlscan'] = ex  
-            return response.json()
+                if response.status_code == 404:
+                    continue
+                result = response.json()
+                break
+            return result
         else:
             logger.error("Non field uuid present in submission_URL responsnse")
 

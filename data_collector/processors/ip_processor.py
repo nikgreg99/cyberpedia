@@ -11,11 +11,6 @@ class IPProcessor(Processor):
     # ALL the suspicious IP are deepen trough different analysis
     HONEYDB_INDEX = 'honeydb'
 
-    def __new__(cls):
-        if not hasattr(cls, 'instance'):
-            cls.instance = super(IPProcessor, cls).__new__(cls)
-        return cls.instance
-
     def __init__(self, name,quota_limit) -> None:
         super().__init__(name)
         self.quota_limit = quota_limit
@@ -42,6 +37,9 @@ class IPProcessor(Processor):
             remote_host = ip_address['remote_host']
             response = sources[self.name].collect_target(remote_host)
             ip_data.append(response)
+
+            if settings.DEBUG:
+                logger.info(index_name)
          
         self.elastic.insert(index_name=index_name,data=ip_data)
 

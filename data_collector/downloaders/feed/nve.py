@@ -12,6 +12,14 @@ class NVECollector(FeedDownloader):
     START_INDEX_DEFAULT = 0
     RESULTS_PER_PAGE_DEFAULT = 2000
 
+
+    @classmethod
+    def init(cls):
+        if cls._self is None:
+            cls._self = super().__init__(cls)
+        return cls._self
+
+
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(NVECollector, cls).__new__(cls)

@@ -1,5 +1,6 @@
 from django.db import models
 
+IPV4_REGEX = "^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$"
 HOST_REGEX = "(?:(?:(?:(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61})?[a-zA-Z0-9])[.])*(?:[a-zA-Z][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]|[a-zA-Z])[.]?)"
 DOMAIN_REGEX = "“^((?!-)[A-Za-z0-9-]{1, 63}(?<!-)\\.)+[A-Za-z]{2, 6}$” "
 CVE_REGEX = r"CVE-\d{4}-\d{4,7}"

@@ -1,9 +1,9 @@
 import requests
 from requests import HTTPError
 import logging
+from ratelimit import limits
 from data_collector.classes import TargetCollector,FeedCollector
-from data_collector.exceptions import UnsupportedTarget
-from data_collector.utils import is_domain, validate_hash, is_url, is_IP_adress
+from data_collector.utils import is_domain, is_IP_adress
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -35,12 +35,12 @@ class HybridAnalysis(FeedCollector,TargetCollector):
         self.hybrid_analysis.proxies = settings.PROXIES
         self.error = {}
 
+    @limits(calls=200,period=60)
     def make_get_request(self, final_url="", params={}, data={}):
         try:
             response = self.hybrid_analysis.get(final_url)
             response.raise_for_status()
         except HTTPError as ex:
-            logger.exception(ex)
             self.error['hybridanalysis'] = ex
         
         return response.json()
@@ -58,20 +58,14 @@ class HybridAnalysis(FeedCollector,TargetCollector):
         elif is_domain(target):
             data = {'domain': target}
             ending_url = "/search/terms"
-        elif is_url(target):
+        else:
             data = {"url": target}
             ending_url = "/search/terms"
-        elif validate_hash(target):
-            data = {'hash': target}
-            ending_url = "/search/terms"
-        else:
-            raise UnsupportedTarget("f{target} is non supported")
 
         try:
             final_url = self.api_url + ending_url
             respose = self.hybrid_analysis.post(final_url, data=data)
             respose.raise_for_status()
         except HTTPError as ex:
-            logger.exception(ex)
             self.error['hybrid-analysis'] = ex
         return respose

@@ -5,10 +5,14 @@ import re
 import concurrent
 
 def is_IP_adress(ip: str):
-    ip_checker = ip_address(ip)
-    if type(ip_checker) is IPv4Address or type(ip_checker) is IPv6Address:
-        return True
-    return False
+    try:
+        ip_checker = ip_address(ip)
+   
+        if type(ip_checker) is IPv4Address or type(ip_checker) is IPv6Address:
+            return True
+        return False
+    except ValueError as ex:
+        pass
     
 def validate_hash(content,regexp):
     return re.match(content,regexp)

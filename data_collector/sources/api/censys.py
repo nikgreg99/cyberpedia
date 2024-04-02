@@ -1,6 +1,7 @@
-from censys.search import CensysHosts
-from censys.search import CensysCertificates
+import requests
+from requests import HTTPError
 from data_collector.classes import TargetCollector
+from data_collector.utils import ip_address
 import logging
 from django.conf import settings
 
@@ -8,8 +9,8 @@ logger = logging.getLogger()
 
 class Censys(TargetCollector):
     
-    censys_host_client = None
-    censys_certificates_client = None
+    base_url = "https://search.censys.io/api/"
+    censys = requests.Session()
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -24,19 +25,26 @@ class Censys(TargetCollector):
     def init_collector(self):
         secret = self.secrets["secret"]
         api_key = self.secrets["api_key"]
-        self.censys_host_client = CensysHosts(api_secret=secret,api_id=api_key)
-        self.censys_certificates_client = CensysCertificates(api_secret=secret,api_id=api_key)
+        self.censys.headers = {
+            'accept': 'application/json',
+            'Secret': secret, 
+            'API ID': api_key
+        }
+        self.censys.proxies = settings.PROXIES
 
-    def collect_certificates(self):
-       # try:
-        response =  self.censys_certificates_client.bulk()
-        #except APIError as ex:
+    def make_request(self, final_url="", params={}, data={}):
+        try:
+            response = self.censys.get(final_url)
+            response.raise_for_status()
+        except HTTPError as ex:
+            logger.exception(ex)
         return response.json()
 
-
     def collect_target(self, target):
-        response = self.censys_host.search(target)
-        return response
+        if ip_address(target):
+            final_url = self.base_url + f"v2/hosts/{target}"
+            return self.make_request(final_url=final_url)
 
+        
 
     
