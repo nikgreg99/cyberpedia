@@ -54,10 +54,12 @@ class ElasticManager(Manager):
          doc_id = self.compute_doc_id(data)
          self.elastic.index(index=index_name,id=doc_id,document=data)
      else: 
-        bulk(self.elastic, self.gen_index_data(index_name,index_name.capitalize(),data),chunk_size=4000)
+        bulk(self.elastic, self.gen_index_data(index_name,index_name.capitalize(),data),
+             chunk_size=4000)
     
      if settings.DEBUG:  
-        logger.info("Total number of occurences: ",self.elastic.cat.count(index=index_name,format="json"))
+        logger.info("Total number of occurences: ",
+                    self.elastic.cat.count(index=index_name,format="json"))
 
 
     def create_index(self,index_name):
@@ -72,7 +74,7 @@ class ElasticManager(Manager):
         if not self.elastic.indices.exists(index_name):
             self.elastic.indices.create(index=index_name,mappings=mappings)
 
-        if settings.DEBUG:
+        
             logger.info(f'{index_name} with the following mappings {mappings} has been created')
 
 
@@ -110,3 +112,31 @@ class ElasticManager(Manager):
          if settings.DEBUG:
              logger.info(documents)
          return documents
+
+    def count_total_records(self):
+
+        data = {
+            "indexes": [],
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:S")
+        }
+        
+        indices = self.elastic.cat.indices(format='json')
+        tot_documents = 0
+
+        for index in indices:
+            index_name = index["index"]
+            actual_doc = self.elastic.cat.count(index=index_name, format="json")[0]["count"]
+            if settings.DEBUG :
+                print(f"[Index:{index_name}, Total documents:{int(actual_doc)}]")
+                tot_documents += int(actual_doc)
+            data["indexes"].append({
+                "index": index_name,
+                "tot_doc": int(actual_doc)
+            })
+            
+        data["tot_doc"] = tot_documents
+
+        if settings.DEBUG:
+                print(f"Total records: {tot_documents}")
+
+        return data

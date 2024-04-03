@@ -51,6 +51,22 @@ services:
       - elasticsearch
     networks:
       - elastic
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.2.2
+    restart: always
+    container_name: logstash
+    ports:
+      - "5000:5000"
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./logstash/config/logstash.yaml:/usr/share/logstash/config/logstash.yaml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    networks:
+      - elastic
     
   squid:
     image: ubuntu/squid:latest

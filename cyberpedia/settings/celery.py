@@ -16,6 +16,7 @@ CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER')
 CELERY_TIMEZONE = os.environ.get('CELERY_TIMEZONE')
 CELERY_TASK_TRACK_STARTED = os.environ.get('CELERY_TASK_TRACK_STARTED')
 CELERY_IGNORE_RESULT = os.environ.get('CELERY_IGNORE_RESULT')
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = os.environ.get('CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP')
 
 CELERY_BEAT_SCHEDULE = {
     'update-IP': {
@@ -96,7 +97,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'process_HybridAnalysis_URL' : {
         'task': 'cyberpedia.tasks.process_HybridAnalysis_URL',
-        'schedule': crontab(minute='*/20')
+        'schedule': crontab(minute=0,hour= '*/5')
     },
     'process_UrlScan':{
         'task': 'cyberpedia.tasks.process_UrlScan',
