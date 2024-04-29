@@ -8,7 +8,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-# STATUS: OK
+# STATUS: OK - We keep it
 class AbuseIPDB(TargetCollector):
 
     MAX_AGE_IN_DAYS = 90

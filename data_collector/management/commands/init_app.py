@@ -20,12 +20,6 @@ class Command(BaseCommand):
     help = "Migrate secrets and indexes from .env file file to database"
     elastic = ElasticManager()
 
-    def load_MISP_feed(cls):
-        path = os.path.join(settings.CONFIG_DIR, "misp_feeds.json")
-        misp_feeds = read_json_file(path)
-        for feed in misp_feeds:
-            index = feed["index"]
-            elastic.create_index(index)
 
     @classmethod
     def migrate(cls, collector_list):
@@ -45,7 +39,8 @@ class Command(BaseCommand):
                     required=secret['required']
                 )
 
-                print(secret, key)
+                if settings.debug: 
+                    print(secret, key)
 
                 if conf.value != key:
                     conf.update_key()

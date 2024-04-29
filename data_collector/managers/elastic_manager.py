@@ -40,10 +40,10 @@ class ElasticManager(Manager):
         for doc in data:
             doc_id = self.compute_doc_id(doc)
             # using a yield generator data are not loaded directly into memory
+            doc["timestamp"] = datetime.now()
             yield{
                 '_index': index_name,
                 '_id': doc_id,
-                "timestamp": datetime.now(),
                 'doc_type': doc_type,
                 '_source': doc,
             }            
@@ -74,7 +74,6 @@ class ElasticManager(Manager):
         if not self.elastic.indices.exists(index_name):
             self.elastic.indices.create(index=index_name,mappings=mappings)
 
-        
             logger.info(f'{index_name} with the following mappings {mappings} has been created')
 
 

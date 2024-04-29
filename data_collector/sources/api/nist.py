@@ -7,6 +7,7 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+# STATUS OK: We keep it
 class Nist(FeedCollector):
 
     START_INDEX_DEFAULT = 0

@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 
 logger = logging.getLogger(__name__)
 
+# STATUS: OK
 class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any) -> str | None:

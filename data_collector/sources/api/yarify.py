@@ -41,6 +41,6 @@ class Yarify(FeedCollector):
      
     def collect(self):
         rules = self.collect_recent_rules()
-        return rules
+        return rules['data']
 
 

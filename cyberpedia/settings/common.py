@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-jhb9758+b%h_#v&c^!(8jv3va-u4sj%snl7q(ft#q2_3fo+536
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 
 # Application definition
@@ -45,9 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cyberpedia',
     "data_collector",
-    "data_collector.sources",
     "cyberpedia_api",
-    'django_bootstrap5',
     'rest_framework'
 ]
 

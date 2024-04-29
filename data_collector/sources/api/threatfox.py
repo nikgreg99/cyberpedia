@@ -7,6 +7,8 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+
+# STATUS OK: We keep it
 class ThreatFox(FeedCollector):
 
     base_url = 'https://threatfox-api.abuse.ch/api/v1/'
@@ -60,15 +62,7 @@ class ThreatFox(FeedCollector):
     
     def collect(self):
         ioc = self.collect_recent_IOC()
-        recent_IOC_url = self.base_url + "/export/json/recent"
-        recent_IP_url = self.base_url + "/export/json/ip-ports/recent"
-        recent_domain_url = self.base_url + "/export/json/domains/recent"
-
-        recent_IOC = self.make_request_get(recent_IOC_url)
-        recent_IP = self.make_request.get(recent_IP_url)
-        recent_domain = self.make_request.get(recent_domain_url)
-        
-        return ioc ['data']
+        return ioc['data']
 
 
 

@@ -16,6 +16,10 @@ class BreachDownloader(FeedDownloader):
         if cls._self is None:
             cls._self = super().__init__(cls)
         return cls._self
+    
+    def download_hashes_by_suffix(self):
+        for i in range(int("00000",16),int("FFFFF",16)+ 1):
+            prefix = format(i,"05X")
 
 
     def download_feed(self):

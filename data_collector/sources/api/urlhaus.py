@@ -6,7 +6,10 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+
+# Status OK: We keep it
 class UrlHaus(FeedCollector,TargetCollector):
+
     base_url : str = 'https://urlhaus-api.abuse.ch/v1/'
     urlhaus = requests.Session()
 
@@ -57,8 +60,8 @@ class UrlHaus(FeedCollector,TargetCollector):
         payloads = self.query_recent_payloads()
         malicious =self.query_urls()
         return {
-            'url': urls,
-            'payload': payloads,
+            'url': urls['urls'],
+            'payload': payloads['payloads'],
             'malicious': malicious
         }
     

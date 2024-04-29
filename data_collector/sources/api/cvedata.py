@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 # TO DO: Class to be discarded Deprecate Remove index and settings from JsonFile
 class CVEData(TargetCollector):
+    
     base_url: str = "https://v1.cveapi.com"
     cve_data = requests.Session()
 

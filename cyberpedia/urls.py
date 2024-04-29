@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from .views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cyberpedia.api/',include('cyberpedia_api.urls'))
+    path('',view=index,name="index")
 ]

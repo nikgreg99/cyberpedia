@@ -33,11 +33,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     'update-IOC': {
         'task': 'cyberpedia.tasks.update_IOC',
-        'schedule': crontab(minute=0,hour='*/1')
+        'schedule': crontab(minute='*/15')
     },
      "update-URL": {
         'task': 'cyberpedia.tasks.update_URLHaus',
-        'schedule': crontab(minute=0,hour='*/2')
+        'schedule': crontab(minute='*/15')
     },
     'update-yara': {
         'task': 'cyberpedia.tasks.update_yara',
@@ -45,15 +45,15 @@ CELERY_BEAT_SCHEDULE = {
     },
     'update-valhalla': {
         'task': 'cyberpedia.tasks.update_valhalla',
-        'schedule': crontab(hour=0,minute=40)
+        'schedule': crontab(minute="*/15")
     },
     'update_HybridAnalysis': {
         'task': 'cyberpedia.tasks.update_HybridAnalysis',
-        'schedule': crontab(minute='0',hour=1)
+        'schedule': crontab(minute=0,hour='*/3')
     },
     'update_MalwareBaazar': {
         'task': 'cyberpedia.tasks.update_MalwareBaazar',
-        'schedule': crontab(minute=0,hour='*/1')
+        'schedule': crontab(minute='*/15')
     },
     'update_FeodoTracker':  {
         'task': 'cyberpedia.tasks.update_FeodoTracker',
@@ -89,15 +89,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     'process_Maltiverse_IP': {
         'task': 'cyberpedia.tasks.process_Maltiverse_IP',
-        'schedule': crontab(hour=1,minute=40)
+        'schedule': crontab(hour=5,minute=55)
     },
     'process_Virus_Total_IP': {
         'task': 'cyberpedia.tasks.process_VirusTotal_IP',
-        'schedule': crontab(minute=0,hour='*/1')
-    },
-    'process_HybridAnalysis_URL' : {
-        'task': 'cyberpedia.tasks.process_HybridAnalysis_URL',
-        'schedule': crontab(minute=0,hour= '*/5')
+        'schedule': crontab(minute='*/15')
     },
     'process_UrlScan':{
         'task': 'cyberpedia.tasks.process_UrlScan',

@@ -136,7 +136,7 @@ def process_IPApi():
 
 @shared_task()
 def process_IPApiCom():
-    processor = IPProcessor("IPApiCom",50)
+    processor = IPProcessor("IPApiCom",100)
     processor.process_data()
 
 @shared_task()
@@ -156,7 +156,7 @@ def process_Shodan():
 
 @shared_task()
 def process_GreyNoise():
-    processor = IPProcessor('Greynoise',16)
+    processor = IPProcessor('Greynoise',50)
     processor.process_data()
 
 @shared_task()

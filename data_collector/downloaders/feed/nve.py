@@ -12,13 +12,11 @@ class NVECollector(FeedDownloader):
     START_INDEX_DEFAULT = 0
     RESULTS_PER_PAGE_DEFAULT = 2000
 
-
     @classmethod
     def init(cls):
         if cls._self is None:
             cls._self = super().__init__(cls)
         return cls._self
-
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -44,15 +42,15 @@ class NVECollector(FeedDownloader):
             cve = data['vulnerabilities']
             self.params["startIndex"] +=  self.params['resultsPerPage']
             if settings.DEBUG:
-                print(cve)
+                logger.info(cve)
             self.elastic.insert('nist-cve',cve)
             if self.params["startIndex"] > data["totalResults"]:
                 break
             if settings.DEBUG: 
-                print("Wait for another request...")
+                logger.info("Wait for another request...")
             time.sleep(self.SLEEP_TIME_INTERVAL)
 
-    def update_cve_feed(self,num_cve):
+    def append_cve_feed(self,num_cve):
         self.reset_params()
         response = self.nve.make_request(self.params)
         total_cve = response["totalResults"]
@@ -60,16 +58,15 @@ class NVECollector(FeedDownloader):
         self.params["startIndex"] = num_cve
         self.collect_cve_feed()
         if settings.DEBUG:
-            print(f"NVE updated with new {remaining_cve} records")
+            logger.info(f"NVE updated with new {remaining_cve} records")
 
 
     def download_feed(self):
         num_cve = self.elastic.count_doc_index('nist-cve')
-        print(num_cve)
         if num_cve == 0:
             self.collect_cve_feed()
         else: 
-            self.update_cve_feed(num_cve)
+            self.append_cve_feed(num_cve)
         
     
     

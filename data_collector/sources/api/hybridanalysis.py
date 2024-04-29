@@ -68,4 +68,4 @@ class HybridAnalysis(FeedCollector,TargetCollector):
             respose.raise_for_status()
         except HTTPError as ex:
             self.error['hybrid-analysis'] = ex
-        return respose
+        return respose.json()

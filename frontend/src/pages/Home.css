@@ -1,0 +1,18 @@
+*{
+    background: #23242a;
+}
+
+.form-ioc { 
+    position: relative;
+}
+
+.form-input {
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-ioc:focus {
+    box-shadow: none;
+    border: none;
+}
