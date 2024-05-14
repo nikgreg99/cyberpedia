@@ -6,7 +6,9 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-#STATUS: OK
+# STATUS: OK
+
+
 class HoneyDB(FeedCollector):
 
     base_url: str = "https://honeydb.io/api"
@@ -23,8 +25,7 @@ class HoneyDB(FeedCollector):
 
     def init_collector(self):
         self.honey_db_api_id = self.secrets["api_id"]
-        self.honey_db_api_key = self.secrets["api_key"]
-        
+        self.honey_db_api_key = self.secrets["api_key"]  
         self.honeydb.headers = {
             "X-HoneyDb-ApiId": self.honey_db_api_id,
             "X-HoneyDb-ApiKey": self.honey_db_api_key

@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 # STATUS OK: We keep it
 class ThreatFox(FeedCollector):
 
-    base_url = 'https://threatfox-api.abuse.ch/api/v1/'
-    threat_fox = requests.Session() 
+    base_url: str = 'https://threatfox-api.abuse.ch/api/v1/'
+    threat_fox = requests.Session()
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -20,8 +20,8 @@ class ThreatFox(FeedCollector):
         return cls.instance
 
     def __init__(self) -> None:
-       super().__init__(self.__class__.__name__) 
-       self.init_collector()
+        super().__init__(self.__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
@@ -30,21 +30,21 @@ class ThreatFox(FeedCollector):
 
     def make_request(self, data={}):
         try:
-            response = self.threat_fox.post(self.base_url,json=data)
+            response = self.threat_fox.post(self.base_url, json=data)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
             self.error['threatfox'] = ex
         return response.json()
-    
-    def make_request_get(self,final_url):
-         try:
+
+    def make_request_get(self, final_url):
+        try:
             response = self.threat_fox.get(final_url)
             response.raise_for_status()
-         except HTTPError as ex:
+        except HTTPError as ex:
             logger.exception(ex)
             self.error['threatfox'] = ex
-         return response.json()
+        return response.json()
 
     def collect_recent_IOC(self):
         data = {
@@ -53,16 +53,12 @@ class ThreatFox(FeedCollector):
         }
         return self.make_request(data=data)
 
-    
     def collect_malware_info(self):
         data = {
             "query": "malware_list"
         }
         return self.make_request(data=data)
-    
+
     def collect(self):
         ioc = self.collect_recent_IOC()
         return ioc['data']
-
-
-

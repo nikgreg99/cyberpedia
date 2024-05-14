@@ -7,9 +7,10 @@ from django.conf import settings
 # Probably to discard
 logger = logging.getLogger(__name__)
 
+
 class ThreatJammer(FeedCollector):
 
-    base_url : str = "https://dublin.api.threatjammer.com/v1"
+    base_url: str = "https://dublin.api.threatjammer.com/v1"
     threat_jammer = requests.Session()
 
     def __new__(cls):

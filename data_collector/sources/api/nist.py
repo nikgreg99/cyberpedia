@@ -13,14 +13,13 @@ class Nist(FeedCollector):
     START_INDEX_DEFAULT = 0
     RESULT_PER_PAGE_DEFAULT = 2000
 
-    cve_url : str = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
+    cve_url: str = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
     cve_history_url = "https://services.nvd.nist.gov/rest/json/cvehistory/.2.0"
     nist = requests.Session()
 
-
     def __new__(cls):
         if not hasattr(cls, 'instance'):
-            cls.instance = super(Nist,cls).__new__(cls)
+            cls.instance = super(Nist, cls).__new__(cls)
         return cls.instance
 
     def __init__(self) -> None:
@@ -33,7 +32,7 @@ class Nist(FeedCollector):
         }
         self.error = {}
         self.nist.proxies = settings.PROXIES
-       
+  
     def make_request(self, final_url="", params={}, data={}):
         try:
             response = self.nist.get(self.cve_url,params=params)
@@ -43,8 +42,6 @@ class Nist(FeedCollector):
             logger.exception(ex)
             self.error['nist'] = ex
         return response.json()
-    
 
-    def collect(self) -> dict:
+def collect(self) -> dict:
        pass 
-        

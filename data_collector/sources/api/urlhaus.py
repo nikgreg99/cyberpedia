@@ -1,16 +1,16 @@
 import logging
 import requests
 from requests import HTTPError
-from data_collector.classes import TargetCollector,FeedCollector
+from data_collector.classes import TargetCollector, FeedCollector
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
 
 # Status OK: We keep it
-class UrlHaus(FeedCollector,TargetCollector):
+class UrlHaus(FeedCollector, TargetCollector):
 
-    base_url : str = 'https://urlhaus-api.abuse.ch/v1/'
+    base_url: str = 'https://urlhaus-api.abuse.ch/v1/'
     urlhaus = requests.Session()
 
     def __new__(cls):
@@ -21,7 +21,6 @@ class UrlHaus(FeedCollector,TargetCollector):
     def __init__(self) -> None:
        super().__init__(self.__class__.__name__)
        self.init_collector()
-
 
     def init_collector(self):
         self.error = {}
@@ -43,28 +42,27 @@ class UrlHaus(FeedCollector,TargetCollector):
         if limit is not None:
             query_URL = query_URL + f"/limit/{limit}"
         return self.make_request(final_url=query_URL)
-    
+
     def query_urls(self):
         url = "https://urlhaus.abuse.ch/downloads/json_recent"
         return self.make_request(url)
-    
+
     def query_recent_payloads(self,limit = None):
         basic_url = "payloads/recent"
         query_URL = self.base_url + basic_url
         if limit is not  None:
             query_URL = query_URL + f"/limit/{limit}"
         return self.make_request(final_url= query_URL)
-    
+ 
     def collect(self):
         urls = self.query_recent_urls()
         payloads = self.query_recent_payloads()
-        malicious =self.query_urls()
+        malicious = self.query_urls()
         return {
             'url': urls['urls'],
             'payload': payloads['payloads'],
             'malicious': malicious
         }
-    
+ 
     def collect_target(self) -> dict:
         return super().collect_target()
-    
