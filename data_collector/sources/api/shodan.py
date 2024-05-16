@@ -26,19 +26,16 @@ class Shodan(TargetCollector):
     def init_collector(self):
         self.api_key = self.secrets["api_key"]
         self.shodan = shodan.Shodan(key=self.api_key,proxies=settings.PROXIES)
-        self.error = {}
 
     def make_request(self, method="GET", final_url="", params={}, data={}):
         target = data["target"]
         if is_IP_adress(target):
             try:
                 host = self.shodan.host(target)
-                print(host)
                 time.sleep(1)
                 return host
             except APIError as ex:
                 logger.exception(ex)
-                self.error["shodan"] = ex
         else:
             raise UnsupportedTarget("Target is not supported for analysis")
 

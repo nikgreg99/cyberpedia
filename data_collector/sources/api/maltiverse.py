@@ -7,9 +7,10 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+
 class Maltiverse(TargetCollector):
 
-    base_url: str = "https://api.maltiverse.com"
+    BASE_URL: str = "https://api.maltiverse.com"
     maltiverse = requests.Session()
 
     def __new__(cls):
@@ -22,12 +23,11 @@ class Maltiverse(TargetCollector):
         self.init_collector()
 
     def init_collector(self):
-       self.maltiverse.proxies = settings.PROXIES
-       self.maltiverse.headers = {
-           'Accept': "application/json",
-           'Authorization': f"Bearer {self.secrets['api_key']}"
-       }
-       self.error = {}
+        self.maltiverse.proxies = settings.PROXIES
+        self.maltiverse.headers = {
+            'Accept': "application/json",
+            'Authorization': f"Bearer {self.secrets['api_key']}"
+        }
 
     def make_request(self, final_url="", params=..., data=...):
         try:
@@ -35,20 +35,19 @@ class Maltiverse(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            self.error["maltiverse"] = ex
         return response.json()
 
 
     def ip(self,ip):
-        final_url = self.base_url + f"/ip/{ip}"
+        final_url = self.BASE_URL + f"/ip/{ip}"
         return self.make_request(final_url)
         
     def host(self,host):
-        final_url = self.base_url + f"/host/{host}"
+        final_url = self.BASE_URL + f"/host/{host}"
         return self.make_request(final_url)
     
     def url(self,url):
-        final_url = self.base_url + f"/url{url}"
+        final_url = self.BASE_URL + f"/url{url}"
         return self.make_request(final_url)
 
 

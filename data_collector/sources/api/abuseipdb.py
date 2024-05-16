@@ -8,7 +8,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-# STATUS: OK - We keep it
+
 class AbuseIPDB(TargetCollector):
 
     MAX_AGE_IN_DAYS = 90
@@ -25,7 +25,6 @@ class AbuseIPDB(TargetCollector):
         self.init_collector()
 
     def init_collector(self):
-        self.error = {}
         self.abuseipdb.headers = {
             "Accept": 'application/json',
             "Key": self.secrets["api_key"],
@@ -39,10 +38,8 @@ class AbuseIPDB(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            self.error["abuseipdb"] = ex
         return response.json()
 
-     
     def collect_target(self, target):
         if is_IP_adress(target):
             final_url = self.base_url + "/check"
@@ -53,4 +50,3 @@ class AbuseIPDB(TargetCollector):
             return self.make_request(final_url=final_url, params=params)
         else:
             raise UnsupportedTarget('Target is nont valid to be analzyed')
-

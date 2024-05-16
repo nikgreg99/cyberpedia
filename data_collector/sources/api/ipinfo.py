@@ -11,8 +11,9 @@ logger = logging.getLogger(__name__)
 
 
 class IPInfo(TargetCollector):
+
     api_key = None
-    base_url = "https://ipinfo.io"
+    BASE_URL = "https://ipinfo.io"
     ipinfo = requests.Session()
 
     def __new__(cls):
@@ -23,7 +24,6 @@ class IPInfo(TargetCollector):
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
-        self.error = {}
 
     def init_collector(self):
         self.ipinfo.headers = {
@@ -38,11 +38,10 @@ class IPInfo(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            self.error["ipinfo"] = ex
         return response.json()
 
     def collect_target(self, target):
         if is_IP_adress(target):
-            final_url = self.base_url + f"/{target}"
+            final_url = self.BASE_URL + f"/{target}"
             data = self.make_request(final_url)
         return data

@@ -1,11 +1,12 @@
 import hashlib
+import ssdeep
 import re
 import ipaddress
 import logging
 import random
 
-from cyberpedia.consts import HASH_TYPE_REGEX_MAP
-from  validators import url, domain
+from cyberpedia.consts import HASH_TYPE_REGEX_MAP, CVE_REGEX, EMAIL_REGEX, IPV4_REGEX, IPV6_REGEX
+from validators import url, domain
 from django.utils import timezone
 
 
@@ -24,22 +25,23 @@ def get_current_timestamp_str():
       return str(get_current_timestamp())
 
 
-def is_url_or_domain(input_str: str):
-    if url(input_str):
-          return "URL"
-    elif domain(input_str):
-         return "Domain"
-
-
 def get_random_colorhex() -> str:
     # flake8: noqa
     r = lambda: random.randint(0,255)
     return "#%02X%02X%02X" % (r(),r(),r())
 
+
+def is_ip_address(input_str)-> str: 
+     ip_regex_patterns = [
+          IPV4_REGEX,
+          IPV6_REGEX
+     ]
+     outcome = any(re.match(pattern,input_str) for pattern in ip_regex_patterns)
     
-def get_ip_version(ip_address_str):
+def get_ip_version(ip_address_str: str):
       """
-        Returns IP Address Version
+        Returns IP Address Version 
+        None indicates a not valid ip address
       """
       ip_version = None
       try:
@@ -73,6 +75,9 @@ def calculate_sha512_hash(value) -> str:
      input_bytes = encode_str(value)
      return hashlib.sha512(input_bytes).hexdigest()
 
+def calculate_ssdeep(value) -> str:
+     return ssdeep.hash(value)
+
 
 def get_hash_type(hash_str):
     """
@@ -86,6 +91,21 @@ def get_hash_type(hash_str):
               break
     return detected_hash_type # None if no match is  not found
 
+
+def is_url_or_domain(input_str: str) -> str:
+    if url(input_str):
+          return "url"
+    elif domain(input_str):
+         return "domain"
+    return None # No matching found
+
+def is_CVE(input_str: str):
+     outcome = re.match(CVE_REGEX,input_str, re.ASCII)
+     return outcome
+
+def is_email(input_str: str) -> str:
+    outcome = re.match(EMAIL_REGEX)
+    return outcome
 
 def csv_to_json(csv_content):
     reader = csv.DictReader(io.StringIO(csv_content))

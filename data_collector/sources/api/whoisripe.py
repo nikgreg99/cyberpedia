@@ -7,6 +7,7 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
+
 class WhoIsRipeApi(TargetCollector):
 
     BASE_URL: str = "https;//rest.db.ripe.net/search.json"
@@ -25,7 +26,7 @@ class WhoIsRipeApi(TargetCollector):
         self.who_is_ripe.headers = {
             "Content-Type ": "application/json",
         }
-        self.who_is_ripeproxies = settings.PROXIES
+        self.who_is_ripe.proxies = settings.PROXIES
 
     def collect_target(self,observable) -> dict:
         params = {"query-string": observable}
@@ -35,7 +36,5 @@ class WhoIsRipeApi(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.error(ex)
-        
-        return response.json()
 
-    
+        return response.json()

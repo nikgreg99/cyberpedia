@@ -8,14 +8,16 @@ logger = logging.getLogger(__name__)
 
 
 # STATUS OK: We keep it
+
+
 class Nist(FeedCollector):
 
     START_INDEX_DEFAULT = 0
     RESULT_PER_PAGE_DEFAULT = 2000
 
-    cve_url: str = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
-    cve_history_url = "https://services.nvd.nist.gov/rest/json/cvehistory/.2.0"
-    nist = requests.Session()
+    CVE_BASE_URL: str = "https://services.nvd.nist.gov/rest/json/cves/2.0/"
+    CVE_HISTORY_URL = "https://services.nvd.nist.gov/rest/json/cvehistory/.2.0"
+    nve = requests.Session()
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -23,19 +25,19 @@ class Nist(FeedCollector):
         return cls.instance
 
     def __init__(self) -> None:
-         super().__init__(self.__class__.__name__)
-         self.init_collector()
+        super().__init__(self.__class__.__name__)
+        self.init_collector()
 
     def init_collector(self):
-        self.nist.headers = {
-            'apiKey':  self.secrets["api_key"]
+        self.nve.headers = {
+            'apiKey': self.secrets["api_key"]
         }
         self.error = {}
-        self.nist.proxies = settings.PROXIES
-  
+        self.nve.proxies = settings.PROXIES
+
     def make_request(self, final_url="", params={}, data={}):
         try:
-            response = self.nist.get(self.cve_url,params=params)
+            response = self.nve.get(self.CVE_BASE_URL,params=params)
             print(response.status_code)
             response.raise_for_status()
         except HTTPError as ex:
@@ -43,5 +45,5 @@ class Nist(FeedCollector):
             self.error['nist'] = ex
         return response.json()
 
-def collect(self) -> dict:
-       pass 
+    def collect(self) -> dict:
+        return super().collect()

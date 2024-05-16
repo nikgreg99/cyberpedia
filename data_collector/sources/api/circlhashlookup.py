@@ -1,5 +1,7 @@
 import requests
 from requests import HTTPError
+
+from data_collector.helpers import get_hash_type
 from data_collector.classes import TargetCollector
 from django.conf import settings
 import logging
@@ -7,9 +9,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class CIRCLHashLookup(TargetCollector):
 
-    base_url : str = "https://hashlookup.circl.lu"
+    BASE_URL : str = "https://hashlookup.circl.lu/"
     circl_hash_lookup = requests.Session()
 
     def __new__(cls):
@@ -35,18 +38,29 @@ class CIRCLHashLookup(TargetCollector):
             logger.exception(ex)
         return response.json()
 
-
-    def lookup_md5(self,md5 : str):
-        final_url = self.base_url + f"/lookup/md5/{md5}"
+    def lookup_md5(self, md5: str):
+        final_url = self.BASE_URL + f"lookup/md5/{md5}"
         return self.make_request(final_url)
 
-    def lookuo_SHA1(self, sha1: str):
-        final_url = self.base_url  + f"/lookup/sha1/{sha1}"
+    def lookup_SHA1(self, sha1: str):
+        final_url = self.BASE_URL  + f"lookup/sha1/{sha1}"
         return self.make_request(final_url)
     
-    def lookuo_SHA256(self,sha256: str):
-        final_url = self.base_url + f"/lookup/sha256/{sha256}"
+    def lookup_SHA256(self,sha256: str):
+        final_url = self.BASE_URL + f"lookup/sha256/{sha256}"
         return self.make_request(final_url)
     
-    def collect_target(self) -> dict:
-        return super().collect_target()
+    def collect_target(self,observable) -> dict:
+        
+        hash_type = get_hash_type()
+        response = None
+
+        if hash_type == "md5":
+            response = self.lookup_md5(observable)
+        elif hash_type == "sha1":
+            response =  self.lookup_SHA1(observable)
+        elif hash_type == "sha256"
+            response = self.lookup_SHA256(observable)
+        
+        return response
+

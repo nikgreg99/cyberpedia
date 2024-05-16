@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class IPApiCom(TargetCollector):
 
     # The base_url for free subscription plans does not support HTTPS encryption
-    base_url: str = "http://api.ipapi.com/api"
+    BASE_URL: str = "http://api.ipapi.com/api"
     ipapi_com = requests.Session()
 
     def __new__(cls):
@@ -42,7 +42,7 @@ class IPApiCom(TargetCollector):
 
     def collect_target(self,target) -> dict:
         if is_IP_adress(target):
-            final_url = self.base_url + f"/{target}"
+            final_url = self.BASE_URL + f"/{target}"
             data = self.make_request(final_url)
         return data
 

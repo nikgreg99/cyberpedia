@@ -4,14 +4,14 @@ from .models import APIConfig,Feed
 
 @dataclasses.dataclass
 class _Param:
-    name : str
+    name: str
     type: str
     description: str
 
 @dataclasses.dataclass
 class _Secret:
-    env_var_key : str
-    required:  bool
+    env_var_key: str
+    required: bool
 
 
 @dataclasses.dataclass
@@ -24,8 +24,7 @@ class CollectorConfig:
     def __init__(self,name) -> None:
         self.name = name
 
-
-    def read_secrets(self ) -> dict:
+    def read_secrets(self) -> dict:
         secrets = {}
         feed = Feed.objects.get(name = self.name)
         configs = APIConfig.objects.filter(collector__pk=feed.pk)

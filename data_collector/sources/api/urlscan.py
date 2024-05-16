@@ -13,9 +13,11 @@ logger = logging.getLogger(__name__)
 
 class UrlScan(TargetCollector):
 
-    base_url: str = "https://urlscan.io/api/v1"
+    BASE_URL: str = "https://urlscan.io/api/v1"
     urlscan = requests.Session()
-    api_key = None
+    scan_type: str
+    visibility: str
+
 
     def __new__(cls):
         if not hasattr(cls, 'instance'):
@@ -34,14 +36,31 @@ class UrlScan(TargetCollector):
         }
         self.urlscan.proxies = settings.PROXIES
 
+    def make_get_request(self,final_url,params={},data={}):
+        try:
+            response = self.urlscan.get(final_url, headers=self.headers,
+                                        params=params,data=data)
+            response.raise_for_status()
+        except HTTPError as ex:
+            logger.exception(ex)
+        return response
+
+    def search(self,target):
+        final_url = self.BASE_URL + "/search"
+        query_params = {
+            'q': f"domain:{target}"
+        }
+        response = self.make_get_request(final_url=final_url,params=query_params)
+        return response
+
     def submit_url(self, target):
         if is_url(target):
             data = {
-                'url':target,
+                'url': target,
                 'visibility': 'public'
             }
             try:
-                final_url = self.base_url + "/scan"
+                final_url = self.BASE_URL + "/scan"
                 response = self.urlscan.post(final_url,data=json.dumps(data))
                 response.raise_for_status
             except HTTPError as ex:
@@ -50,10 +69,14 @@ class UrlScan(TargetCollector):
         else:
             raise UnsupportedTarget(f"The {target} cannot be analyzed")
 
+    """
+      After the submission the API suggest to make a poll each 10-30 seconds
+      until the response is obtained or a  maximum is reached
+    """
     def get_url_report(self, submission_response):
         if 'uuid' in submission_response:
             uuid = submission_response["uuid"]
-            final_url = self.base_url + f"/result/{uuid}"
+            final_url = self.BASE_URL + f"/result/{uuid}"
             data: dict = {
                 "visibility": "public",
                 "uuid": uuid
@@ -64,8 +87,7 @@ class UrlScan(TargetCollector):
             for chanche in range(max_tries):
                 if chanche:
                     time.sleep(poll_distance)
-                response = self.urlscan.get(final_url, headers=self.headers,
-                                            data=json.dumps(data))
+                response = self.make_get_request(final_url, data=json.dumps(data))
                 if response.status_code == 404:
                     continue
                 result = response.json()

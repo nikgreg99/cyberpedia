@@ -6,10 +6,12 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-#STATUS: OK
-class EmailRep(TargetCollector):
 
-    base_url: str = "'https://emailrep.io"
+class EmailRep(TargetCollector):
+    """
+        Wrapper of EmailRep API
+    """
+    BASE_URL: str = "'https://emailrep.io"
     emailrep = requests.Session()
 
     def __new__(cls):
@@ -26,7 +28,6 @@ class EmailRep(TargetCollector):
             'Key': self.secrets["api_key"],
             'User-Agent': 'cyberpedia'
         }
-        self.error = {}
         self.emailrep.proxies = settings.PROXIES
 
     def make_request(self, final_url="", params={}, data={}):
@@ -35,10 +36,9 @@ class EmailRep(TargetCollector):
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            self.error["emailrep"] = ex
         return response.json()
 
-    def collect_target(self, target):
-        final_url = self.base_url + f"/email/{target}"
+    def collect_target(self, observable):
+        
+        final_url = self.BASE_URL + f"email/{observable}"
         return self.make_request(final_url=final_url)
-       

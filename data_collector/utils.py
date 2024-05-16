@@ -1,5 +1,4 @@
-from .exceptions import InvalidHashFormat
-from .constants import HashType, CVE_REGEX, MD5_HASH_REGEX, SHA1_HASH_REGEX, SHA_256_REGEX, SSDEEP_REGEX, URL_REGEX, DOMAIN_REGEX, HOST_REGEX
+from .constants import  CVE_REGEX,  URL_REGEX, DOMAIN_REGEX, HOST_REGEX
 from ipaddress import ip_address, IPv4Address,IPv6Address
 import re
 import concurrent
@@ -13,30 +12,10 @@ def is_IP_adress(ip: str):
         return False
     except ValueError as ex:
         pass
-    
-def validate_hash(content,regexp):
-    return re.match(content,regexp)
-    
-def get_hash_type(hash):
-    if validate_hash(hash,MD5_HASH_REGEX):
-        return HashType.MD5 
-
-    if validate_hash(hash,SHA1_HASH_REGEX):
-        return HashType.SHA1
-  
-    if validate_hash(hash,SHA_256_REGEX):
-        return HashType.SHA256
-
-    if validate_hash(hash,SSDEEP_REGEX):
-        return HashType.SSDEEP
-
-    raise InvalidHashFormat(f"{hash} is not of the types available")
-  
 
 def is_cve(cve):
     match = re.match(cve,CVE_REGEX)
     return True if match is not None else False
- 
 
 def is_url(url):
     match = re.match(url,URL_REGEX)

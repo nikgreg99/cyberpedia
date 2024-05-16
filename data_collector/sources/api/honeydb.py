@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class HoneyDB(FeedCollector):
 
-    base_url: str = "https://honeydb.io/api"
+    BASE_URL: str = "https://honeydb.io/api"
     honeydb = requests.Session()
 
     def __new__(cls):
@@ -44,15 +44,15 @@ class HoneyDB(FeedCollector):
         return response.json()
 
     def collect_bad_ip(self):
-        final_url = self.base_url + "/bad-hosts"
+        final_url = self.BASE_URL + "/bad-hosts"
         return self.make_request(final_url)
 
     def collect_twitter_feed(self):
-        final_url = self.base_url + "/twitter-threat-feed"
+        final_url = self.BASE_URL + "/twitter-threat-feed"
         return self.make_request(final_url)
 
     def collect_asn(self):
-        final_url = self.base_url + "/stats/asn"
+        final_url = self.BASE_URL + "/stats/asn"
         return self.make_request(final_url)
 
     def collect(self):

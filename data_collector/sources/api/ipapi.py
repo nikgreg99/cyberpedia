@@ -8,10 +8,10 @@ from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
-#STATUS: OK
+
 class IPApi(TargetCollector):
 
-    base_url : str = "https://ipapi.co/" 
+    BASE_URL: str = "https://ipapi.co/"
     ipapi = requests.Session()
 
     def __new__(cls):
@@ -22,29 +22,26 @@ class IPApi(TargetCollector):
     def __init__(self) -> None:
         super().__init__(self.__class__.__name__)
         self.init_collector()
-        
 
     def init_collector(self):
-        self.ipapi.headers = {}
+        self.ipapi.headers = {
+            'Accept': "application/json"
+        }
         self.ipapi.proxies = settings.PROXIES
-        self.error = {}
-    
+
     def make_request(self,final_url):
         try:
             response = self.ipapi.get(final_url)
             response.raise_for_status()
         except HTTPError as ex:
             logger.exception(ex)
-            self.error['ipapi'] = ex
         return response.json()
-
 
     def collect_target(self,target) -> dict:
         if is_IP_adress(target):
-            final_url = self.base_url + f"/{target}/json/"
+            final_url = self.BASE_URL + f"/{target}/json/"
             data = self.make_request(final_url=final_url)
-            return data   
+            return data
         else:
             raise UnsupportedTarget(f'{target} is not valid')
-            
 

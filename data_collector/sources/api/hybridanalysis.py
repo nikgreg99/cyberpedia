@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 # STATUS: OK
 class HybridAnalysis(FeedCollector,TargetCollector):
 
-    base_url: str = "https://www.hybrid-analysis.com"
-    api_url: str = f"{base_url}/api/v2"
+    BASE_URL: str = "https://www.hybrid-analysis.com"
+    API_URL: str = f"{BASE_URL}/api/v2"
     hybrid_analysis = requests.Session()
 
     def __new__(cls):
@@ -46,7 +46,7 @@ class HybridAnalysis(FeedCollector,TargetCollector):
         return response.json()
 
     def collect(self) -> dict:
-        final_url = self.api_url + "/feed/latest"
+        final_url = self.API_URL + "/feed/latest"
         response = self.make_get_request(final_url=final_url)
         return response['data']
 
@@ -63,7 +63,7 @@ class HybridAnalysis(FeedCollector,TargetCollector):
             ending_url = "/search/terms"
 
         try:
-            final_url = self.api_url + ending_url
+            final_url = self.API_URL + ending_url
             respose = self.hybrid_analysis.post(final_url, data=data)
             respose.raise_for_status()
         except HTTPError as ex:

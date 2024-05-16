@@ -34,7 +34,7 @@ class VirusTotal(FeedCollector,TargetCollector):
         }
 
         self.vt_instance = virustotal_python.Virustotal(
-            API_KEY=api_key, 
+            API_KEY=api_key,
             API_VERSION=3,
             PROXIES = settings.PROXIES
         )
@@ -45,7 +45,7 @@ class VirusTotal(FeedCollector,TargetCollector):
     def submit_url(url):
         pass
     
-    #According to the specification: 4 requests in 60 seconds
+    # According to the specification: 4 requests in 60 seconds
     def make_request(self,partial_url,method="GET"):
         try:
             response =  self.vt_instance.request(resource=partial_url,method=method)
